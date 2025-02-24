@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    networks:
+      - gocanto
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_DB: db_name
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/storage/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username=db_user --dbname=db_name --host=postgres"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+  migrate:
+    image: migrate/migrate
+    networks:
+      - gocanto
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://db_user:db_password@postgres:5432/db_name?sslmode=disable",
+      "up"
+    ]
+
+volumes:
+  postgres_data:
+
+networks:
+  gocanto:
+    name: gocanto
+    driver: bridge
