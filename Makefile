@@ -2,6 +2,9 @@ DB_NETWORK = gocanto
 APP_PATH = $(shell pwd)
 DB_MIGRATIONS_PATH = migrations
 
+init:
+	cp $(shell pwd)/.env.example $(shell pwd)/.env
+
 db\:up:
 	docker-compose up postgres -d
 
