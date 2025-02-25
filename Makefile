@@ -1,38 +1,20 @@
-#APP_PATH = $(shell pwd)
-#DB_MIGRATIONS_VOL = "$(APP_PATH)/migrations:/migrations"
-#DB_MIGRATIONS_DIR = "$(APP_PATH)/migrations"
-
 DB_NETWORK = gocanto
 APP_PATH = $(shell pwd)
 DB_MIGRATIONS_PATH = migrations
 
-fresh:
-	make prune && make migrate
+db\:up:
+	docker-compose up postgres -d
 
-run:
-	docker-compose up --build
+db\:ping:
+	docker port gocanto-db
 
-migrate-up:
-	docker-compose run migrate up
+db\:bash:
+	docker exec -it gocanto-db bash
 
-migrate-down:
-	docker-compose run migrate down
-
-prune:
+root\:prune:
 	docker compose down --remove-orphans
 	docker container prune -f
 	docker image prune -f
 	docker volume prune -f
 	docker network prune -f
 
-ssh:
-	docker run --rm -it migrate/migrate:latest sh
-
-migrate:
-	docker run --rm \
-      -v $(APP_PATH)/migrations:/migrations \
-      --network gocanto \
-      migrate/migrate \
-      -path=/migrations \
-      -database "postgres://user:password@gocanto:5432/mydatabase?sslmode=disable" \
-      up
