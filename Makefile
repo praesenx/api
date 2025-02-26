@@ -32,14 +32,19 @@ db\:logs:
 	docker logs -f gocanto-db
 
 db\:secure:
-	rm -rf $(DB_SSL_PATH)/*.* && \
+	@echo "\n You need openssl to generate the DB credentials \n"
+	@echo "\n-------------------------------------------------\n"
+	rm -rf $(DB_SSL_PATH)/server.crt && \
+	rm -rf $(DB_SSL_PATH)/server.csr && \
+	rm -rf $(DB_SSL_PATH)/server.key && \
 	make prune && \
 	openssl genpkey -algorithm RSA -out $(DB_SSL_PATH)/server.key && \
     openssl req -new -key $(DB_SSL_PATH)/server.key -out $(DB_SSL_PATH)/server.csr && \
     openssl x509 -req -days 365 -in $(DB_SSL_PATH)/server.csr -signkey $(DB_SSL_PATH)/server.key -out $(DB_SSL_PATH)/server.crt && \
     chmod 600 $(DB_SSL_PATH)/server.key && \
     chmod 600 $(DB_SSL_PATH)/server.crt
-
+	@echo "\n-------------------------------------------------\n"
+	@echo "      DB credentials created successfully.         \n"
 prune:
 	rm -rf $(shell pwd)/database/data && \
 	docker compose down --remove-orphans && \
