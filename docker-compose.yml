@@ -22,6 +22,7 @@ services:
         - ./database/data:/var/lib/postgresql/data
         - ./database/ssl/server.crt:/etc/ssl/certs/server.crt:ro
         - ./database/ssl/server.key:/etc/ssl/private/server.key:ro
+        - ./database/config/postgresql.conf:/etc/postgresql/postgresql.conf
 
     logging:
       driver: "json-file"
@@ -30,9 +31,7 @@ services:
         max-size: "10M"
 
     command: >
-        postgres -c ssl=on
-                 -c ssl_cert_file=/etc/ssl/certs/server.crt
-                 -c ssl_key_file=/etc/ssl/private/server.key
+        postgres -c config_file=/etc/postgresql/postgresql.conf
 
     healthcheck:
         interval: 10s
