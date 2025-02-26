@@ -11,3 +11,4 @@ go.work.sum
 .idea/
 ./database/data/
 !./ssl/.gitkeep
+!./database/.gitkeep
