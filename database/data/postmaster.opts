@@ -1,1 +1,0 @@
-/usr/lib/postgresql/17/bin/postgres "-c" "ssl=on" "-c" "ssl_cert_file=/etc/ssl/certs/server.crt" "-c" "ssl_key_file=/etc/ssl/private/server.key"
