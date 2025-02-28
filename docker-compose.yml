@@ -33,8 +33,14 @@ services:
     command: >
         postgres -c config_file=/etc/postgresql/postgresql.conf
 
-    healthcheck:
-        interval: 10s
-        timeout: 5s
-        retries: 5
-        test: ["CMD-SHELL", "pg_isready --username=admin --dbname=gocanto-blog --host=postgres"]
+#    healthcheck:
+#        interval: 10s
+#        timeout: 5s
+#        retries: 5
+#        test: [
+#            "CMD-SHELL",
+#            "pg_isready",
+#            "--username=admin",
+#            "--dbname=gocanto-blog",
+#            "--host=postgres",
+#        ]
