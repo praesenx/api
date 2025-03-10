@@ -1,18 +1,20 @@
+include .env
+
 # --- Main Configuration
 ROOT_NETWORK=gocanto
 ROOT_PATH=$(shell pwd)
-ROOT_ENV_FILE="$(ROOT_PATH)/.env"
-ROOT_EXAMPLE_ENV_FILE="$(ROOT_PATH)/.env.example"
+ROOT_ENV_FILE=$(ROOT_PATH)/.env
+ROOT_EXAMPLE_ENV_FILE=$(ROOT_PATH)/.env.example
 
-# --- Database Configuration
-DB_DOCKER_SERVICE_NAME="postgres"
-DB_DOCKER_CONTAINER_NAME="gocanto-db"
-DB_ROOT_PATH="$(ROOT_PATH)/database"
-DB_SSL_PATH="$(DB_ROOT_PATH)/ssl"
-DB_DATA_PATH="$(DB_ROOT_PATH)/data"
-DB_SERVER_CRT="$(DB_SSL_PATH)/server.crt"
-DB_SERVER_CSR="$(DB_SSL_PATH)/server.csr"
-DB_SERVER_KEY="$(DB_SSL_PATH)/server.key"
+# --- Local Database Configuration
+DB_DOCKER_SERVICE_NAME=postgres
+DB_DOCKER_CONTAINER_NAME=gocanto-db
+DB_ROOT_PATH=$(ROOT_PATH)/database
+DB_SSL_PATH=$(DB_ROOT_PATH)/ssl
+DB_DATA_PATH=$(DB_ROOT_PATH)/data
+DB_SERVER_CRT=$(DB_SSL_PATH)/server.crt
+DB_SERVER_CSR=$(DB_SSL_PATH)/server.csr
+DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
 
 env\:new:
 	rm -f $(ROOT_ENV_FILE)
@@ -42,7 +44,7 @@ db\:prune:
 db\:logs:
 	docker logs -f $(DB_DOCKER_CONTAINER_NAME)
 
-db\:secure:
+db\:local\:secure:
 	make prune && \
 	rm -rf $(DB_SERVER_CRT) && rm -rf $(DB_SERVER_CSR) && rm -rf $(DB_SERVER_KEY) && make prune && \
 	openssl genpkey -algorithm RSA -out $(DB_SSL_PATH)/server.key && \

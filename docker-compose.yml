@@ -13,9 +13,13 @@ services:
     networks:
       - gocanto
     environment:
-      POSTGRES_USER: ${DB_USER_NAME}
-      POSTGRES_DB: ${DB_DATABASE_NAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      # --- Postgres CLI env vars.
+      PGUSER: ${ENV_DB_USER_NAME}
+      PGDATABASE: ${ENV_DB_DATABASE_NAME}
+      # --- Docker image env vars.
+      POSTGRES_USER: ${ENV_DB_USER_NAME}
+      POSTGRES_DB: ${ENV_DB_DATABASE_NAME}
+      POSTGRES_PASSWORD: ${ENV_DB_USER_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -23,6 +27,7 @@ services:
         - ./database/ssl/server.crt:/etc/ssl/certs/server.crt:ro
         - ./database/ssl/server.key:/etc/ssl/private/server.key:ro
         - ./database/config/postgresql.conf:/etc/postgresql/postgresql.conf
+        - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
     logging:
       driver: "json-file"
@@ -30,17 +35,19 @@ services:
         max-file: "20"
         max-size: "10M"
 
-    command: >
-        postgres -c config_file=/etc/postgresql/postgresql.conf
+#    command: >
+#        postgres -c config_file=/etc/postgresql/postgresql.conf
 
-#    healthcheck:
-#        interval: 10s
-#        timeout: 5s
-#        retries: 5
-#        test: [
-#            "CMD-SHELL",
-#            "pg_isready",
-#            "--username=admin",
-#            "--dbname=gocanto-blog",
-#            "--host=postgres",
-#        ]
+    healthcheck:
+        interval: 10s
+        timeout: 5s
+        retries: 5
+        test: [
+            "CMD-SHELL",
+            "pg_isready",
+            "--username=${ENV_DB_USER_NAME}",
+            "--dbname=${ENV_DB_DATABASE_NAME}",
+            "--host=postgres",
+            "--port=${ENV_DB_PORT}",
+            "--version"
+        ]
