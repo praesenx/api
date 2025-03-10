@@ -16,7 +16,7 @@ services:
       # --- Postgres CLI env vars.
       PGUSER: ${ENV_DB_USER_NAME}
       PGDATABASE: ${ENV_DB_DATABASE_NAME}
-      # --- Docker image env vars.
+      # --- Docker postgres-image env vars.
       POSTGRES_USER: ${ENV_DB_USER_NAME}
       POSTGRES_DB: ${ENV_DB_DATABASE_NAME}
       POSTGRES_PASSWORD: ${ENV_DB_USER_PASSWORD}
@@ -35,8 +35,8 @@ services:
         max-file: "20"
         max-size: "10M"
 
-#    command: >
-#        postgres -c config_file=/etc/postgresql/postgresql.conf
+    command: >
+        postgres -c config_file=/etc/postgresql/postgresql.conf
 
     healthcheck:
         interval: 10s
