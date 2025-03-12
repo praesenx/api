@@ -4,22 +4,6 @@ networks:
     driver: bridge
 
 services:
-  migrate:
-    image: migrate/migrate
-    container_name: db-migrations
-    networks:
-       - gocanto
-    volumes:
-       - ./database/migrations:/migrations
-    depends_on:
-       postgres:
-           condition: service_healthy
-    command: [
-       "-path", "/migrations",
-       "-database", "postgresql://gocanto-user:gocanto-password@postgres:5432/gocanto-db?sslmode=require",
-       "up"
-    ]
-
   postgres:
     restart: always
     image: postgres:17.4

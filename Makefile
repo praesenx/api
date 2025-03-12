@@ -1,21 +1,42 @@
 include .env
 
-# --- Main Configuration
+PADDING="    "
+GREEN = \033[0;32m
+YELLOW=\033[1;33m
+NC = \033[0m
+BLUE=\033[0;34m
+
+# --- App Configuration
 ROOT_NETWORK=gocanto
 ROOT_PATH=$(shell pwd)
 ROOT_ENV_FILE=$(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE=$(ROOT_PATH)/.env.example
-DB_DOCKER_SERVICE_NAME=postgres
-MIGRATE_DOCKER_SERVICE_NAME=migrate
-DB_DOCKER_CONTAINER_NAME=gocanto-db
 
-# --- Local Database Configuration
+# --- Database Configuration
+# --- Docker
+DB_DOCKER_SERVICE_NAME=postgres
+DB_DOCKER_CONTAINER_NAME=gocanto-db
+# --- Paths
 DB_ROOT_PATH=$(ROOT_PATH)/database
 DB_SSL_PATH=$(DB_ROOT_PATH)/ssl
 DB_DATA_PATH=$(DB_ROOT_PATH)/data
+# --- SSL
 DB_SERVER_CRT=$(DB_SSL_PATH)/server.crt
 DB_SERVER_CSR=$(DB_SSL_PATH)/server.csr
 DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
+# --- Migrations
+DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
+DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
+
+db\:migrate\:up:
+	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
+	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
+	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+
+db\:migrate\:down:
+	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
+	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
+	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
 
 flush:
 	rm -rf $(DB_DATA_PATH) && \
@@ -48,9 +69,6 @@ db\:fresh:
 
 db\:logs:
 	docker logs -f $(DB_DOCKER_CONTAINER_NAME)
-
-db:\migrate:
-	docker compose up $(MIGRATE_DOCKER_SERVICE_NAME)
 
 db\:delete:
 	docker compose down $(DB_DOCKER_SERVICE_NAME) --remove-orphans && \
