@@ -6,6 +6,7 @@ ROOT_PATH=$(shell pwd)
 ROOT_ENV_FILE=$(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE=$(ROOT_PATH)/.env.example
 DB_DOCKER_SERVICE_NAME=postgres
+MIGRATE_DOCKER_SERVICE_NAME=migrate
 DB_DOCKER_CONTAINER_NAME=gocanto-db
 
 # --- Local Database Configuration
@@ -34,7 +35,7 @@ db\:sql:
 	./psql -h $(ENV_DB_HOST) -U $(ENV_DB_USER_NAME) -d $(ENV_DB_DATABASE_NAME) -p $(ENV_DB_PORT)
 
 db\:up:
-	docker-compose up $(DB_DOCKER_SERVICE_NAME) -d
+	docker compose up $(DB_DOCKER_SERVICE_NAME) -d
 
 db\:ping:
 	docker port $(DB_DOCKER_CONTAINER_NAME)
@@ -47,6 +48,9 @@ db\:fresh:
 
 db\:logs:
 	docker logs -f $(DB_DOCKER_CONTAINER_NAME)
+
+db:\migrate:
+	docker compose up $(MIGRATE_DOCKER_SERVICE_NAME)
 
 db\:delete:
 	docker compose down $(DB_DOCKER_SERVICE_NAME) --remove-orphans && \
