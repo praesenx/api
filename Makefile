@@ -28,6 +28,11 @@ flush:
 env\:generate:
 	rm -f $(ROOT_ENV_FILE) && cp $(ROOT_EXAMPLE_ENV_FILE) $(ROOT_ENV_FILE)
 
+db\:sql:
+	# --- Works with your local PG installation.
+	cd  $(EN_DB_BIN_DIR) && \
+	./psql -h $(ENV_DB_HOST) -U $(ENV_DB_USER_NAME) -d $(ENV_DB_DATABASE_NAME) -p $(ENV_DB_PORT)
+
 db\:up:
 	docker-compose up $(DB_DOCKER_SERVICE_NAME) -d
 
