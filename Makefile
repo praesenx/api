@@ -28,16 +28,6 @@ DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
 DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
 DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
-db\:migrate\:up:
-	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
-	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
-	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
-
-db\:migrate\:down:
-	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
-	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
-	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
-
 flush:
 	rm -rf $(DB_DATA_PATH) && \
 	docker compose down --remove-orphans && \
@@ -86,3 +76,13 @@ db\:dev\:crt\:fresh:
 db\:dev\:crt\:list:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
+
+migrate\:up:
+	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
+	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
+	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+
+migrate\:down:
+	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
+	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
+	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
