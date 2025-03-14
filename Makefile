@@ -28,6 +28,9 @@ DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
 DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
 DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
+.PHONY: flush env\:generate db\:sql db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:dev\:crt\:fresh
+.PHONY: db\:dev\:crt\:list migrate\:up migrate\:down migrate\:create migrate\:up\:force
+
 flush:
 	rm -rf $(DB_DATA_PATH) && \
 	docker compose down --remove-orphans && \
@@ -86,3 +89,9 @@ migrate\:down:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
 	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+
+migrate\:create:
+	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate create -ext sql -dir $(DB_MIGRATE_PATH) -seq $(name)
+
+migrate\:up\:force:
+	migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
