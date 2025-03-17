@@ -1,20 +1,40 @@
 package bootstrap
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
+	"time"
 )
 
-func LogInFile(file string) (*slog.Logger, error) {
-	f, err := os.OpenFile(file, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+type FileLog struct {
+	path   string
+	file   *os.File
+	logger *slog.Logger
+}
+
+func MakeDefaultFileLogs() (FileLog, error) {
+	file := FileLog{}
+	file.path = file.DefaultPath()
+
+	resource, err := os.OpenFile(file.path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return nil, err
+		return FileLog{}, err
 	}
 
-	defer f.Close()
-
-	logger := slog.New(slog.NewTextHandler(f, nil))
+	logger := slog.New(slog.NewTextHandler(resource, nil))
 	slog.SetDefault(logger)
 
-	return logger, nil
+	file.file = resource
+	file.logger = logger
+
+	return file, nil
+}
+
+func (receiver FileLog) DefaultPath() string {
+	return fmt.Sprintf("./storage/logs/logs_%s.log", time.Now().UTC().Format("2006_02_01"))
+}
+
+func (receiver FileLog) Close() {
+	receiver.file.Close()
 }

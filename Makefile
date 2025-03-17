@@ -11,6 +11,7 @@ ROOT_NETWORK=gocanto
 ROOT_PATH=$(shell pwd)
 ROOT_ENV_FILE=$(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE=$(ROOT_PATH)/.env.example
+STORAGE_PATH=$(ROOT_PATH)/storage
 
 # --- Database Configuration
 # --- Docker
@@ -96,3 +97,6 @@ migration\:create:
 
 migration\:up\:force:
 	migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
+
+logs\:clear:
+	find $(STORAGE_PATH)/logs -maxdepth 1 -type f -not -name ".gitkeep" -delete
