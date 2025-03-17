@@ -9,6 +9,7 @@ go.work
 go.work.sum
 .env
 .idea
+tmp
 database/data
 storage/logs/*.*
 !storage/logs/.gitkeep

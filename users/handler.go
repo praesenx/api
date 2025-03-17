@@ -23,7 +23,7 @@ type UserCreateResponse struct {
 
 func Create(w http.ResponseWriter, r *http.Request) {
 	var req UserRequest
-	slog.Info("--> here")
+	slog.Info("--> here ...")
 	log.Println("--> gus")
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		slog.Error("Error happened in JSON marshal. Err: %e", err)
