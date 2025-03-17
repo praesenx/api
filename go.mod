@@ -1,8 +1,8 @@
-module gocanto/dev
+module github.com/gocanto/blog
 
 go 1.24
 
-require github.com/golang-migrate/migrate/v4 v4.16.2
+require github.com/golang-migrate/migrate/v4 v4.16.2 // indirect
 
 require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect

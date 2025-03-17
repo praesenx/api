@@ -49,7 +49,8 @@ db\:sql:
 	./psql -h $(ENV_DB_HOST) -U $(ENV_DB_USER_NAME) -d $(ENV_DB_DATABASE_NAME) -p $(ENV_DB_PORT)
 
 db\:up:
-	docker compose up $(DB_DOCKER_SERVICE_NAME) -d
+	docker compose up $(DB_DOCKER_SERVICE_NAME) -d && \
+	make db:logs
 
 db\:ping:
 	docker port $(DB_DOCKER_CONTAINER_NAME)
@@ -80,18 +81,18 @@ db\:dev\:crt\:list:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
 
-migrate\:up:
+migration\:up:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
 	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
 
-migrate\:down:
+migration\:down:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
 	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
 
-migrate\:create:
+migration\:create:
 	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate create -ext sql -dir $(DB_MIGRATE_PATH) -seq $(name)
 
-migrate\:up\:force:
+migration\:up\:force:
 	migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
