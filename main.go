@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/gocanto/blog/bootstrap"
+	"github.com/gocanto/blog/kernel"
 	"github.com/gocanto/blog/users"
 	"log/slog"
 	"net/http"
 )
 
 func main() {
-	if fileLogs, err := bootstrap.MakeDefaultFileLogs(); err != nil {
+	if fileLogs, err := kernel.MakeDefaultFileLogs(); err != nil {
 		panic("error opening file: " + err.Error())
 	} else {
 		defer fileLogs.Close()
