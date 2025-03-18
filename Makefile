@@ -30,7 +30,7 @@ DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
 DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
 .PHONY: flush env\:generate db\:sql db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:dev\:crt\:fresh
-.PHONY: db\:dev\:crt\:list migrate\:up migrate\:down migrate\:create migrate\:up\:force
+.PHONY: db\:dev\:crt\:list migrate\:up migrate\:down migrate\:create migrate\:up\:force logs\:clear
 
 flush:
 	rm -rf $(DB_DATA_PATH) && \
