@@ -1,4 +1,4 @@
-package support
+package kernel
 
 import (
 	"strings"

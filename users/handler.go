@@ -2,7 +2,7 @@ package users
 
 import (
 	"encoding/json"
-	"github.com/gocanto/blog/support"
+	"github.com/gocanto/blog/kernel"
 	"log"
 	"log/slog"
 	"net/http"
@@ -23,7 +23,7 @@ type UserCreateResponse struct {
 }
 
 type UserHandler struct {
-	Validator support.Validator
+	Validator kernel.Validator
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +38,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	response := make(map[string]interface{})
 
-	v := support.MakeValidator()
+	v := kernel.MakeValidator()
 
 	if _, err := v.Rejects(userRequest); err != nil {
 		response["errors"] = v.GetErrors()
