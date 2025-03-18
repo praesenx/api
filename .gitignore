@@ -19,6 +19,3 @@ storage/logs/*.*
 
 database/ssl/*.*
 !database/ssl/.gitkeep
-
-#database/ssl/*.*
-#!database/ssl/README.md
