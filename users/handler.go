@@ -2,7 +2,6 @@ package users
 
 import (
 	"encoding/json"
-	"github.com/go-playground/validator/v10"
 	"github.com/gocanto/blog/support"
 	"log"
 	"log/slog"
@@ -16,8 +15,6 @@ type UserRequest struct {
 	Email     string `json:"email" validate:"required"`
 	Password  string `json:"password" validate:"required"`
 }
-
-var validate *validator.Validate
 
 type UserCreateResponse struct {
 	Success    bool   `json:"success"`
@@ -33,6 +30,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	var userRequest UserRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&userRequest); err != nil {
+		// --- Todo: Return bad request: 400
 		slog.Error("Error happened in JSON marshal. Err: %e", err)
 	}
 
@@ -48,6 +46,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	jsonResp, err := json.Marshal(response)
 	if err != nil {
+		// --- Todo: Return server error: 500
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
 

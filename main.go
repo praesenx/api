@@ -14,10 +14,6 @@ func main() {
 		defer fileLogs.Close()
 	}
 
-	//userHandler := users.UserHandler{
-	//	Validator: bootstrap.MakeValidator(),
-	//}
-
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /users", users.Create)
 
