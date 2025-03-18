@@ -1,4 +1,6 @@
-include .env
+ifneq (,$(wildcard .env))
+  include .env
+endif
 
 PADDING="    "
 GREEN = \033[0;32m
@@ -29,7 +31,7 @@ DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
 DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
 DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
-.PHONY: flush env\:generate db\:sql db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:dev\:crt\:fresh
+.PHONY: flush env\:init db\:sql db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:dev\:crt\:fresh
 .PHONY: db\:dev\:crt\:list migrate\:up migrate\:down migrate\:create migrate\:up\:force logs\:clear
 
 flush:
@@ -41,7 +43,7 @@ flush:
 	docker network prune -f && \
 	docker ps
 
-env\:generate:
+env\:init:
 	rm -f $(ROOT_ENV_FILE) && cp $(ROOT_EXAMPLE_ENV_FILE) $(ROOT_ENV_FILE)
 
 db\:sql:
@@ -71,8 +73,8 @@ db\:delete:
 	docker ps
 
 db\:dev\:crt\:fresh:
-	make prune && \
-	rm -rf $(DB_SERVER_CRT) && rm -rf $(DB_SERVER_CSR) && rm -rf $(DB_SERVER_KEY) && make prune && \
+	make flush && \
+	rm -rf $(DB_SERVER_CRT) && rm -rf $(DB_SERVER_CSR) && rm -rf $(DB_SERVER_KEY) && \
 	openssl genpkey -algorithm RSA -out $(DB_SSL_PATH)/server.key && \
     openssl req -new -key $(DB_SERVER_KEY) -out $(DB_SERVER_CSR) && \
     openssl x509 -req -days 365 -in $(DB_SERVER_CSR) -signkey $(DB_SERVER_KEY) -out $(DB_SERVER_CRT) && \

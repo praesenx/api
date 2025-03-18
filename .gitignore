@@ -8,8 +8,14 @@
 go.work
 go.work.sum
 .env
+
+database/ssl/server.crt
+database/ssl/server.csr
+database/ssl/server.key
+database/data
+
 .idea
 tmp
-database/data
+
 storage/logs/*.*
 !storage/logs/.gitkeep
