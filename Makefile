@@ -72,7 +72,7 @@ db\:delete:
 	rm -rf $(DB_DATA_PATH) && \
 	docker ps
 
-db\:dev\:crt\:fresh:
+db\:cert\:create:
 	make flush && \
 	rm -rf $(DB_SERVER_CRT) && rm -rf $(DB_SERVER_CSR) && rm -rf $(DB_SERVER_KEY) && \
 	openssl genpkey -algorithm RSA -out $(DB_SSL_PATH)/server.key && \
@@ -80,7 +80,7 @@ db\:dev\:crt\:fresh:
     openssl x509 -req -days 365 -in $(DB_SERVER_CSR) -signkey $(DB_SERVER_KEY) -out $(DB_SERVER_CRT) && \
     chmod 600 $(DB_SERVER_KEY) && chmod 600 $(DB_SERVER_CRT)
 
-db\:dev\:crt\:list:
+db\:cert\:list:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
 
