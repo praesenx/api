@@ -47,11 +47,20 @@ flush:
 	docker network prune -f && \
 	docker ps
 
+external:
+	$(call external_deps,'.')
+	$(call external_deps,'./bin/...')
+	$(call external_deps,'./cmd/...')
+	$(call external_deps,'./packages/...')
+
 build\:api:
-	rm -rf "$(BIN_LOGS_PATH)" && \
-	mkdir -m 777 $(BIN_LOGS_PATH) && \
-	touch $(BIN_LOGS_PATH)/.gitkeep && \
+	logs:bin:fresh && \
 	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/api" -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
+
+build\:api\:linux:
+	make logs:bin:fresh && \
+	cd $(ROOT_PATH)/cmd/api && \
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o "$(ROOT_PATH)/bin/api" -ldflags='-X main.Version=$(VERSION) -extldflags "-static"' -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
 
 api\:run:
 	cd $(BIN_PATH) && ./api
@@ -123,13 +132,19 @@ migrate\:up\:force:
 logs\:clear:
 	find $(STORAGE_PATH)/logs -maxdepth 1 -type f -not -name ".gitkeep" -delete
 
+logs\:bin\:fresh:
+	@rm -rf "$(BIN_LOGS_PATH)"
+	@mkdir -m 777 $(BIN_LOGS_PATH)
+	@touch $(BIN_LOGS_PATH)/.gitkeep
 
+define external_deps
+	@echo '-- $(1)';  go list -f '{{join .Deps "\n"}}' $(1) | grep -v github.com/$(REPO_OWNER)/blog | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+endef
 
-
-.PHONY: flush
+.PHONY: flush external
 .PHONY: build\:api
 .PHONY: api\:air api\:build api\:release api\:run
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
 .PHONY: migrate\:up migrate\:down migrate\:create migrate\:up\:force
-.PHONY: logs\:clear
+.PHONY: logs\:clear logs\:bin\:fresh

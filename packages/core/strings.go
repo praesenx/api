@@ -1,4 +1,4 @@
-package kernel
+package core
 
 import (
 	"strings"
@@ -6,19 +6,19 @@ import (
 )
 
 type Stringable struct {
-	Value string
+	value string
 }
 
 func MakeStringable(value string) *Stringable {
 	return &Stringable{
-		Value: value,
+		value: value,
 	}
 }
 
 func (receiver Stringable) ToSnakeCase() string {
 	var result strings.Builder
 
-	for i, r := range receiver.Value {
+	for i, r := range receiver.value {
 		if unicode.IsUpper(r) {
 			if i > 0 {
 				result.WriteByte('_')
