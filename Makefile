@@ -92,7 +92,7 @@ db\:secure:
     openssl x509 -req -days 365 -in $(DB_SERVER_CSR) -signkey $(DB_SERVER_KEY) -out $(DB_SERVER_CRT) && \
     chmod 600 $(DB_SERVER_KEY) && chmod 600 $(DB_SERVER_CRT)
 
-db\:cert\:list:
+db\:secure\:show:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
 
@@ -114,3 +114,13 @@ migrate\:up\:force:
 
 logs\:clear:
 	find $(STORAGE_PATH)/logs -maxdepth 1 -type f -not -name ".gitkeep" -delete
+
+
+
+
+.PHONY: flush
+.PHONY: api\:run api\:build api\:release
+.PHONY: env\:init
+.PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
+.PHONY: migrate\:up migrate\:down migrate\:create migrate\:up\:force
+.PHONY: logs\:clear
