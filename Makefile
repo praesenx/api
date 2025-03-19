@@ -148,3 +148,5 @@ endef
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
 .PHONY: migrate\:up migrate\:down migrate\:create migrate\:up\:force
 .PHONY: logs\:clear logs\:bin\:fresh
+
+RAND = $(shell echo $$RANDOM)
