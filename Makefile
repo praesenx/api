@@ -8,6 +8,9 @@ YELLOW=\033[1;33m
 NC = \033[0m
 BLUE=\033[0;34m
 
+VERSION ?= $(shell git describe --tags 2>/dev/null | cut -c 2-)
+REPO_OWNER ?= $(shell cd .. && basename "$$(pwd)")
+
 # --- App Configuration
 ROOT_NETWORK=gocanto
 ROOT_PATH=$(shell pwd)
@@ -31,9 +34,6 @@ DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
 DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
 DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
-.PHONY: flush env\:init db\:sql db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:dev\:crt\:fresh
-.PHONY: db\:dev\:crt\:list migrate\:up migrate\:down migrate\:create migrate\:up\:force logs\:clear
-
 flush:
 	rm -rf $(DB_DATA_PATH) && \
 	docker compose down --remove-orphans && \
@@ -42,6 +42,13 @@ flush:
 	docker volume prune -f && \
 	docker network prune -f && \
 	docker ps
+
+api\:build:
+	echo "-> $(VERSION)"
+
+release:
+	git tag v$(V)
+	@read -p "Press enter to confirm and push to origin ..." && git push origin v$(V)
 
 env\:init:
 	rm -f $(ROOT_ENV_FILE) && cp $(ROOT_EXAMPLE_ENV_FILE) $(ROOT_ENV_FILE)
@@ -102,3 +109,6 @@ migration\:up\:force:
 
 logs\:clear:
 	find $(STORAGE_PATH)/logs -maxdepth 1 -type f -not -name ".gitkeep" -delete
+
+.PHONY: flush env\:init db\:sql db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:dev\:crt\:fresh
+.PHONY: db\:dev\:crt\:list migrate\:up migrate\:down migrate\:create migrate\:up\:force logs\:clear
