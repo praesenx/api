@@ -13,7 +13,6 @@ DATABASE ?= postgres
 VERSION ?= $(shell git describe --tags 2>/dev/null | cut -c 2-)
 REPO_OWNER ?= $(shell cd .. && basename "$$(pwd)")
 
-
 # ------ App Configuration
 ROOT_NETWORK ?= gocanto
 ROOT_PATH ?= $(shell pwd)
@@ -21,6 +20,7 @@ ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
 STORAGE_PATH ?= $(ROOT_PATH)/storage
 BIN_PATH ?= $(ROOT_PATH)/bin
+BIN_LOGS_PATH ?= $(ROOT_PATH)/bin/storage/logs
 
 # ------ Database Configuration
 # --- Docker
@@ -48,14 +48,16 @@ flush:
 	docker ps
 
 build\:api:
+	rm -rf "$(BIN_LOGS_PATH)" && \
+	mkdir -m 777 $(BIN_LOGS_PATH) && \
+	touch $(BIN_LOGS_PATH)/.gitkeep && \
 	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/api" -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
 
-build\:run:
-	cd $(BIN_PATH) && \
-	./api
-
 api\:run:
-	go run $(ROOT_PATH)/cmd/api/main.go
+	cd $(BIN_PATH) && ./api
+
+api\:air:
+	air $(ROOT_PATH)/cmd/api/main.go
 
 api\:release:
 	git tag v$(V)
@@ -125,7 +127,8 @@ logs\:clear:
 
 
 .PHONY: flush
-.PHONY: api\:run api\:build api\:release
+.PHONY: build\:api
+.PHONY: api\:air api\:build api\:release api\:run
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
 .PHONY: migrate\:up migrate\:down migrate\:create migrate\:up\:force
