@@ -8,31 +8,33 @@ YELLOW=\033[1;33m
 NC = \033[0m
 BLUE=\033[0;34m
 
+SOURCE ?= go_bindata
+DATABASE ?= postgres
 VERSION ?= $(shell git describe --tags 2>/dev/null | cut -c 2-)
 REPO_OWNER ?= $(shell cd .. && basename "$$(pwd)")
 
-# --- App Configuration
-ROOT_NETWORK=gocanto
-ROOT_PATH=$(shell pwd)
-ROOT_ENV_FILE=$(ROOT_PATH)/.env
-ROOT_EXAMPLE_ENV_FILE=$(ROOT_PATH)/.env.example
-STORAGE_PATH=$(ROOT_PATH)/storage
+# ------ App Configuration
+ROOT_NETWORK ?= gocanto
+ROOT_PATH ?= $(shell pwd)
+ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
+ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
+STORAGE_PATH ?= $(ROOT_PATH)/storage
 
-# --- Database Configuration
+# ------ Database Configuration
 # --- Docker
-DB_DOCKER_SERVICE_NAME=postgres
-DB_DOCKER_CONTAINER_NAME=gocanto-db
+DB_DOCKER_SERVICE_NAME ?= postgres
+DB_DOCKER_CONTAINER_NAME ?= gocanto-db
 # --- Paths
-DB_ROOT_PATH=$(ROOT_PATH)/database
-DB_SSL_PATH=$(DB_ROOT_PATH)/ssl
-DB_DATA_PATH=$(DB_ROOT_PATH)/data
+DB_ROOT_PATH ?= $(ROOT_PATH)/database
+DB_SSL_PATH ?= $(DB_ROOT_PATH)/ssl
+DB_DATA_PATH ?= $(DB_ROOT_PATH)/data
 # --- SSL
-DB_SERVER_CRT=$(DB_SSL_PATH)/server.crt
-DB_SERVER_CSR=$(DB_SSL_PATH)/server.csr
-DB_SERVER_KEY=$(DB_SSL_PATH)/server.key
+DB_SERVER_CRT ?= $(DB_SSL_PATH)/server.crt
+DB_SERVER_CSR ?= $(DB_SSL_PATH)/server.csr
+DB_SERVER_KEY ?= $(DB_SSL_PATH)/server.key
 # --- Migrations
-DB_MIGRATE_PATH=$(ROOT_PATH)/database/migrations
-DB_MIGRATE_VOL_MAP=$(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
+DB_MIGRATE_PATH ?= $(ROOT_PATH)/database/migrations
+DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
 flush:
 	rm -rf $(DB_DATA_PATH) && \
@@ -44,7 +46,7 @@ flush:
 	docker ps
 
 api\:build:
-	echo "-> $(VERSION)"
+	CGO_ENABLED=0 go build -ldflags='-X main.Version=$(VERSION)' -tags '$(DATABASE) $(SOURCE)' ./cmd/api
 
 release:
 	git tag v$(V)
