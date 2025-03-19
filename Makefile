@@ -47,14 +47,14 @@ flush:
 	docker network prune -f && \
 	docker ps
 
-external:
+dependencies:
 	$(call external_deps,'.')
 	$(call external_deps,'./bin/...')
 	$(call external_deps,'./cmd/...')
 	$(call external_deps,'./packages/...')
 
 build\:api:
-	logs:bin:fresh && \
+	make logs:bin:fresh && \
 	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/api" -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
 
 build\:api\:linux:
@@ -141,7 +141,7 @@ define external_deps
 	@echo '-- $(1)';  go list -f '{{join .Deps "\n"}}' $(1) | grep -v github.com/$(REPO_OWNER)/blog | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
 endef
 
-.PHONY: flush external
+.PHONY: flush dependencies
 .PHONY: build\:api
 .PHONY: api\:air api\:build api\:release api\:run
 .PHONY: env\:init
