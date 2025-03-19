@@ -13,12 +13,14 @@ DATABASE ?= postgres
 VERSION ?= $(shell git describe --tags 2>/dev/null | cut -c 2-)
 REPO_OWNER ?= $(shell cd .. && basename "$$(pwd)")
 
+
 # ------ App Configuration
 ROOT_NETWORK ?= gocanto
 ROOT_PATH ?= $(shell pwd)
 ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
 STORAGE_PATH ?= $(ROOT_PATH)/storage
+BIN_PATH ?= $(ROOT_PATH)/bin
 
 # ------ Database Configuration
 # --- Docker
@@ -45,11 +47,15 @@ flush:
 	docker network prune -f && \
 	docker ps
 
+build\:api:
+	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/api" -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
+
+build\:run:
+	cd $(BIN_PATH) && \
+	./api
+
 api\:run:
 	go run $(ROOT_PATH)/cmd/api/main.go
-
-api\:build:
-	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/api" -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
 
 api\:release:
 	git tag v$(V)
