@@ -17,5 +17,8 @@ tmp
 storage/logs/*.*
 !storage/logs/.gitkeep
 
-database/ssl/*.*
-!database/ssl/.gitkeep
+# --- build
+bin
+bin/storage/*.*
+!bin/.gitkeep
+!bin/storage/logs/.gitkeep
