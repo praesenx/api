@@ -1,30 +1,28 @@
-package packages
+package db
 
 import (
 	"gorm.io/gorm"
 	"time"
 )
 
-// --------------------
-// Users
-// --------------------
 type User struct {
-	ID                uint64         `gorm:"primaryKey;autoIncrement"`
-	UUID              string         `gorm:"type:varchar(36);unique;not null"`
-	FirstName         string         `gorm:"type:varchar(250);not null"`
-	LastName          string         `gorm:"type:varchar(250);not null"`
-	Username          string         `gorm:"type:varchar(50);unique;not null"`
-	DisplayName       string         `gorm:"type:varchar(255)"`
-	Email             string         `gorm:"type:varchar(250);unique;not null"`
-	PasswordHash      string         `gorm:"type:varchar(255);not null"`
-	Token             string         `gorm:"type:varchar(250);not null;index:idx_users_token"`
-	Bio               string         `gorm:"type:text"`
-	ProfilePictureURL string         `gorm:"type:varchar(2048)"`
-	IsAdmin           bool           `gorm:"default:false"`
-	VerifiedAt        *time.Time     `gorm:"index:idx_users_verified_at"`
-	CreatedAt         time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_users_created_at"`
-	UpdatedAt         time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
-	DeletedAt         gorm.DeletedAt `gorm:"index:idx_users_deleted_at"`
+	ID                uint64     `gorm:"primaryKey;autoIncrement"`
+	UUID              string     `gorm:"type:varchar(36);unique;not null"`
+	FirstName         string     `gorm:"type:varchar(250);not null"`
+	LastName          string     `gorm:"type:varchar(250);not null"`
+	Username          string     `gorm:"type:varchar(50);unique;not null"`
+	DisplayName       string     `gorm:"type:varchar(255)"`
+	Email             string     `gorm:"type:varchar(250);unique;not null"`
+	PasswordHash      string     `gorm:"type:varchar(255);not null"`
+	Token             string     `gorm:"type:varchar(250);not null;index:idx_users_token"`
+	Bio               string     `gorm:"type:text"`
+	ProfilePictureURL string     `gorm:"type:varchar(2048)"`
+	IsAdmin           bool       `gorm:"default:false"`
+	VerifiedAt        *time.Time `gorm:"index:idx_users_verified_at"`
+
+	CreatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_users_created_at"`
+	UpdatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	DeletedAt gorm.DeletedAt `gorm:"index:idx_users_deleted_at"`
 
 	// Associations
 	Posts     []Post     `gorm:"foreignKey:AuthorID"`
@@ -33,9 +31,6 @@ type User struct {
 	PostViews []PostView `gorm:"foreignKey:UserID"`
 }
 
-// --------------------
-// Posts
-// --------------------
 type Post struct {
 	ID            uint64     `gorm:"primaryKey;autoIncrement"`
 	AuthorID      uint64     `gorm:"not null;index:idx_posts_author_id"`
@@ -58,9 +53,6 @@ type Post struct {
 	PostViews  []PostView `gorm:"foreignKey:PostID"`
 }
 
-// --------------------
-// Categories
-// --------------------
 type Category struct {
 	ID          uint64    `gorm:"primaryKey;autoIncrement"`
 	Name        string    `gorm:"type:varchar(255);unique;not null"`
@@ -74,7 +66,6 @@ type Category struct {
 	Posts []Post `gorm:"many2many:post_categories;"`
 }
 
-// Join table for posts and categories
 type PostCategory struct {
 	PostID     uint64    `gorm:"primaryKey"`
 	CategoryID uint64    `gorm:"primaryKey"`
@@ -82,9 +73,6 @@ type PostCategory struct {
 	UpdatedAt  time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }
 
-// --------------------
-// Tags
-// --------------------
 type Tag struct {
 	ID          uint64    `gorm:"primaryKey;autoIncrement"`
 	Name        string    `gorm:"type:varchar(255);unique;not null"`
@@ -98,7 +86,6 @@ type Tag struct {
 	Posts []Post `gorm:"many2many:post_tags;"`
 }
 
-// Join table for posts and tags
 type PostTag struct {
 	PostID    uint64    `gorm:"primaryKey"`
 	TagID     uint64    `gorm:"primaryKey"`
@@ -106,9 +93,6 @@ type PostTag struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }
 
-// --------------------
-// Post Views
-// --------------------
 type PostView struct {
 	ID        uint64    `gorm:"primaryKey;autoIncrement"`
 	PostID    uint64    `gorm:"not null;index:idx_post_views_post_viewed_at"`
@@ -120,9 +104,6 @@ type PostView struct {
 	ViewedAt  time.Time `gorm:"default:CURRENT_TIMESTAMP;index:idx_post_views_post_viewed_at"`
 }
 
-// --------------------
-// Comments
-// --------------------
 type Comment struct {
 	ID              uint64    `gorm:"primaryKey;autoIncrement"`
 	PostID          uint64    `gorm:"not null;index:idx_comments_post_id"`
@@ -139,9 +120,6 @@ type Comment struct {
 	DeletedAt       gorm.DeletedAt `gorm:"index"`
 }
 
-// --------------------
-// Likes
-// --------------------
 type Like struct {
 	ID        uint64    `gorm:"primaryKey;autoIncrement"`
 	PostID    uint64    `gorm:"not null;index:idx_likes_user_post"`
