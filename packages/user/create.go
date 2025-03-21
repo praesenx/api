@@ -1,4 +1,4 @@
-package users
+package user
 
 import (
 	"encoding/json"
@@ -8,8 +8,7 @@ import (
 	"net/http"
 )
 
-func Create(w http.ResponseWriter, r *http.Request) {
-
+func (receiver HandleUsers) Create(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 
 	if err != nil {
@@ -20,8 +19,8 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	var userRequest UserRequest
-	if err := json.Unmarshal(body, &userRequest); err != nil {
+	var requestBag RequestBag
+	if err := json.Unmarshal(body, &requestBag); err != nil {
 		slog.Error("Error decoding JSON: %v", err)
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
@@ -33,7 +32,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	v := core.MakeValidator()
 
-	if _, err := v.Rejects(userRequest); err != nil {
+	if _, err := v.Rejects(requestBag); err != nil {
 		payload["message"] = err.Error()
 		payload["errors"] = v.GetErrors()
 	}

@@ -1,8 +1,8 @@
-package users
+package user
 
 import "github.com/gocanto/blog/packages/core"
 
-type UserRequest struct {
+type RequestBag struct {
 	FirstName string `json:"first_name" validate:"required"`
 	LastName  string `json:"last_name" validate:"required"`
 	Username  string `json:"username" validate:"required"`
@@ -10,12 +10,12 @@ type UserRequest struct {
 	Password  string `json:"password" validate:"required"`
 }
 
-type UserCreateResponse struct {
+type ResponseBag struct {
 	Success    bool   `json:"success"`
 	Message    string `json:"message"`
 	StatusCode int    `json:"status_code"`
 }
 
-type UserHandler struct {
-	Validator core.Validator
+type HandleUsers struct {
+	Validator *core.Validator
 }
