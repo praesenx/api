@@ -1,4 +1,4 @@
-package db
+package models
 
 import (
 	"gorm.io/gorm"
@@ -26,15 +26,15 @@ type User struct {
 	// Associations
 	Posts     []Post     `gorm:"foreignKey:AuthorID"`
 	Comments  []Comment  `gorm:"foreignKey:AuthorID"`
-	Likes     []Like     `gorm:"foreignKey:UserID"`
 	PostViews []PostView `gorm:"foreignKey:UserID"`
+	Likes     []Like     `gorm:"foreignKey:UserID"`
 }
 
 type Post struct {
 	ID            uint64     `gorm:"primaryKey;autoIncrement"`
 	UUID          string     `gorm:"type:uuid;unique;not null"`
 	AuthorID      uint64     `gorm:"not null;index:idx_posts_author_id"`
-	Author        User       `gorm:"foreignKey:AuthorID"`
+	Author        User       `gorm:"foreignKey:AuthorID;constraint:OnDelete:CASCADE"`
 	Slug          string     `gorm:"type:varchar(255);unique;not null"`
 	Title         string     `gorm:"type:varchar(255);not null"`
 	Excerpt       string     `gorm:"type:text;not null"`
@@ -48,9 +48,9 @@ type Post struct {
 	// Associations
 	Categories []Category `gorm:"many2many:post_categories;"`
 	Tags       []Tag      `gorm:"many2many:post_tags;"`
+	PostViews  []PostView `gorm:"foreignKey:PostID"`
 	Comments   []Comment  `gorm:"foreignKey:PostID"`
 	Likes      []Like     `gorm:"foreignKey:PostID"`
-	PostViews  []PostView `gorm:"foreignKey:PostID"`
 }
 
 type Category struct {
@@ -98,38 +98,37 @@ type PostTag struct {
 type PostView struct {
 	ID        uint64    `gorm:"primaryKey;autoIncrement"`
 	PostID    uint64    `gorm:"not null;index:idx_post_views_post_viewed_at"`
-	Post      Post      `gorm:"foreignKey:PostID"`
+	Post      Post      `gorm:"foreignKey:PostID;constraint:OnDelete:CASCADE"`
 	UserID    *uint64   `gorm:"index"` // Can be NULL for anonymous views
-	User      *User     `gorm:"foreignKey:UserID"`
+	User      *User     `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	IPAddress string    `gorm:"type:inet"`
 	UserAgent string    `gorm:"type:text"`
 	ViewedAt  time.Time `gorm:"default:CURRENT_TIMESTAMP;index:idx_post_views_post_viewed_at"`
 }
 
 type Comment struct {
-	ID              uint64    `gorm:"primaryKey;autoIncrement"`
-	UUID            string    `gorm:"type:uuid;unique;not null"`
-	PostID          uint64    `gorm:"not null;index:idx_comments_post_id"`
-	Post            Post      `gorm:"foreignKey:PostID"`
-	AuthorID        uint64    `gorm:"index"`
-	Author          User      `gorm:"foreignKey:AuthorID"`
-	ParentCommentID *uint64   `gorm:"index"` // For nested comments
-	ParentComment   *Comment  `gorm:"foreignKey:ParentCommentID"`
-	Replies         []Comment `gorm:"foreignKey:ParentCommentID"`
-	Content         string    `gorm:"type:text;not null"`
-	ApprovedAt      *time.Time
-	CreatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_comments_post_created_at"`
-	UpdatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
-	DeletedAt       gorm.DeletedAt `gorm:"index"`
+	ID         uint64    `gorm:"primaryKey;autoIncrement"`
+	UUID       string    `gorm:"type:uuid;unique;not null"`
+	PostID     uint64    `gorm:"not null;index:idx_comments_post_id"`
+	Post       Post      `gorm:"foreignKey:PostID;constraint:OnDelete:CASCADE"`
+	AuthorID   uint64    `gorm:"not null;index"`
+	Author     User      `gorm:"foreignKey:AuthorID;constraint:OnDelete:CASCADE"`
+	ParentID   *uint64   `gorm:"index"` // For nested comments
+	Parent     *Comment  `gorm:"foreignKey:ParentID"`
+	Replies    []Comment `gorm:"foreignKey:ParentID"`
+	Content    string    `gorm:"type:text;not null"`
+	ApprovedAt *time.Time
+	CreatedAt  time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_comments_post_created_at"`
+	UpdatedAt  time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	DeletedAt  gorm.DeletedAt `gorm:"index"`
 }
 
 type Like struct {
 	ID        uint64    `gorm:"primaryKey;autoIncrement"`
-	UUID      string    `gorm:"type:uuid;unique;not null"`
-	PostID    uint64    `gorm:"not null;index:idx_likes_user_post"`
-	Post      Post      `gorm:"foreignKey:PostID"`
-	UserID    uint64    `gorm:"not null;index:idx_likes_user_post"`
-	User      User      `gorm:"foreignKey:UserID"`
+	PostID    uint64    `gorm:"not null;index;uniqueIndex:idx_likes_post_user"`
+	Post      Post      `gorm:"foreignKey:PostID;constraint:OnDelete:CASCADE"`
+	UserID    uint64    `gorm:"not null;index;uniqueIndex:idx_likes_post_user"`
+	User      User      `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt gorm.DeletedAt

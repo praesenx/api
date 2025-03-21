@@ -119,3 +119,16 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE INDEX idx_comments_post_id ON comments (post_id);
 CREATE INDEX idx_comments_post_created_at ON comments (post_id, created_at);
 CREATE INDEX idx_comments_parent_id ON comments (parent_id);
+
+----------------------------------------------------- LIKES ------------------------------------------------------------
+CREATE TABLE likes (
+    id BIGSERIAL PRIMARY KEY,
+    post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    UNIQUE (post_id, user_id) -- Prevent duplicate likes
+);
+
+CREATE INDEX idx_likes_user_post ON likes (user_id, post_id);
