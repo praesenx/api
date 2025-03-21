@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
-    uuid varchar(36) UNIQUE NOT NULL,
+    uuid UUID UNIQUE NOT NULL,
     first_name varchar(250) NOT NULL,
     last_name varchar(250) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL ,
@@ -29,6 +29,7 @@ CREATE INDEX idx_users_deleted_at_id ON users (deleted_at, id);
 # ---------------------------------------------------- POSTS --------------------------------------------------------- #
 CREATE TABLE IF NOT EXISTS posts (
     id BIGSERIAL PRIMARY KEY,
+    uuid UUID UNIQUE NOT NULL,
     author_id BIGINT REFERENCES users(id) NOT NULL, NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -49,6 +50,7 @@ CREATE INDEX idx_posts_published_at ON posts (published_at);
 # ----------------------------------------------- CATEGORIES --------------------------------------------------------- #
 CREATE TABLE categories (
     id BIGSERIAL PRIMARY KEY,
+    uuid UUID UNIQUE NOT NULL,
     name VARCHAR(255) UNIQUE NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
@@ -70,6 +72,7 @@ CREATE INDEX idx_category_post ON post_categories (category_id, post_id);
 # ---------------------------------------------------- TAGS ---------------------------------------------------------- #
 CREATE TABLE tags (
     id BIGSERIAL PRIMARY KEY,
+    uuid UUID UNIQUE NOT NULL,
     name VARCHAR(255) UNIQUE NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
@@ -103,6 +106,7 @@ CREATE INDEX idx_post_views_post_viewed_at ON post_views (post_id, viewed_at);
 # -------------------------------------------------- COMMENTS -------------------------------------------------------- #
 CREATE TABLE comments (
     id BIGSERIAL PRIMARY KEY,
+    uuid UUID UNIQUE NOT NULL,
     post_id BIGINT REFERENCES posts(id) ON DELETE CASCADE,
     author_id BIGINT REFERENCES users(id),
     parent_comment_id BIGINT REFERENCES comments(id), -- For nested comments
@@ -120,6 +124,7 @@ CREATE INDEX idx_comments_parent_comment_id ON comments (parent_comment_id);
 # --------------------------------------------------- LIKES ---------------------------------------------------------- #
 CREATE TABLE likes (
     id BIGSERIAL PRIMARY KEY,
+    uuid UUID UNIQUE NOT NULL,
     post_id BIGINT REFERENCES posts(id) ON DELETE CASCADE,
     user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

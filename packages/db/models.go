@@ -6,23 +6,22 @@ import (
 )
 
 type User struct {
-	ID                uint64     `gorm:"primaryKey;autoIncrement"`
-	UUID              string     `gorm:"type:varchar(36);unique;not null"`
-	FirstName         string     `gorm:"type:varchar(250);not null"`
-	LastName          string     `gorm:"type:varchar(250);not null"`
-	Username          string     `gorm:"type:varchar(50);unique;not null"`
-	DisplayName       string     `gorm:"type:varchar(255)"`
-	Email             string     `gorm:"type:varchar(250);unique;not null"`
-	PasswordHash      string     `gorm:"type:varchar(255);not null"`
-	Token             string     `gorm:"type:varchar(250);not null;index:idx_users_token"`
-	Bio               string     `gorm:"type:text"`
-	ProfilePictureURL string     `gorm:"type:varchar(2048)"`
-	IsAdmin           bool       `gorm:"default:false"`
-	VerifiedAt        *time.Time `gorm:"index:idx_users_verified_at"`
-
-	CreatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_users_created_at"`
-	UpdatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
-	DeletedAt gorm.DeletedAt `gorm:"index:idx_users_deleted_at"`
+	ID                uint64         `gorm:"primaryKey;autoIncrement"`
+	UUID              string         `gorm:"type:uuid;unique;not null"`
+	FirstName         string         `gorm:"type:varchar(250);not null"`
+	LastName          string         `gorm:"type:varchar(250);not null"`
+	Username          string         `gorm:"type:varchar(50);unique;not null"`
+	DisplayName       string         `gorm:"type:varchar(255)"`
+	Email             string         `gorm:"type:varchar(250);unique;not null"`
+	PasswordHash      string         `gorm:"type:varchar(255);not null"`
+	Token             string         `gorm:"type:varchar(250);not null;index:idx_users_token"`
+	Bio               string         `gorm:"type:text"`
+	ProfilePictureURL string         `gorm:"type:varchar(2048)"`
+	IsAdmin           bool           `gorm:"default:false"`
+	VerifiedAt        *time.Time     `gorm:"index:idx_users_verified_at"`
+	CreatedAt         time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_users_created_at"`
+	UpdatedAt         time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	DeletedAt         gorm.DeletedAt `gorm:"index:idx_users_deleted_at"`
 
 	// Associations
 	Posts     []Post     `gorm:"foreignKey:AuthorID"`
@@ -33,6 +32,7 @@ type User struct {
 
 type Post struct {
 	ID            uint64     `gorm:"primaryKey;autoIncrement"`
+	UUID          string     `gorm:"type:uuid;unique;not null"`
 	AuthorID      uint64     `gorm:"not null;index:idx_posts_author_id"`
 	Author        User       `gorm:"foreignKey:AuthorID"`
 	Slug          string     `gorm:"type:varchar(255);unique;not null"`
@@ -55,6 +55,7 @@ type Post struct {
 
 type Category struct {
 	ID          uint64    `gorm:"primaryKey;autoIncrement"`
+	UUID        string    `gorm:"type:uuid;unique;not null"`
 	Name        string    `gorm:"type:varchar(255);unique;not null"`
 	Slug        string    `gorm:"type:varchar(255);unique;not null"`
 	Description string    `gorm:"type:text"`
@@ -75,6 +76,7 @@ type PostCategory struct {
 
 type Tag struct {
 	ID          uint64    `gorm:"primaryKey;autoIncrement"`
+	UUID        string    `gorm:"type:uuid;unique;not null"`
 	Name        string    `gorm:"type:varchar(255);unique;not null"`
 	Slug        string    `gorm:"type:varchar(255);unique;not null"`
 	Description string    `gorm:"type:text"`
@@ -106,11 +108,12 @@ type PostView struct {
 
 type Comment struct {
 	ID              uint64    `gorm:"primaryKey;autoIncrement"`
+	UUID            string    `gorm:"type:uuid;unique;not null"`
 	PostID          uint64    `gorm:"not null;index:idx_comments_post_id"`
 	Post            Post      `gorm:"foreignKey:PostID"`
 	AuthorID        uint64    `gorm:"index"`
 	Author          User      `gorm:"foreignKey:AuthorID"`
-	ParentCommentID *uint64   `gorm:"index"` // Self-referential for nested comments
+	ParentCommentID *uint64   `gorm:"index"` // For nested comments
 	ParentComment   *Comment  `gorm:"foreignKey:ParentCommentID"`
 	Replies         []Comment `gorm:"foreignKey:ParentCommentID"`
 	Content         string    `gorm:"type:text;not null"`
@@ -122,6 +125,7 @@ type Comment struct {
 
 type Like struct {
 	ID        uint64    `gorm:"primaryKey;autoIncrement"`
+	UUID      string    `gorm:"type:uuid;unique;not null"`
 	PostID    uint64    `gorm:"not null;index:idx_likes_user_post"`
 	Post      Post      `gorm:"foreignKey:PostID"`
 	UserID    uint64    `gorm:"not null;index:idx_likes_user_post"`
