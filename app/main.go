@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/user"
@@ -10,18 +11,21 @@ import (
 
 var validator *support.Validator
 var dbConn *database.Connection
+var logsDriver *contracts.LogsDriver
 
 func init() {
 	validator = support.MakeValidator()
 	dbConn = &database.Connection{}
+
+	if lDriver, err := support.MakeDefaultFileLogs(); err != nil {
+		panic("error opening file: " + err.Error())
+	} else {
+		logsDriver = &lDriver
+	}
 }
 
 func main() {
-	if fileLogs, err := support.MakeDefaultFileLogs(); err != nil {
-		panic("error opening file: " + err.Error())
-	} else {
-		defer fileLogs.Close()
-	}
+	defer (*logsDriver).Close()
 
 	mux := http.NewServeMux()
 

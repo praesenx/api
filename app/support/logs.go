@@ -2,6 +2,7 @@ package support
 
 import (
 	"fmt"
+	"github.com/gocanto/blog/app/contracts"
 	"log/slog"
 	"os"
 	"time"
@@ -13,7 +14,7 @@ type FileLog struct {
 	logger *slog.Logger
 }
 
-func MakeDefaultFileLogs() (FileLog, error) {
+func MakeDefaultFileLogs() (contracts.LogsDriver, error) {
 	file := FileLog{}
 	file.path = file.DefaultPath()
 
