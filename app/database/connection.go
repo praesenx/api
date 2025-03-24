@@ -36,7 +36,7 @@ func (receiver *Connection) Ping() error {
 		return err
 	}
 
-	fmt.Println("Connected ....")
+	fmt.Println("DB Connected ....")
 
 	return nil
 }

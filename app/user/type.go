@@ -1,8 +1,10 @@
 package user
 
-import "github.com/gocanto/blog/packages/core"
+import (
+	"github.com/gocanto/blog/app/support"
+)
 
-type RequestBag struct {
+type CreateUsersRequestBag struct {
 	FirstName string `json:"first_name" validate:"required"`
 	LastName  string `json:"last_name" validate:"required"`
 	Username  string `json:"username" validate:"required"`
@@ -16,6 +18,9 @@ type ResponseBag struct {
 	StatusCode int    `json:"status_code"`
 }
 
-type HandleUsers struct {
-	Validator *core.Validator
+type Controller struct {
+	Validator  *support.Validator
+	Repository *Repository
 }
+
+type CreatedUser struct{}

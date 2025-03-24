@@ -2,6 +2,7 @@ ifneq (,$(wildcard .env))
   include .env
 endif
 
+RAND = $(shell echo $$RANDOM)
 PADDING="    "
 GREEN = \033[0;32m
 YELLOW=\033[1;33m
@@ -18,9 +19,10 @@ ROOT_NETWORK ?= gocanto
 ROOT_PATH ?= $(shell pwd)
 ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
-STORAGE_PATH ?= $(ROOT_PATH)/storage
+STORAGE_PATH ?= $(ROOT_PATH)/app/storage
 BIN_PATH ?= $(ROOT_PATH)/bin
 BIN_LOGS_PATH ?= $(ROOT_PATH)/bin/storage/logs
+APP_PATH ?= $(ROOT_PATH)/app/
 
 # ------ Database Configuration
 # --- Docker
@@ -38,7 +40,7 @@ DB_SERVER_KEY ?= $(DB_SSL_PATH)/server.key
 DB_MIGRATE_PATH ?= $(ROOT_PATH)/database/migrations
 DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
-flush:
+fresh:
 	rm -rf $(DB_DATA_PATH) && \
 	docker compose down --remove-orphans && \
 	docker container prune -f && \
@@ -47,28 +49,31 @@ flush:
 	docker network prune -f && \
 	docker ps
 
-dependencies:
+audit:
 	$(call external_deps,'.')
 	$(call external_deps,'./bin/...')
-	$(call external_deps,'./cmd/...')
-	$(call external_deps,'./packages/...')
+	$(call external_deps,'./app/...')
+	$(call external_deps,'./database/...')
+	$(call external_deps,'./docs/...')
 
-build\:api:
+watch:
+	# --- Works with (air).
+	# https://github.com/air-verse/air
+	cd $(APP_PATH) && air
+
+build\:app:
 	make logs:bin:fresh && \
-	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/api" -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
+	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/app" -tags '$(DATABASE) $(SOURCE)' $(APP_PATH)
 
-build\:api\:linux:
+build\:app\:linux:
 	make logs:bin:fresh && \
-	cd $(ROOT_PATH)/cmd/api && \
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o "$(ROOT_PATH)/bin/api" -ldflags='-X main.Version=$(VERSION) -extldflags "-static"' -tags '$(DATABASE) $(SOURCE)' $(ROOT_PATH)/cmd/api
+	cd $(APP_PATH) && \
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o "$(ROOT_PATH)/bin/app_linux" -ldflags='-X main.Version=$(VERSION) -extldflags "-static"' -tags '$(DATABASE) $(SOURCE)' $(APP_PATH)
 
-api\:run:
-	cd $(BIN_PATH) && ./api
+build\:run:
+	cd $(BIN_PATH) && ./app
 
-api\:air:
-	air $(ROOT_PATH)/cmd/api/main.go
-
-api\:release:
+build\:release:
 	git tag v$(V)
 	@read -p "Press enter to confirm and push to origin ..." && git push origin v$(V)
 
@@ -102,7 +107,7 @@ db\:delete:
 	docker ps
 
 db\:secure:
-	make flush && \
+	make fresh && \
 	rm -rf $(DB_SERVER_CRT) && rm -rf $(DB_SERVER_CSR) && rm -rf $(DB_SERVER_KEY) && \
 	openssl genpkey -algorithm RSA -out $(DB_SERVER_KEY) && \
     openssl req -new -key $(DB_SERVER_KEY) -out $(DB_SERVER_CSR) && \
@@ -130,7 +135,7 @@ migrate\:up\:force:
 	#migrate -path PATH_TO_YOUR_MIGRATIONS -database YOUR_DATABASE_URL force VERSION
 	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
 
-logs\:clear:
+logs\:fresh:
 	find $(STORAGE_PATH)/logs -maxdepth 1 -type f -not -name ".gitkeep" -delete
 
 logs\:bin\:fresh:
@@ -142,12 +147,9 @@ define external_deps
 	@echo '-- $(1)';  go list -f '{{join .Deps "\n"}}' $(1) | grep -v github.com/$(REPO_OWNER)/blog | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
 endef
 
-.PHONY: flush dependencies
-.PHONY: build\:api
-.PHONY: api\:air api\:build api\:release api\:run
+.PHONY: fresh audit watch
+.PHONY: build\:app build\:app\:linux build\:release build\:run
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
 .PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
-.PHONY: logs\:clear logs\:bin\:fresh
-
-RAND = $(shell echo $$RANDOM)
+.PHONY: logs\:fresh logs\:bin\:fresh

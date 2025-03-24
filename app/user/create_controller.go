@@ -2,13 +2,13 @@ package user
 
 import (
 	"encoding/json"
-	"github.com/gocanto/blog/packages/core"
+	"github.com/gocanto/blog/app/support"
 	"io"
 	"log/slog"
 	"net/http"
 )
 
-func (receiver HandleUsers) Create(w http.ResponseWriter, r *http.Request) {
+func (receiver Controller) Create(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 
 	if err != nil {
@@ -19,7 +19,7 @@ func (receiver HandleUsers) Create(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	var requestBag RequestBag
+	var requestBag CreateUsersRequestBag
 	if err := json.Unmarshal(body, &requestBag); err != nil {
 		slog.Error("Error decoding JSON: %v", err)
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
@@ -30,7 +30,7 @@ func (receiver HandleUsers) Create(w http.ResponseWriter, r *http.Request) {
 		"data": json.RawMessage(body),
 	}
 
-	v := core.MakeValidator()
+	v := support.MakeValidator()
 
 	if _, err := v.Rejects(requestBag); err != nil {
 		payload["message"] = err.Error()
