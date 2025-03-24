@@ -1,11 +1,20 @@
 package main
 
 import (
+	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/user"
 	"log/slog"
 	"net/http"
 )
+
+var validator *support.Validator
+var dbConn *database.Connection
+
+func init() {
+	validator = support.MakeValidator()
+	dbConn = &database.Connection{}
+}
 
 func main() {
 	if fileLogs, err := support.MakeDefaultFileLogs(); err != nil {
@@ -14,14 +23,9 @@ func main() {
 		defer fileLogs.Close()
 	}
 
-	validator := support.MakeValidator()
-
-	users := user.Controller{
-		Validator: validator,
-	}
-
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /users", users.Create)
+
+	registerUsersFor(mux)
 
 	slog.Info("Starting new server on :8080")
 
@@ -29,4 +33,11 @@ func main() {
 		slog.Error("Error starting server", "error", err)
 		panic("Error starting server.")
 	}
+}
+
+func registerUsersFor(mux *http.ServeMux) {
+	repository := user.NewRepository(*dbConn)
+
+	service := user.NewProvider(repository, validator)
+	_ = service.Register(mux)
 }
