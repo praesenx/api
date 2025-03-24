@@ -4,6 +4,7 @@ go 1.24
 
 require (
 	github.com/go-playground/validator/v10 v10.25.0
+	github.com/lib/pq v1.10.9
 	golang.org/x/crypto v0.35.0
 	gorm.io/gorm v1.25.12
 )

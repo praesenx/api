@@ -33,9 +33,18 @@ func MakeDefaultFileLogs() (contracts.LogsDriver, error) {
 }
 
 func (receiver FileLog) DefaultPath() string {
-	return fmt.Sprintf("./storage/logs/logs_%s.log", time.Now().UTC().Format("2006_02_01"))
+	return fmt.Sprintf(
+		"./storage/logs/logs_%s.log",
+		time.Now().UTC().Format("2006_02_01"),
+	)
 }
 
-func (receiver FileLog) Close() {
-	receiver.file.Close()
+func (receiver FileLog) Close() bool {
+	if err := receiver.file.Close(); err != nil {
+		receiver.logger.Error("error closing file: " + err.Error())
+
+		return false
+	}
+
+	return true
 }

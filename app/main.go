@@ -2,34 +2,29 @@ package main
 
 import (
 	"github.com/gocanto/blog/app/contracts"
-	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/support"
-	"github.com/gocanto/blog/app/user"
+	_ "github.com/lib/pq"
 	"log/slog"
 	"net/http"
 )
 
 var validator *support.Validator
-var dbConn *database.Connection
+var dbConnection *contracts.DatabaseDriver
 var logsDriver *contracts.LogsDriver
 
 func init() {
-	validator = support.MakeValidator()
-	dbConn = &database.Connection{}
-
-	if lDriver, err := support.MakeDefaultFileLogs(); err != nil {
-		panic("error opening file: " + err.Error())
-	} else {
-		logsDriver = &lDriver
-	}
+	validator = mustInitialiseValidator()
+	dbConnection = mustInitialiseDatabase()
+	logsDriver = mustInitialiseLogsDriver()
 }
 
 func main() {
 	defer (*logsDriver).Close()
+	defer (*dbConnection).Close()
 
 	mux := http.NewServeMux()
 
-	registerUsersFor(mux)
+	usersRoutes(mux)
 
 	slog.Info("Starting new server on :8080")
 
@@ -37,11 +32,4 @@ func main() {
 		slog.Error("Error starting server", "error", err)
 		panic("Error starting server.")
 	}
-}
-
-func registerUsersFor(mux *http.ServeMux) {
-	repository := user.NewRepository(*dbConn)
-
-	service := user.NewProvider(repository, validator)
-	_ = service.Register(mux)
 }

@@ -1,12 +1,14 @@
 package user
 
-import "github.com/gocanto/blog/app/database"
+import (
+	"github.com/gocanto/blog/app/contracts"
+)
 
 type Repository struct {
-	Connection database.Connection
+	Connection *contracts.DatabaseDriver
 }
 
-func NewRepository(connection database.Connection) *Repository {
+func NewRepository(connection *contracts.DatabaseDriver) *Repository {
 	return &Repository{
 		Connection: connection,
 	}
