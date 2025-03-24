@@ -12,7 +12,10 @@ var validator *support.Validator
 var dbConnection *contracts.DatabaseDriver
 var logsDriver *contracts.LogsDriver
 
+//var environment *Environment
+
 func init() {
+	//environment = mustInitialiseEnvironment()
 	validator = mustInitialiseValidator()
 	dbConnection = mustInitialiseDatabase()
 	logsDriver = mustInitialiseLogsDriver()
