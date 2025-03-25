@@ -1,4 +1,4 @@
-root = "app"
+root = "."
 testdata_dir = "air_testdata"
 tmp_dir = "tmp"
 

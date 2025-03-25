@@ -9,12 +9,13 @@ import (
 )
 
 type FileLog struct {
-	path   string
-	file   *os.File
-	logger *slog.Logger
+	path        string
+	file        *os.File
+	logger      *slog.Logger
+	Environment Environment
 }
 
-func MakeDefaultFileLogs() (contracts.LogsDriver, error) {
+func MakeDefaultFileLogs(environment Environment) (contracts.LogsDriver, error) {
 	file := FileLog{}
 	file.path = file.DefaultPath()
 
@@ -28,6 +29,7 @@ func MakeDefaultFileLogs() (contracts.LogsDriver, error) {
 
 	file.file = resource
 	file.logger = logger
+	file.Environment = environment
 
 	return file, nil
 }

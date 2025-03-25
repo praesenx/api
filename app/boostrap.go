@@ -4,55 +4,87 @@ import (
 	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/support"
-	"os"
+	"github.com/joho/godotenv"
 	"strconv"
 )
 
-func mustInitialiseDatabase() *contracts.DatabaseDriver {
-	dbConn, err := database.MakeConnection("postgres", os.Getenv("ENV_DB_URL"))
+func getDatabaseConnection() *contracts.DatabaseDriver {
+	dbConn, err := database.MakeConnection(environment)
 
 	if err != nil {
-		panic("error connecting to PostgreSQL: " + err.Error())
+		panic("DB: error connecting to PostgreSQL: " + err.Error())
 	}
 
 	return &dbConn
 }
 
-func mustInitialiseLogsDriver() *contracts.LogsDriver {
-	lDriver, err := support.MakeDefaultFileLogs()
+func getLogsDriver() *contracts.LogsDriver {
+	lDriver, err := support.MakeDefaultFileLogs(environment)
 
 	if err != nil {
-		panic("error opening logs file: " + err.Error())
+		panic("Logs: error opening logs file: " + err.Error())
 	}
 
 	return &lDriver
 }
 
-func mustInitialiseValidator() *support.Validator {
-	return support.MakeValidator()
-}
+func getEnvironment(validate support.Validator) support.Environment {
+	errorSufix := "Environment: "
 
-func mustInitialiseEnvironment() *Environment {
-	port, _ := strconv.Atoi(os.Getenv("ENV_DB_PORT"))
-	portSecondary, _ := strconv.Atoi(os.Getenv("ENV_DB_PORT_SECONDARY"))
+	values, err := godotenv.Read("./../.env")
 
-	env := &Environment{
-		appName:         os.Getenv("ENV_APP_NAME"),
-		appEnv:          os.Getenv("ENV_APP_ENV"),
-		appLogLevel:     os.Getenv("ENV_APP_LOG_LEVEL"),
-		dbUserName:      os.Getenv("ENV_DB_USER_NAME"),
-		dbUserPassword:  os.Getenv("ENV_DB_USER_PASSWORD"),
-		dbDatabaseName:  os.Getenv("ENV_DB_DATABASE_NAME"),
-		dbPort:          port,
-		dbPortSecondary: portSecondary,
-		dbHost:          os.Getenv("ENV_DB_HOST"),
-		dbDriver:        os.Getenv("ENV_DB_DRIVER"),
-		dbBinDir:        os.Getenv("EN_DB_BIN_DIR"), // Note the slight difference in the env var name
-		dbURL:           os.Getenv("ENV_DB_URL"),
+	if err != nil {
+		panic(errorSufix + "invalid .env file: " + err.Error())
 	}
 
-	if env.hasErrors() {
-		panic("error loading the .env file: ")
+	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
+	portSecondary, _ := strconv.Atoi(values["ENV_DB_PORT_SECONDARY"])
+
+	app := support.AppEnvironment{
+		Name:     values["ENV_APP_NAME"],
+		Type:     values["ENV_APP_ENV_TYPE"],
+		LogLevel: values["ENV_APP_LOG_LEVEL"],
+	}
+
+	db := support.DBEnvironment{
+		UserName:      values["ENV_DB_USER_NAME"],
+		UserPassword:  values["ENV_DB_USER_PASSWORD"],
+		DatabaseName:  values["ENV_DB_DATABASE_NAME"],
+		Port:          port,
+		PortSecondary: portSecondary,
+		Host:          values["ENV_DB_HOST"],
+		DriverName:    dbDriverName,
+		BinDir:        values["EN_DB_BIN_DIR"],
+		URL:           values["ENV_DB_URL"],
+	}
+
+	globalAdmin := support.GlobalAdmin{
+		Salt:  values["ENV_APP_ADMIN_USER_TOKEN_SALT"],
+		Token: values["ENV_APP_ADMIN_USER_TOKEN"],
+	}
+
+	if _, err := validate.Rejects(app); err != nil {
+		panic(errorSufix + "1) invalid app values: " + validate.GetErrorsAsJason())
+	}
+
+	if _, err := validate.Rejects(app); err != nil {
+		panic(errorSufix + "2) invalid db values: " + validate.GetErrorsAsJason())
+	}
+
+	if _, err := validate.Rejects(app); err != nil {
+		panic(errorSufix + "3) invalid global admin values: " + validate.GetErrorsAsJason())
+	}
+
+	env := support.Environment{
+		App:      app,
+		DB:       db,
+		Admin:    globalAdmin,
+		HttpHost: values["ENV_HTTP_HOST"],
+		HttpPort: values["ENV_HTTP_PORT"],
+	}
+
+	if _, err := validate.Rejects(environment); err != nil {
+		panic(errorSufix + "4) invalid env values: " + validate.GetErrorsAsJason())
 	}
 
 	return env

@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func (receiver Controller) Create(w http.ResponseWriter, r *http.Request) {
+func (receiver UsersHandler) create(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 
 	if err != nil {

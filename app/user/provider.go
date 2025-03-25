@@ -6,25 +6,23 @@ import (
 )
 
 type Provider struct {
-	Repository *Repository
-	Validator  *support.Validator
+	repository   *Repository
+	validator    *support.Validator
+	usersHandler UsersHandler
 }
 
-func NewProvider(repository *Repository, validator *support.Validator) *Provider {
+func RegisterProvider(repository *Repository, validator *support.Validator) *Provider {
 	return &Provider{
-		Repository: repository,
-		Validator:  validator,
+		repository: repository,
+		validator:  validator,
+		usersHandler: UsersHandler{
+			Validator:  validator,
+			Repository: repository,
+		},
 	}
 }
 
 // Register users routes
-func (p *Provider) Register(mux *http.ServeMux) *Controller {
-	users := Controller{
-		Validator:  p.Validator,
-		Repository: p.Repository,
-	}
-
-	mux.HandleFunc("POST /users", users.Create)
-
-	return &users
+func (p *Provider) Register(mux *http.ServeMux) {
+	mux.HandleFunc("POST /users", (*p).usersHandler.create)
 }

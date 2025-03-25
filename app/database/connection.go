@@ -4,24 +4,30 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/gocanto/blog/app/contracts"
+	"github.com/gocanto/blog/app/support"
 	"log/slog"
 )
 
 type Connection struct {
-	url    string
-	driver *sql.DB
+	url         string
+	driver      *sql.DB
+	driverName  string
+	environment support.Environment
 }
 
-func MakeConnection(driverName string, url string) (contracts.DatabaseDriver, error) {
-	driver, err := sql.Open(driverName, url)
+func MakeConnection(environment support.Environment) (contracts.DatabaseDriver, error) {
+	dbEnv := environment.DB
+	driver, err := sql.Open(dbEnv.DriverName, dbEnv.URL)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &Connection{
-		url:    url,
-		driver: driver,
+		url:         dbEnv.URL,
+		driver:      driver,
+		driverName:  dbEnv.DriverName,
+		environment: environment,
 	}, nil
 }
 

@@ -1,37 +1,42 @@
 package main
 
 import (
-	"github.com/gocanto/blog/app/contracts"
+	"github.com/go-playground/validator/v10"
 	"github.com/gocanto/blog/app/support"
 	_ "github.com/lib/pq"
 	"log/slog"
 	"net/http"
 )
 
-var validator *support.Validator
-var dbConnection *contracts.DatabaseDriver
-var logsDriver *contracts.LogsDriver
+const dbDriverName = "postgres"
 
-//var environment *Environment
+var environment support.Environment
+var verifier *support.Validator
 
 func init() {
-	//environment = mustInitialiseEnvironment()
-	validator = mustInitialiseValidator()
-	dbConnection = mustInitialiseDatabase()
-	logsDriver = mustInitialiseLogsDriver()
+	verifier := support.MakeValidatorFrom(validator.New(
+		validator.WithRequiredStructEnabled(),
+	))
+
+	environment = getEnvironment(*verifier)
 }
 
 func main() {
+
+	dbConnection := getDatabaseConnection()
+	logsDriver := getLogsDriver()
+
 	defer (*logsDriver).Close()
 	defer (*dbConnection).Close()
 
 	mux := http.NewServeMux()
+	router := getRouter(mux, logsDriver)
 
-	usersRoutes(mux)
+	router.registerUsers(dbConnection)
 
-	slog.Info("Starting new server on :8080")
+	slog.Info("Starting new server on :" + environment.HttpPort)
 
-	if err := http.ListenAndServe("localhost:8080", mux); err != nil {
+	if err := http.ListenAndServe(environment.GetHostURL(), mux); err != nil {
 		slog.Error("Error starting server", "error", err)
 		panic("Error starting server.")
 	}

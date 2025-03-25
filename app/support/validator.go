@@ -1,6 +1,7 @@
 package support
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/go-playground/validator/v10"
@@ -8,8 +9,9 @@ import (
 )
 
 type Validator struct {
-	instance *validator.Validate
-	Errors   map[string]interface{}
+	instance    *validator.Validate
+	Errors      map[string]interface{}
+	Environment *Environment
 }
 
 func MakeValidator() *Validator {
@@ -18,6 +20,13 @@ func MakeValidator() *Validator {
 		instance: validator.New(
 			validator.WithRequiredStructEnabled(),
 		),
+	}
+}
+
+func MakeValidatorFrom(abstract *validator.Validate) *Validator {
+	return &Validator{
+		Errors:   make(map[string]interface{}),
+		instance: abstract,
 	}
 }
 
@@ -80,4 +89,18 @@ func (v *Validator) parseError(validateErrs validator.ValidationErrors) {
 
 		v.Errors[field] = e.Error()
 	}
+}
+
+func (v *Validator) SetEnvironment(environment *Environment) {
+	v.Environment = environment
+}
+
+func (v *Validator) GetErrorsAsJason() string {
+	value, err := json.Marshal(v.GetErrors())
+
+	if err != nil {
+		return ""
+	}
+
+	return string(value[:])
 }
