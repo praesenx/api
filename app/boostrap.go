@@ -68,6 +68,11 @@ func getEnvironment(validate support.Validator) support.Environment {
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
 	}
 
+	net := support.NetEnvironment{
+		HttpHost: values["ENV_HTTP_HOST"],
+		HttpPort: values["ENV_HTTP_PORT"],
+	}
+
 	if _, err := validate.Rejects(app); err != nil {
 		panic(errorSufix + "invalid app values: " + validate.GetErrorsAsJason())
 	}
@@ -84,13 +89,16 @@ func getEnvironment(validate support.Validator) support.Environment {
 		panic(errorSufix + "invalid logs values: " + validate.GetErrorsAsJason())
 	}
 
+	if _, err := validate.Rejects(net); err != nil {
+		panic(errorSufix + "invalid network values: " + validate.GetErrorsAsJason())
+	}
+
 	env := support.Environment{
-		App:      app,
-		DB:       db,
-		Admin:    globalAdmin,
-		Logs:     logs,
-		HttpHost: values["ENV_HTTP_HOST"],
-		HttpPort: values["ENV_HTTP_PORT"],
+		App:     app,
+		DB:      db,
+		Admin:   globalAdmin,
+		Logs:    logs,
+		Network: net,
 	}
 
 	if _, err := validate.Rejects(env); err != nil {

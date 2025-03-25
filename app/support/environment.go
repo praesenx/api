@@ -1,12 +1,16 @@
 package support
 
 type Environment struct {
-	App      AppEnvironment
-	DB       DBEnvironment
-	Logs     LogsEnvironment
-	Admin    GlobalAdmin // Naive users' permissions
-	HttpHost string      `validate:"required,lowercase,min=8"`
-	HttpPort string      `validate:"required,numeric,oneof=8080"`
+	App     AppEnvironment
+	DB      DBEnvironment
+	Logs    LogsEnvironment
+	Admin   GlobalAdmin // Naive users' permissions
+	Network NetEnvironment
+}
+
+type NetEnvironment struct {
+	HttpHost string `validate:"required,lowercase,min=8"`
+	HttpPort string `validate:"required,numeric,oneof=8080"`
 }
 
 type AppEnvironment struct {
@@ -38,13 +42,13 @@ type DBEnvironment struct {
 }
 
 func (e Environment) GetHttpPort() string {
-	return e.HttpPort
+	return e.Network.HttpPort
 }
 
 func (e Environment) GetHttpHost() string {
-	return e.HttpHost
+	return e.Network.HttpHost
 }
 
 func (e Environment) GetHostURL() string {
-	return e.HttpHost + ":" + e.HttpPort
+	return e.Network.HttpHost + ":" + e.Network.HttpPort
 }

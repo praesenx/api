@@ -33,7 +33,7 @@ func main() {
 
 	router.registerUsers(dbConnection)
 
-	slog.Info("Starting new server on :" + environment.HttpPort)
+	slog.Info("Starting new server on :" + environment.Network.HttpPort)
 
 	if err := http.ListenAndServe(environment.GetHostURL(), mux); err != nil {
 		slog.Error("Error starting server", "error", err)
