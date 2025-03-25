@@ -9,14 +9,15 @@ import (
 )
 
 type FileLog struct {
-	path        string
-	file        *os.File
-	logger      *slog.Logger
-	Environment Environment
+	path            string
+	file            *os.File
+	logger          *slog.Logger
+	LogsEnvironment LogsEnvironment
 }
 
-func MakeDefaultFileLogs(environment Environment) (contracts.LogsDriver, error) {
+func MakeDefaultFileLogs(environment LogsEnvironment) (contracts.LogsDriver, error) {
 	file := FileLog{}
+	file.LogsEnvironment = environment
 	file.path = file.DefaultPath()
 
 	resource, err := os.OpenFile(file.path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -29,15 +30,16 @@ func MakeDefaultFileLogs(environment Environment) (contracts.LogsDriver, error) 
 
 	file.file = resource
 	file.logger = logger
-	file.Environment = environment
 
 	return file, nil
 }
 
 func (receiver FileLog) DefaultPath() string {
+	env := receiver.LogsEnvironment
+
 	return fmt.Sprintf(
-		"./storage/logs/logs_%s.log",
-		time.Now().UTC().Format("2006_02_01"),
+		env.Dir,
+		time.Now().UTC().Format(env.DateFormat),
 	)
 }
 

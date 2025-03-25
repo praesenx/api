@@ -19,7 +19,7 @@ func getDatabaseConnection() *contracts.DatabaseDriver {
 }
 
 func getLogsDriver() *contracts.LogsDriver {
-	lDriver, err := support.MakeDefaultFileLogs(environment)
+	lDriver, err := support.MakeDefaultFileLogs(environment.Logs)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
@@ -41,9 +41,8 @@ func getEnvironment(validate support.Validator) support.Environment {
 	portSecondary, _ := strconv.Atoi(values["ENV_DB_PORT_SECONDARY"])
 
 	app := support.AppEnvironment{
-		Name:     values["ENV_APP_NAME"],
-		Type:     values["ENV_APP_ENV_TYPE"],
-		LogLevel: values["ENV_APP_LOG_LEVEL"],
+		Name: values["ENV_APP_NAME"],
+		Type: values["ENV_APP_ENV_TYPE"],
 	}
 
 	db := support.DBEnvironment{
@@ -63,6 +62,12 @@ func getEnvironment(validate support.Validator) support.Environment {
 		Token: values["ENV_APP_ADMIN_USER_TOKEN"],
 	}
 
+	logs := support.LogsEnvironment{
+		Level:      values["ENV_APP_LOG_LEVEL"],
+		Dir:        values["ENV_APP_LOGS_DIR"],
+		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
+	}
+
 	if _, err := validate.Rejects(app); err != nil {
 		panic(errorSufix + "invalid app values: " + validate.GetErrorsAsJason())
 	}
@@ -75,10 +80,15 @@ func getEnvironment(validate support.Validator) support.Environment {
 		panic(errorSufix + "invalid global admin values: " + validate.GetErrorsAsJason())
 	}
 
+	if _, err := validate.Rejects(logs); err != nil {
+		panic(errorSufix + "invalid logs values: " + validate.GetErrorsAsJason())
+	}
+
 	env := support.Environment{
 		App:      app,
 		DB:       db,
 		Admin:    globalAdmin,
+		Logs:     logs,
 		HttpHost: values["ENV_HTTP_HOST"],
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
