@@ -7,15 +7,17 @@
 *.out
 go.work
 go.work.sum
-.env
-
-database/data
-
 .idea
-tmp
 
-storage/logs/*.*
-!storage/logs/.gitkeep
+# --- air
+tmp
+app/tmp
+
+# --- app
+.env
+app/storage/logs/*.*
+!app/storage/logs/.gitkeep
+database/data
 
 # --- build
 bin
