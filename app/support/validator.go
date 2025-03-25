@@ -9,9 +9,8 @@ import (
 )
 
 type Validator struct {
-	instance    *validator.Validate
-	Errors      map[string]interface{}
-	Environment *Environment
+	instance *validator.Validate
+	Errors   map[string]interface{}
 }
 
 func MakeValidator() *Validator {
@@ -89,10 +88,6 @@ func (v *Validator) parseError(validateErrs validator.ValidationErrors) {
 
 		v.Errors[field] = e.Error()
 	}
-}
-
-func (v *Validator) SetEnvironment(environment *Environment) {
-	v.Environment = environment
 }
 
 func (v *Validator) GetErrorsAsJason() string {
