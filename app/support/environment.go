@@ -4,34 +4,32 @@ type Environment struct {
 	App      AppEnvironment
 	DB       DBEnvironment
 	Admin    GlobalAdmin // Naive users' permissions
-	HttpHost string      `validate:"required"`
+	HttpHost string      `validate:"required,lowercase,min=8"`
 	HttpPort string      `validate:"required,numeric,oneof=8080"`
 }
 
 type AppEnvironment struct {
 	Name     string `validate:"required,min=4"`
-	Type     string `validate:"required,oneof=local production staging"`
-	LogLevel string `validate:"required,oneof=debug info warn error"`
+	Type     string `validate:"required,lowercase,oneof=local production staging"`
+	LogLevel string `validate:"required,lowercase,oneof=debug info warn error"`
 }
 
 type GlobalAdmin struct {
-	Salt  string `validate:"required"`
+	Salt  string `validate:"required,min=8"`
 	Token string `validate:"required,sha256"`
 }
 
 type DBEnvironment struct {
-	UserName      string `validate:"required,alpha"`
-	UserPassword  string `validate:"required"` //,min=10
-	DatabaseName  string `validate:"required,alpha"`
+	UserName      string `validate:"required,lowercase,min=10"`
+	UserPassword  string `validate:"required,min=10"`
+	DatabaseName  string `validate:"required,lowercase,min=10"`
 	Port          int    `validate:"required,numeric,gt=0"`
 	PortSecondary int    `validate:"required,numeric,gt=0"`
-	Host          string `validate:"required,alphanumunicode"`
-	DriverName    string `validate:"required,oneof=postgres"`
-	BinDir        string `validate:"required"`
-	URL           string `validate:"required,startswith=postgres"`
+	Host          string `validate:"required,lowercase,hostname"`
+	DriverName    string `validate:"required,lowercase,oneof=postgres"`
+	BinDir        string
+	URL           string `validate:"required,lowercase,startswith=postgres"`
 }
-
-//"localhost:8080"
 
 func (e Environment) GetHttpPort() string {
 	return e.HttpPort

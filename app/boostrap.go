@@ -64,15 +64,15 @@ func getEnvironment(validate support.Validator) support.Environment {
 	}
 
 	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "1) invalid app values: " + validate.GetErrorsAsJason())
+		panic(errorSufix + "invalid app values: " + validate.GetErrorsAsJason())
 	}
 
 	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "2) invalid db values: " + validate.GetErrorsAsJason())
+		panic(errorSufix + "invalid db values: " + validate.GetErrorsAsJason())
 	}
 
 	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "3) invalid global admin values: " + validate.GetErrorsAsJason())
+		panic(errorSufix + "invalid global admin values: " + validate.GetErrorsAsJason())
 	}
 
 	env := support.Environment{
@@ -83,8 +83,8 @@ func getEnvironment(validate support.Validator) support.Environment {
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	if _, err := validate.Rejects(environment); err != nil {
-		panic(errorSufix + "4) invalid env values: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(env); err != nil {
+		panic(errorSufix + "invalid env values: " + validate.GetErrorsAsJason())
 	}
 
 	return env
