@@ -60,7 +60,7 @@ func (e NetEnvironment) GetHostURL() string {
 // GetDSN GORM DSN Connection String
 func (e DBEnvironment) GetDSN() string {
 	return fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
+		"host=%s users=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
 		e.Host,
 		e.UserName,
 		e.UserPassword,

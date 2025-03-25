@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/support"
-	"github.com/gocanto/blog/app/user"
+	"github.com/gocanto/blog/app/users"
 	"net/http"
 )
 
@@ -22,8 +22,8 @@ func getRouter(mux *http.ServeMux, logger *contracts.LogsDriver) Router {
 }
 
 func (r Router) registerUsers(db *contracts.DatabaseDriver) {
-	users := user.RegisterProvider(
-		user.NewRepository(db),
+	users := users.RegisterProvider(
+		users.NewRepository(db),
 		r.validator,
 	)
 
