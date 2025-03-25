@@ -22,7 +22,6 @@ func init() {
 }
 
 func main() {
-
 	dbConnection := getDatabaseConnection()
 	logsDriver := getLogsDriver()
 
