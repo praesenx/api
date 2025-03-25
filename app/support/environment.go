@@ -1,5 +1,7 @@
 package support
 
+import "fmt"
+
 type Environment struct {
 	App     AppEnvironment
 	DB      DBEnvironment
@@ -39,16 +41,32 @@ type DBEnvironment struct {
 	DriverName    string `validate:"required,lowercase,oneof=postgres"`
 	BinDir        string
 	URL           string `validate:"required,lowercase,startswith=postgres"`
+	SSLMode       string `validate:"required,lowercase,oneof=disable enabled"`
+	TimeZone      string `validate:"required"`
 }
 
-func (e Environment) GetHttpPort() string {
-	return e.Network.HttpPort
+func (e NetEnvironment) GetHttpPort() string {
+	return e.HttpPort
 }
 
-func (e Environment) GetHttpHost() string {
-	return e.Network.HttpHost
+func (e NetEnvironment) GetHttpHost() string {
+	return e.HttpHost
 }
 
-func (e Environment) GetHostURL() string {
-	return e.Network.HttpHost + ":" + e.Network.HttpPort
+func (e NetEnvironment) GetHostURL() string {
+	return e.HttpHost + ":" + e.HttpPort
+}
+
+// GetDSN GORM DSN Connection String
+func (e DBEnvironment) GetDSN() string {
+	return fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
+		e.Host,
+		e.UserName,
+		e.UserPassword,
+		e.DatabaseName,
+		e.Port,
+		e.SSLMode,
+		e.TimeZone,
+	)
 }

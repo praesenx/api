@@ -55,6 +55,8 @@ func getEnvironment(validate support.Validator) support.Environment {
 		DriverName:    dbDriverName,
 		BinDir:        values["EN_DB_BIN_DIR"],
 		URL:           values["ENV_DB_URL"],
+		SSLMode:       values["ENV_DB_SSL_MODE"],
+		TimeZone:      values["ENV_DB_TIMEZONE"],
 	}
 
 	globalAdmin := support.GlobalAdmin{

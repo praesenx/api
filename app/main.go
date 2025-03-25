@@ -33,9 +33,10 @@ func main() {
 
 	router.registerUsers(dbConnection)
 
+	slog.Info("GORM DSN :" + environment.DB.GetDSN())
 	slog.Info("Starting new server on :" + environment.Network.HttpPort)
 
-	if err := http.ListenAndServe(environment.GetHostURL(), mux); err != nil {
+	if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {
 		slog.Error("Error starting server", "error", err)
 		panic("Error starting server.")
 	}
