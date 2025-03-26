@@ -61,6 +61,9 @@ watch:
 	# https://github.com/air-verse/air
 	cd $(APP_PATH) && air
 
+build\:fresh:
+	make build:app && make build:run
+
 build\:app:
 	make logs:bin:fresh && \
 	rm -f $(ROOT_PATH)/bin/app && \

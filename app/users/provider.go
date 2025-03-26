@@ -8,14 +8,14 @@ import (
 type Provider struct {
 	repository   *Repository
 	validator    *support.Validator
-	usersHandler UsersHandler
+	usersHandler Handler
 }
 
 func RegisterProvider(repository *Repository, validator *support.Validator) *Provider {
 	return &Provider{
 		repository: repository,
 		validator:  validator,
-		usersHandler: UsersHandler{
+		usersHandler: Handler{
 			Validator:  validator,
 			Repository: repository,
 		},

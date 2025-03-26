@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-playground/validator/v10"
+	"github.com/gocanto/blog/app/helpers"
 	"strings"
 )
 
@@ -71,7 +72,7 @@ func (v *Validator) parseError(validateErrs validator.ValidationErrors) {
 	var e error
 
 	for _, current := range validateErrs {
-		field := MakeStringable(current.Field()).ToSnakeCase()
+		field := helpers.MakeStringable(current.Field()).ToSnakeCase()
 
 		switch strings.ToLower(current.Tag()) {
 		case "required":

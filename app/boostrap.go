@@ -1,15 +1,16 @@
 package main
 
 import (
-	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/app/logger"
+	"github.com/gocanto/blog/app/logger/filesmanager"
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
 )
 
-func getDatabaseConnection() *contracts.DatabaseDriver {
+func getDatabaseConnection() *database.Driver {
 	dbConn, err := database.MakeConnection(environment)
 
 	if err != nil {
@@ -19,8 +20,8 @@ func getDatabaseConnection() *contracts.DatabaseDriver {
 	return &dbConn
 }
 
-func getLogsDriver() *contracts.LogsDriver {
-	lDriver, err := support.MakeDefaultFileLogs(environment.Logs)
+func getLogsDriver() *logger.Managers {
+	lDriver, err := filesmanager.MakeFilesManager(environment.Logs)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
