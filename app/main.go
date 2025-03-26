@@ -39,6 +39,6 @@ func main() {
 
 	if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {
 		slog.Error("Error starting server", "error", err)
-		panic("Error starting server.")
+		panic("Error starting server." + err.Error())
 	}
 }
