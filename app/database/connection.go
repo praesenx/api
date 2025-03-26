@@ -38,7 +38,10 @@ func (receiver *Connection) Close() bool {
 
 		return false
 	} else {
-		_ = sqlDB.Close()
+		if err = sqlDB.Close(); err != nil {
+			slog.Error("There was an error closing the db: " + err.Error())
+			return false
+		}
 	}
 
 	return true
