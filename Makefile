@@ -61,6 +61,9 @@ watch:
 	# https://github.com/air-verse/air
 	cd $(APP_PATH) && air
 
+build\:fresh:
+	make build:app && make build:run
+
 build\:app:
 	make logs:bin:fresh && \
 	rm -f $(ROOT_PATH)/bin/app && \
@@ -149,7 +152,7 @@ define external_deps
 endef
 
 .PHONY: fresh audit watch
-.PHONY: build\:app build\:app\:linux build\:release build\:run
+.PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
 .PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force

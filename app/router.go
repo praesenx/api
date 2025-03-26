@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/gocanto/blog/app/contracts"
+	"github.com/gocanto/blog/app/database"
+	"github.com/gocanto/blog/app/logger"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"net/http"
@@ -10,10 +11,10 @@ import (
 type Router struct {
 	mux       *http.ServeMux
 	validator *support.Validator
-	logger    *contracts.LogsDriver
+	logger    *logger.Managers
 }
 
-func getRouter(mux *http.ServeMux, logger *contracts.LogsDriver) Router {
+func getRouter(mux *http.ServeMux, logger *logger.Managers) Router {
 	return Router{
 		mux:       mux,
 		validator: verifier,
@@ -21,11 +22,11 @@ func getRouter(mux *http.ServeMux, logger *contracts.LogsDriver) Router {
 	}
 }
 
-func (r Router) registerUsers(db *contracts.DatabaseDriver) {
-	users := users.RegisterProvider(
+func (r Router) registerUsers(db *database.Driver) {
+	provider := users.RegisterProvider(
 		users.NewRepository(db),
 		r.validator,
 	)
 
-	users.Register(r.mux)
+	provider.Register(r.mux)
 }

@@ -18,7 +18,7 @@ type ResponseBag struct {
 	StatusCode int    `json:"status_code"`
 }
 
-type UsersHandler struct {
+type Handler struct {
 	Validator  *support.Validator
 	Repository *Repository
 }

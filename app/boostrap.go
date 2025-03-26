@@ -1,14 +1,16 @@
 package main
 
 import (
-	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/database"
+	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/app/logger"
+	"github.com/gocanto/blog/app/logger/filesmanager"
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
 )
 
-func getDatabaseConnection() *contracts.DatabaseDriver {
+func getDatabaseConnection() *database.Driver {
 	dbConn, err := database.MakeConnection(environment)
 
 	if err != nil {
@@ -18,8 +20,8 @@ func getDatabaseConnection() *contracts.DatabaseDriver {
 	return &dbConn
 }
 
-func getLogsDriver() *contracts.LogsDriver {
-	lDriver, err := support.MakeDefaultFileLogs(environment.Logs)
+func getLogsDriver() *logger.Managers {
+	lDriver, err := filesmanager.MakeFilesManager(environment.Logs)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
@@ -28,7 +30,7 @@ func getLogsDriver() *contracts.LogsDriver {
 	return &lDriver
 }
 
-func getEnvironment(validate support.Validator) support.Environment {
+func getEnvironment(validate support.Validator) env.Environment {
 	errorSufix := "Environment: "
 
 	values, err := godotenv.Read("./../.env")
@@ -40,12 +42,12 @@ func getEnvironment(validate support.Validator) support.Environment {
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
 	portSecondary, _ := strconv.Atoi(values["ENV_DB_PORT_SECONDARY"])
 
-	app := support.AppEnvironment{
+	app := env.AppEnvironment{
 		Name: values["ENV_APP_NAME"],
 		Type: values["ENV_APP_ENV_TYPE"],
 	}
 
-	db := support.DBEnvironment{
+	db := env.DBEnvironment{
 		UserName:      values["ENV_DB_USER_NAME"],
 		UserPassword:  values["ENV_DB_USER_PASSWORD"],
 		DatabaseName:  values["ENV_DB_DATABASE_NAME"],
@@ -59,43 +61,43 @@ func getEnvironment(validate support.Validator) support.Environment {
 		TimeZone:      values["ENV_DB_TIMEZONE"],
 	}
 
-	globalAdmin := support.GlobalAdmin{
+	globalAdmin := env.GlobalAdmin{
 		Salt:  values["ENV_APP_ADMIN_USER_TOKEN_SALT"],
 		Token: values["ENV_APP_ADMIN_USER_TOKEN"],
 	}
 
-	logs := support.LogsEnvironment{
+	logs := env.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
 	}
 
-	net := support.NetEnvironment{
+	net := env.NetEnvironment{
 		HttpHost: values["ENV_HTTP_HOST"],
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid app values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(app); err != nil {
+		panic(errorSufix + "invalid app model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid db values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(db); err != nil {
+		panic(errorSufix + "invalid db model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid global admin values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(globalAdmin); err != nil {
+		panic(errorSufix + "invalid global admin model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(logs); err != nil {
-		panic(errorSufix + "invalid logs values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(logs); err != nil {
+		panic(errorSufix + "invalid logs model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(net); err != nil {
-		panic(errorSufix + "invalid network values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(net); err != nil {
+		panic(errorSufix + "invalid network model: " + validate.GetErrorsAsJason())
 	}
 
-	env := support.Environment{
+	blog := env.Environment{
 		App:     app,
 		DB:      db,
 		Admin:   globalAdmin,
@@ -103,9 +105,9 @@ func getEnvironment(validate support.Validator) support.Environment {
 		Network: net,
 	}
 
-	if _, err := validate.Rejects(env); err != nil {
-		panic(errorSufix + "invalid env values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(blog); err != nil {
+		panic(errorSufix + "invalid blog environment model: " + validate.GetErrorsAsJason())
 	}
 
-	return env
+	return blog
 }

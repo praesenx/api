@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/support"
 	_ "github.com/lib/pq"
 	"log/slog"
@@ -10,7 +11,7 @@ import (
 
 const dbDriverName = "postgres"
 
-var environment support.Environment
+var environment env.Environment
 var verifier *support.Validator
 
 func init() {
@@ -38,6 +39,6 @@ func main() {
 
 	if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {
 		slog.Error("Error starting server", "error", err)
-		panic("Error starting server.")
+		panic("Error starting server." + err.Error())
 	}
 }
