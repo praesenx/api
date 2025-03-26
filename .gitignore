@@ -9,22 +9,20 @@ go.work
 go.work.sum
 .idea
 
-# --- air
-tmp
-app/tmp
-
-# --- Storage
-app/storage/logs/*.*
-storage/logs/*.*
-!app/storage/logs/.gitkeep
-!storage/logs/.gitkeep
-
 # --- app
 .env
 database/data
 
 # --- build
 bin
-bin/storage/*.*
 !bin/.gitkeep
+
+# --- air
+tmp
+app/tmp
+
+# --- Storage
+app/storage/logs/*.*
+bin/storage/*.*
+!app/storage/logs/.gitkeep
 !bin/storage/logs/.gitkeep
