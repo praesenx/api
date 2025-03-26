@@ -22,7 +22,7 @@ services:
       POSTGRES_DB: ${ENV_DB_DATABASE_NAME}
       POSTGRES_PASSWORD: ${ENV_DB_USER_PASSWORD}
     ports:
-      - "${ENV_DB_PORT_SECONDARY}:${ENV_DB_PORT}"
+      - "${ENV_DB_PORT}:${ENV_DB_PORT}"
     volumes:
         - ./database/data:/var/lib/postgresql/data
         - ./database/ssl/server.crt:/etc/ssl/certs/server.crt

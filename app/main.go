@@ -29,6 +29,8 @@ func main() {
 	defer (*logsDriver).Close()
 	defer (*dbConnection).Close()
 
+	(*dbConnection).Ping()
+
 	mux := http.NewServeMux()
 	router := getRouter(mux, logsDriver)
 
