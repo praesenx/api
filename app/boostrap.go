@@ -81,11 +81,11 @@ func getEnvironment(validate support.Validator) env.Environment {
 		panic(errorSufix + "invalid app model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err = validate.Rejects(app); err != nil {
+	if _, err = validate.Rejects(db); err != nil {
 		panic(errorSufix + "invalid db model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err = validate.Rejects(app); err != nil {
+	if _, err = validate.Rejects(globalAdmin); err != nil {
 		panic(errorSufix + "invalid global admin model: " + validate.GetErrorsAsJason())
 	}
 
@@ -97,7 +97,7 @@ func getEnvironment(validate support.Validator) env.Environment {
 		panic(errorSufix + "invalid network model: " + validate.GetErrorsAsJason())
 	}
 
-	environment := env.Environment{
+	blog := env.Environment{
 		App:     app,
 		DB:      db,
 		Admin:   globalAdmin,
@@ -105,9 +105,9 @@ func getEnvironment(validate support.Validator) env.Environment {
 		Network: net,
 	}
 
-	if _, err = validate.Rejects(environment); err != nil {
-		panic(errorSufix + "invalid environment model: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(blog); err != nil {
+		panic(errorSufix + "invalid blog environment model: " + validate.GetErrorsAsJason())
 	}
 
-	return environment
+	return blog
 }
