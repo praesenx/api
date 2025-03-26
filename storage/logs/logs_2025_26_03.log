@@ -1,4 +1,0 @@
-time=2025-03-26T12:38:56.275+08:00 level=INFO msg="GORM DSN :host=localhost users=gocanto-user password=gocanto-password dbname=gocanto-db port=5432 sslmode=enabled TimeZone=Asia/Singapore"
-time=2025-03-26T12:38:56.275+08:00 level=INFO msg="Starting new server on :8080"
-time=2025-03-26T12:41:26.070+08:00 level=INFO msg="GORM DSN :host=localhost users=gocanto-user password=gocanto-password dbname=gocanto-db port=5432 sslmode=enabled TimeZone=Asia/Singapore"
-time=2025-03-26T12:41:26.070+08:00 level=INFO msg="Starting new server on :8080"

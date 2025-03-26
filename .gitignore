@@ -13,10 +13,14 @@ go.work.sum
 tmp
 app/tmp
 
+# --- Storage
+app/storage/logs/*.*
+storage/logs/*.*
+!app/storage/logs/.gitkeep
+!storage/logs/.gitkeep
+
 # --- app
 .env
-app/storage/logs/*.*
-!app/storage/logs/.gitkeep
 database/data
 
 # --- build
