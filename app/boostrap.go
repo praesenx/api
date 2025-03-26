@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/database"
+	environment2 "github.com/gocanto/blog/app/environment"
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
@@ -28,7 +29,7 @@ func getLogsDriver() *contracts.LogsDriver {
 	return &lDriver
 }
 
-func getEnvironment(validate support.Validator) support.Environment {
+func getEnvironment(validate support.Validator) environment2.Environment {
 	errorSufix := "Environment: "
 
 	values, err := godotenv.Read("./../.env")
@@ -40,12 +41,12 @@ func getEnvironment(validate support.Validator) support.Environment {
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
 	portSecondary, _ := strconv.Atoi(values["ENV_DB_PORT_SECONDARY"])
 
-	app := support.AppEnvironment{
+	app := environment2.AppEnvironment{
 		Name: values["ENV_APP_NAME"],
 		Type: values["ENV_APP_ENV_TYPE"],
 	}
 
-	db := support.DBEnvironment{
+	db := environment2.DBEnvironment{
 		UserName:      values["ENV_DB_USER_NAME"],
 		UserPassword:  values["ENV_DB_USER_PASSWORD"],
 		DatabaseName:  values["ENV_DB_DATABASE_NAME"],
@@ -59,18 +60,18 @@ func getEnvironment(validate support.Validator) support.Environment {
 		TimeZone:      values["ENV_DB_TIMEZONE"],
 	}
 
-	globalAdmin := support.GlobalAdmin{
+	globalAdmin := environment2.GlobalAdmin{
 		Salt:  values["ENV_APP_ADMIN_USER_TOKEN_SALT"],
 		Token: values["ENV_APP_ADMIN_USER_TOKEN"],
 	}
 
-	logs := support.LogsEnvironment{
+	logs := environment2.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
 	}
 
-	net := support.NetEnvironment{
+	net := environment2.NetEnvironment{
 		HttpHost: values["ENV_HTTP_HOST"],
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
@@ -95,7 +96,7 @@ func getEnvironment(validate support.Validator) support.Environment {
 		panic(errorSufix + "invalid network values: " + validate.GetErrorsAsJason())
 	}
 
-	env := support.Environment{
+	env := environment2.Environment{
 		App:     app,
 		DB:      db,
 		Admin:   globalAdmin,

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-playground/validator/v10"
+	environment2 "github.com/gocanto/blog/app/environment"
 	"github.com/gocanto/blog/app/support"
 	_ "github.com/lib/pq"
 	"log/slog"
@@ -10,7 +11,7 @@ import (
 
 const dbDriverName = "postgres"
 
-var environment support.Environment
+var environment environment2.Environment
 var verifier *support.Validator
 
 func init() {
