@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gocanto/blog/app/contracts"
 	"github.com/gocanto/blog/app/database"
-	environment2 "github.com/gocanto/blog/app/environment"
+	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
@@ -29,7 +29,7 @@ func getLogsDriver() *contracts.LogsDriver {
 	return &lDriver
 }
 
-func getEnvironment(validate support.Validator) environment2.Environment {
+func getEnvironment(validate support.Validator) env.Environment {
 	errorSufix := "Environment: "
 
 	values, err := godotenv.Read("./../.env")
@@ -41,12 +41,12 @@ func getEnvironment(validate support.Validator) environment2.Environment {
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
 	portSecondary, _ := strconv.Atoi(values["ENV_DB_PORT_SECONDARY"])
 
-	app := environment2.AppEnvironment{
+	app := env.AppEnvironment{
 		Name: values["ENV_APP_NAME"],
 		Type: values["ENV_APP_ENV_TYPE"],
 	}
 
-	db := environment2.DBEnvironment{
+	db := env.DBEnvironment{
 		UserName:      values["ENV_DB_USER_NAME"],
 		UserPassword:  values["ENV_DB_USER_PASSWORD"],
 		DatabaseName:  values["ENV_DB_DATABASE_NAME"],
@@ -60,43 +60,43 @@ func getEnvironment(validate support.Validator) environment2.Environment {
 		TimeZone:      values["ENV_DB_TIMEZONE"],
 	}
 
-	globalAdmin := environment2.GlobalAdmin{
+	globalAdmin := env.GlobalAdmin{
 		Salt:  values["ENV_APP_ADMIN_USER_TOKEN_SALT"],
 		Token: values["ENV_APP_ADMIN_USER_TOKEN"],
 	}
 
-	logs := environment2.LogsEnvironment{
+	logs := env.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
 	}
 
-	net := environment2.NetEnvironment{
+	net := env.NetEnvironment{
 		HttpHost: values["ENV_HTTP_HOST"],
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid app values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(app); err != nil {
+		panic(errorSufix + "invalid app model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid db values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(app); err != nil {
+		panic(errorSufix + "invalid db model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid global admin values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(app); err != nil {
+		panic(errorSufix + "invalid global admin model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(logs); err != nil {
-		panic(errorSufix + "invalid logs values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(logs); err != nil {
+		panic(errorSufix + "invalid logs model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(net); err != nil {
-		panic(errorSufix + "invalid network values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(net); err != nil {
+		panic(errorSufix + "invalid network model: " + validate.GetErrorsAsJason())
 	}
 
-	env := environment2.Environment{
+	environment := env.Environment{
 		App:     app,
 		DB:      db,
 		Admin:   globalAdmin,
@@ -104,9 +104,9 @@ func getEnvironment(validate support.Validator) environment2.Environment {
 		Network: net,
 	}
 
-	if _, err := validate.Rejects(env); err != nil {
-		panic(errorSufix + "invalid env values: " + validate.GetErrorsAsJason())
+	if _, err = validate.Rejects(environment); err != nil {
+		panic(errorSufix + "invalid environment model: " + validate.GetErrorsAsJason())
 	}
 
-	return env
+	return environment
 }

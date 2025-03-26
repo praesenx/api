@@ -3,7 +3,7 @@ package support
 import (
 	"fmt"
 	"github.com/gocanto/blog/app/contracts"
-	"github.com/gocanto/blog/app/environment"
+	"github.com/gocanto/blog/app/env"
 	"log/slog"
 	"os"
 	"time"
@@ -13,10 +13,10 @@ type FileLog struct {
 	path            string
 	file            *os.File
 	logger          *slog.Logger
-	LogsEnvironment environment.LogsEnvironment
+	LogsEnvironment env.LogsEnvironment
 }
 
-func MakeDefaultFileLogs(environment environment.LogsEnvironment) (contracts.LogsDriver, error) {
+func MakeDefaultFileLogs(environment env.LogsEnvironment) (contracts.LogsDriver, error) {
 	file := FileLog{}
 	file.LogsEnvironment = environment
 	file.path = file.DefaultPath()
