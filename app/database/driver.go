@@ -1,9 +1,11 @@
 package database
 
-import "database/sql"
+import (
+	"gorm.io/gorm"
+)
 
 type Driver interface {
 	Ping()
 	Close() bool
-	Driver() *sql.DB
+	Driver() *gorm.DB
 }

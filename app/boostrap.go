@@ -11,7 +11,7 @@ import (
 )
 
 func getDatabaseConnection() *database.Driver {
-	dbConn, err := database.MakeConnection(environment)
+	dbConn, err := database.MakeDbConnection(environment)
 
 	if err != nil {
 		panic("DB: error connecting to PostgreSQL: " + err.Error())
@@ -40,7 +40,6 @@ func getEnvironment(validate support.Validator) env.Environment {
 	}
 
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
-	portSecondary, _ := strconv.Atoi(values["ENV_DB_PORT_SECONDARY"])
 
 	app := env.AppEnvironment{
 		Name: values["ENV_APP_NAME"],
@@ -48,17 +47,16 @@ func getEnvironment(validate support.Validator) env.Environment {
 	}
 
 	db := env.DBEnvironment{
-		UserName:      values["ENV_DB_USER_NAME"],
-		UserPassword:  values["ENV_DB_USER_PASSWORD"],
-		DatabaseName:  values["ENV_DB_DATABASE_NAME"],
-		Port:          port,
-		PortSecondary: portSecondary,
-		Host:          values["ENV_DB_HOST"],
-		DriverName:    dbDriverName,
-		BinDir:        values["EN_DB_BIN_DIR"],
-		URL:           values["ENV_DB_URL"],
-		SSLMode:       values["ENV_DB_SSL_MODE"],
-		TimeZone:      values["ENV_DB_TIMEZONE"],
+		UserName:     values["ENV_DB_USER_NAME"],
+		UserPassword: values["ENV_DB_USER_PASSWORD"],
+		DatabaseName: values["ENV_DB_DATABASE_NAME"],
+		Port:         port,
+		Host:         values["ENV_DB_HOST"],
+		DriverName:   dbDriverName,
+		BinDir:       values["EN_DB_BIN_DIR"],
+		URL:          values["ENV_DB_URL"],
+		SSLMode:      values["ENV_DB_SSL_MODE"],
+		TimeZone:     values["ENV_DB_TIMEZONE"],
 	}
 
 	globalAdmin := env.GlobalAdmin{

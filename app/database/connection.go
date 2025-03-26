@@ -4,49 +4,71 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/gocanto/blog/app/env"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"log/slog"
 )
 
 type Connection struct {
-	url         string
-	driver      *sql.DB
-	driverName  string
-	environment env.Environment
+	url        string
+	driverName string
+	driver     *gorm.DB
+	env        env.Environment
 }
 
-func MakeConnection(environment env.Environment) (Driver, error) {
-	dbEnv := environment.DB
-	driver, err := sql.Open(dbEnv.DriverName, dbEnv.URL)
+func MakeDbConnection(env env.Environment) (Driver, error) {
+	dbEnv := env.DB
+	driver, err := gorm.Open(postgres.Open(dbEnv.GetDSN()), &gorm.Config{})
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &Connection{
-		url:         dbEnv.URL,
-		driver:      driver,
-		driverName:  dbEnv.DriverName,
-		environment: environment,
+		url:        dbEnv.URL,
+		driver:     driver,
+		driverName: dbEnv.DriverName,
+		env:        env,
 	}, nil
 }
 
 func (receiver *Connection) Close() bool {
-	if err := receiver.driver.Close(); err != nil {
+	if sqlDB, err := receiver.driver.DB(); err != nil {
 		slog.Error("There was an error closing the db: " + err.Error())
 
 		return false
+	} else {
+		if err = sqlDB.Close(); err != nil {
+			slog.Error("There was an error closing the db: " + err.Error())
+			return false
+		}
 	}
 
 	return true
 }
 
 func (receiver *Connection) Ping() {
-	if err := receiver.driver.Ping(); err != nil {
-		fmt.Println(fmt.Sprintf("There was an error pinging the db: %v", err.Error()))
+	var driver *sql.DB
+
+	fmt.Println("\n---------")
+
+	if conn, err := receiver.driver.DB(); err != nil {
+		fmt.Println(fmt.Sprintf("error retrieving the db driver: %v", err.Error()))
+
+		return
+	} else {
+		driver = conn
+		fmt.Println(fmt.Sprintf("db driver adquired: %T", driver))
 	}
 
-	fmt.Println("DB Connected ....")
+	if err := driver.Ping(); err != nil {
+		slog.Error("error pinging the db driver: " + err.Error())
+	}
+
+	fmt.Println(fmt.Sprintf("db driver is healthy: %+v", driver.Stats()))
+
+	fmt.Println("---------")
 }
-func (receiver *Connection) Driver() *sql.DB {
+func (receiver *Connection) Driver() *gorm.DB {
 	return receiver.driver
 }
