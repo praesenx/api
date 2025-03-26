@@ -63,6 +63,7 @@ watch:
 
 build\:app:
 	make logs:bin:fresh && \
+	rm -f $(ROOT_PATH)/bin/app && \
 	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/app" -tags '$(DATABASE) $(SOURCE)' $(APP_PATH)
 
 build\:app\:linux:
