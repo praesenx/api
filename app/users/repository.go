@@ -15,6 +15,6 @@ func MakeRepository(connection *database.Driver) *Repository {
 	}
 }
 
-func (r Repository) Create(attr CreateUsersRequestBag) (error, CreatedUser) {
+func (r Repository) Create(attr CreateRequestBag) (error, CreatedUser) {
 	return nil, CreatedUser{}
 }
