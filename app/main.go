@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/go-playground/validator/v10"
+	baseValidator "github.com/go-playground/validator/v10"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/support"
 	_ "github.com/lib/pq"
@@ -12,31 +12,35 @@ import (
 const dbDriverName = "postgres"
 
 var environment env.Environment
-var verifier *support.Validator
+var validator *support.Validator
 
 func init() {
-	verifier := support.MakeValidatorFrom(validator.New(
-		validator.WithRequiredStructEnabled(),
+	val := support.MakeValidatorFrom(baseValidator.New(
+		baseValidator.WithRequiredStructEnabled(),
 	))
 
-	environment = getEnvironment(*verifier)
+	environment = resolveEnv(val)
+	validator = val
 }
 
 func main() {
-	dbConnection := getDatabaseConnection()
-	logsDriver := getLogsDriver()
+	orm := makeORM(&environment)
+	logs := makeLogs(&environment)
 
-	defer (*logsDriver).Close()
-	defer (*dbConnection).Close()
-
-	(*dbConnection).Ping()
+	defer (*logs).Close()
+	defer (*orm).Close()
 
 	mux := http.NewServeMux()
-	router := getRouter(mux, logsDriver)
 
-	router.registerUsers(dbConnection)
+	router := makeRouter(mux, &environment, &Container{
+		logs:      logs,
+		orm:       orm,
+		validator: validator,
+	})
 
-	slog.Info("GORM DSN :" + environment.DB.GetDSN())
+	router.registerUsers()
+
+	(*orm).Ping()
 	slog.Info("Starting new server on :" + environment.Network.HttpPort)
 
 	if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {

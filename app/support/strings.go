@@ -1,6 +1,7 @@
 package support
 
 import (
+	"fmt"
 	"strings"
 	"unicode"
 )
@@ -30,4 +31,8 @@ func (receiver Stringable) ToSnakeCase() string {
 	}
 
 	return result.String()
+}
+
+func (receiver Stringable) DD(abstract interface{}) {
+	fmt.Println(fmt.Sprintf("dd: %+v", abstract))
 }

@@ -10,18 +10,19 @@ import (
 )
 
 type FilesManager struct {
-	path            string
-	file            *os.File
-	logger          *slog.Logger
-	LogsEnvironment env.LogsEnvironment
+	path   string
+	file   *os.File
+	logger *slog.Logger
+	env    *env.Environment
 }
 
-func MakeFilesManager(environment env.LogsEnvironment) (logger.Managers, error) {
+func MakeFilesManager(env *env.Environment) (logger.Managers, error) {
 	manager := FilesManager{}
-	manager.LogsEnvironment = environment
-	manager.path = manager.DefaultPath()
+	manager.env = env
 
+	manager.path = manager.DefaultPath()
 	resource, err := os.OpenFile(manager.path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
 	if err != nil {
 		return FilesManager{}, err
 	}
@@ -35,8 +36,8 @@ func MakeFilesManager(environment env.LogsEnvironment) (logger.Managers, error) 
 	return manager, nil
 }
 
-func (receiver FilesManager) DefaultPath() string {
-	logsEnvironment := receiver.LogsEnvironment
+func (manager FilesManager) DefaultPath() string {
+	logsEnvironment := manager.env.Logs
 
 	return fmt.Sprintf(
 		logsEnvironment.Dir,
@@ -44,9 +45,9 @@ func (receiver FilesManager) DefaultPath() string {
 	)
 }
 
-func (receiver FilesManager) Close() bool {
-	if err := receiver.file.Close(); err != nil {
-		receiver.logger.Error("error closing file: " + err.Error())
+func (manager FilesManager) Close() bool {
+	if err := manager.file.Close(); err != nil {
+		manager.logger.Error("error closing file: " + err.Error())
 
 		return false
 	}

@@ -2,6 +2,10 @@ package env
 
 import "fmt"
 
+const local = "local"
+const staging = "staging"
+const production = "production"
+
 type Environment struct {
 	App     AppEnvironment
 	DB      DBEnvironment
@@ -10,14 +14,14 @@ type Environment struct {
 	Network NetEnvironment
 }
 
-type NetEnvironment struct {
-	HttpHost string `validate:"required,lowercase,min=8"`
-	HttpPort string `validate:"required,numeric,oneof=8080"`
-}
-
 type AppEnvironment struct {
 	Name string `validate:"required,min=4"`
 	Type string `validate:"required,lowercase,oneof=local production staging"`
+}
+
+type NetEnvironment struct {
+	HttpHost string `validate:"required,lowercase,min=8"`
+	HttpPort string `validate:"required,numeric,oneof=8080"`
 }
 
 type LogsEnvironment struct {
@@ -69,4 +73,16 @@ func (e DBEnvironment) GetDSN() string {
 		e.SSLMode,
 		e.TimeZone,
 	)
+}
+
+func (e Environment) isProduction() bool {
+	return e.App.Type == production
+}
+
+func (e Environment) isStaging() bool {
+	return e.App.Type == staging
+}
+
+func (e Environment) isLocal() bool {
+	return e.App.Type == local
 }

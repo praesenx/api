@@ -6,9 +6,10 @@ import (
 
 type Repository struct {
 	Connection *database.Driver
+	User       *database.User
 }
 
-func NewRepository(connection *database.Driver) *Repository {
+func MakeRepository(connection *database.Driver) *Repository {
 	return &Repository{
 		Connection: connection,
 	}

@@ -10,8 +10,8 @@ import (
 	"strconv"
 )
 
-func getDatabaseConnection() *database.Driver {
-	dbConn, err := database.MakeDbConnection(environment)
+func makeORM(env *env.Environment) *database.Driver {
+	dbConn, err := database.MakeORM(env)
 
 	if err != nil {
 		panic("DB: error connecting to PostgreSQL: " + err.Error())
@@ -20,8 +20,8 @@ func getDatabaseConnection() *database.Driver {
 	return &dbConn
 }
 
-func getLogsDriver() *logger.Managers {
-	lDriver, err := filesmanager.MakeFilesManager(environment.Logs)
+func makeLogs(env *env.Environment) *logger.Managers {
+	lDriver, err := filesmanager.MakeFilesManager(env)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
@@ -30,7 +30,7 @@ func getLogsDriver() *logger.Managers {
 	return &lDriver
 }
 
-func getEnvironment(validate support.Validator) env.Environment {
+func resolveEnv(validate *support.Validator) env.Environment {
 	errorSufix := "Environment: "
 
 	values, err := godotenv.Read("./../.env")
@@ -74,6 +74,8 @@ func getEnvironment(validate support.Validator) env.Environment {
 		HttpHost: values["ENV_HTTP_HOST"],
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
+
+	//validate := verifier
 
 	if _, err = validate.Rejects(app); err != nil {
 		panic(errorSufix + "invalid app model: " + validate.GetErrorsAsJason())

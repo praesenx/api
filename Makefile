@@ -116,7 +116,10 @@ db\:secure:
 	openssl genpkey -algorithm RSA -out $(DB_SERVER_KEY) && \
     openssl req -new -key $(DB_SERVER_KEY) -out $(DB_SERVER_CSR) && \
     openssl x509 -req -days 365 -in $(DB_SERVER_CSR) -signkey $(DB_SERVER_KEY) -out $(DB_SERVER_CRT) && \
-    chmod 600 $(DB_SERVER_KEY) && chmod 600 $(DB_SERVER_CRT)
+    make db:secure:permissions
+
+db\:secure\:permissions:
+	chmod 600 $(DB_SERVER_KEY) && chmod 600 $(DB_SERVER_CRT)
 
 db\:secure\:show::
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
@@ -154,6 +157,7 @@ endef
 .PHONY: fresh audit watch
 .PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
 .PHONY: env\:init
-.PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs db\:delete db\:secure db\:secure\:show
+.PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
+.PHONY: db\:delete db\:secure db\:secure\:show db\:secure\:permissions
 .PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
 .PHONY: logs\:fresh logs\:bin\:fresh
