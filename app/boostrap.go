@@ -30,7 +30,7 @@ func makeLogs(env *env.Environment) *logger.Managers {
 	return &lDriver
 }
 
-func resolveEnv(validate *support.Validator) env.Environment {
+func makeEnv(validate *support.Validator) *env.Environment {
 	errorSufix := "Environment: "
 
 	values, err := godotenv.Read("./../.env")
@@ -52,7 +52,7 @@ func resolveEnv(validate *support.Validator) env.Environment {
 		DatabaseName: values["ENV_DB_DATABASE_NAME"],
 		Port:         port,
 		Host:         values["ENV_DB_HOST"],
-		DriverName:   dbDriverName,
+		DriverName:   "postgres",
 		BinDir:       values["EN_DB_BIN_DIR"],
 		URL:          values["ENV_DB_URL"],
 		SSLMode:      values["ENV_DB_SSL_MODE"],
@@ -75,8 +75,6 @@ func resolveEnv(validate *support.Validator) env.Environment {
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	//validate := verifier
-
 	if _, err = validate.Rejects(app); err != nil {
 		panic(errorSufix + "invalid app model: " + validate.GetErrorsAsJason())
 	}
@@ -97,7 +95,7 @@ func resolveEnv(validate *support.Validator) env.Environment {
 		panic(errorSufix + "invalid network model: " + validate.GetErrorsAsJason())
 	}
 
-	blog := env.Environment{
+	blog := &env.Environment{
 		App:     app,
 		DB:      db,
 		Admin:   globalAdmin,

@@ -9,9 +9,7 @@ import (
 	"net/http"
 )
 
-const dbDriverName = "postgres"
-
-var environment env.Environment
+var environment *env.Environment
 var validator *support.Validator
 
 func init() {
@@ -19,20 +17,20 @@ func init() {
 		baseValidator.WithRequiredStructEnabled(),
 	))
 
-	environment = resolveEnv(val)
+	environment = makeEnv(val)
 	validator = val
 }
 
 func main() {
-	orm := makeORM(&environment)
-	logs := makeLogs(&environment)
+	orm := makeORM(environment)
+	logs := makeLogs(environment)
 
 	defer (*logs).Close()
 	defer (*orm).Close()
 
 	mux := http.NewServeMux()
 
-	router := makeRouter(mux, &environment, &Container{
+	router := makeRouter(mux, environment, &Container{
 		logs:      logs,
 		orm:       orm,
 		validator: validator,

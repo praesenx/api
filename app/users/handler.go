@@ -2,14 +2,12 @@ package users
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/gocanto/blog/app/support"
 	"io"
 	"log/slog"
 	"net/http"
 )
 
-func (current Handler) create(w http.ResponseWriter, r *http.Request) {
+func (handler Handler) create(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 
 	if err != nil {
@@ -31,16 +29,7 @@ func (current Handler) create(w http.ResponseWriter, r *http.Request) {
 		"data": json.RawMessage(body),
 	}
 
-	//foo := *(current.Validator)
-
-	//stringable := support.MakeStringable("users")
-	//stringable.DD(
-	//	foo.GetErrors(),
-	//)
-
-	//v := current.Validator
-	v := support.MakeValidator()
-	fmt.Printf("Handler Validator: %v\n", current.Validator)
+	v := handler.Validator
 
 	if _, err := v.Rejects(requestBag); err != nil {
 		payload["message"] = err.Error()
