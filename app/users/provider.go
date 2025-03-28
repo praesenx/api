@@ -1,28 +1,26 @@
 package users
 
 import (
+	"github.com/gocanto/blog/app/reponse"
 	"github.com/gocanto/blog/app/support"
 	"net/http"
 )
 
 type Provider struct {
-	repository   *Repository
-	validator    *support.Validator
-	usersHandler Handler
+	usersHandler *Handler
 }
 
-func RegisterProvider(repository *Repository, validator *support.Validator) *Provider {
+func MakeProvider(repository *Repository, validator *support.Validator) *Provider {
 	return &Provider{
-		repository: repository,
-		validator:  validator,
-		usersHandler: Handler{
+		usersHandler: &Handler{
 			Validator:  validator,
 			Repository: repository,
 		},
 	}
 }
 
-// Register users routes
-func (p *Provider) Register(mux *http.ServeMux) {
-	mux.HandleFunc("POST /users", (*p).usersHandler.create)
+func (provider *Provider) Register(mux *http.ServeMux) {
+	mux.HandleFunc("POST /users", reponse.CreateHandle(
+		provider.usersHandler.create,
+	))
 }

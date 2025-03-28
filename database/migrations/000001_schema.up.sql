@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     email varchar(250) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     token varchar(250) NOT NULL,
+    token_salt varchar(250) NOT NULL,
     bio TEXT,
     profile_picture_url VARCHAR(2048),
     is_admin BOOLEAN DEFAULT FALSE,

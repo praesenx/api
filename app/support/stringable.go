@@ -1,6 +1,7 @@
 package support
 
 import (
+	"fmt"
 	"strings"
 	"unicode"
 )
@@ -15,10 +16,10 @@ func MakeStringable(value string) *Stringable {
 	}
 }
 
-func (receiver Stringable) ToSnakeCase() string {
+func (s Stringable) ToSnakeCase() string {
 	var result strings.Builder
 
-	for i, r := range receiver.value {
+	for i, r := range s.value {
 		if unicode.IsUpper(r) {
 			if i > 0 {
 				result.WriteByte('_')
@@ -30,4 +31,8 @@ func (receiver Stringable) ToSnakeCase() string {
 	}
 
 	return result.String()
+}
+
+func (s Stringable) Dd(abstract any) {
+	fmt.Println(fmt.Sprintf("dd: %+v", abstract))
 }

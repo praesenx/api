@@ -15,6 +15,7 @@ type User struct {
 	Email             string         `gorm:"type:varchar(250);unique;not null"`
 	PasswordHash      string         `gorm:"type:varchar(255);not null"`
 	Token             string         `gorm:"type:varchar(250);not null;index:idx_users_token"`
+	TokenSalt         string         `gorm:"type:varchar(250);not null"`
 	Bio               string         `gorm:"type:text"`
 	ProfilePictureURL string         `gorm:"type:varchar(2048)"`
 	IsAdmin           bool           `gorm:"default:false"`

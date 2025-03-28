@@ -4,24 +4,23 @@ import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/logger"
-	"github.com/gocanto/blog/app/logger/filesmanager"
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
 )
 
-func getDatabaseConnection() *database.Driver {
-	dbConn, err := database.MakeDbConnection(environment)
+func makeORM(env *env.Environment) *database.Orm {
+	dbConn, err := database.MakeORM(env)
 
 	if err != nil {
 		panic("DB: error connecting to PostgreSQL: " + err.Error())
 	}
 
-	return &dbConn
+	return dbConn
 }
 
-func getLogsDriver() *logger.Managers {
-	lDriver, err := filesmanager.MakeFilesManager(environment.Logs)
+func makeLogs(env *env.Environment) *logger.Managers {
+	lDriver, err := logger.MakeFilesManager(env)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
@@ -30,7 +29,7 @@ func getLogsDriver() *logger.Managers {
 	return &lDriver
 }
 
-func getEnvironment(validate support.Validator) env.Environment {
+func makeEnv(validate *support.Validator) *env.Environment {
 	errorSufix := "Environment: "
 
 	values, err := godotenv.Read("./../.env")
@@ -52,7 +51,7 @@ func getEnvironment(validate support.Validator) env.Environment {
 		DatabaseName: values["ENV_DB_DATABASE_NAME"],
 		Port:         port,
 		Host:         values["ENV_DB_HOST"],
-		DriverName:   dbDriverName,
+		DriverName:   "postgres",
 		BinDir:       values["EN_DB_BIN_DIR"],
 		URL:          values["ENV_DB_URL"],
 		SSLMode:      values["ENV_DB_SSL_MODE"],
@@ -95,7 +94,7 @@ func getEnvironment(validate support.Validator) env.Environment {
 		panic(errorSufix + "invalid network model: " + validate.GetErrorsAsJason())
 	}
 
-	blog := env.Environment{
+	blog := &env.Environment{
 		App:     app,
 		DB:      db,
 		Admin:   globalAdmin,
