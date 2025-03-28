@@ -38,8 +38,14 @@ func (handler Handler) create(w http.ResponseWriter, r *http.Request) *reponse.R
 		return reponse.MakeValidationError("Validation failed", validate.GetErrors(), err)
 	}
 
+	_, err = handler.Repository.Create(requestBag)
+
+	if err != nil {
+		return reponse.MakeInternalServerError("There was an issue saving the users", err)
+	}
+
 	payload := map[string]any{
-		"message": "User created successfully",
+		"message": "User created successfully!",
 		"data":    json.RawMessage(body),
 	}
 
