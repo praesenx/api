@@ -1,9 +1,8 @@
-package filesmanager
+package logger
 
 import (
 	"fmt"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/logger"
 	"log/slog"
 	"os"
 	"time"
@@ -16,7 +15,7 @@ type FilesManager struct {
 	env    *env.Environment
 }
 
-func MakeFilesManager(env *env.Environment) (logger.Managers, error) {
+func MakeFilesManager(env *env.Environment) (Managers, error) {
 	manager := FilesManager{}
 	manager.env = env
 

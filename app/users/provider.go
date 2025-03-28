@@ -1,8 +1,9 @@
 package users
 
 import (
+	"github.com/gocanto/blog/app/reponse"
 	"github.com/gocanto/blog/app/support"
-	"net/http"
+	baseHttp "net/http"
 )
 
 type Provider struct {
@@ -18,6 +19,8 @@ func MakeProvider(repository *Repository, validator *support.Validator) *Provide
 	}
 }
 
-func (provider *Provider) Register(mux *http.ServeMux) {
-	mux.HandleFunc("POST /users", provider.usersHandler.create)
+func (provider *Provider) Register(mux *baseHttp.ServeMux) {
+	mux.HandleFunc("POST /users", reponse.CreateHandle(
+		provider.usersHandler.create,
+	))
 }

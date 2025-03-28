@@ -4,7 +4,6 @@ import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/logger"
-	"github.com/gocanto/blog/app/logger/filesmanager"
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
@@ -21,7 +20,7 @@ func makeORM(env *env.Environment) *database.Driver {
 }
 
 func makeLogs(env *env.Environment) *logger.Managers {
-	lDriver, err := filesmanager.MakeFilesManager(env)
+	lDriver, err := logger.MakeFilesManager(env)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
