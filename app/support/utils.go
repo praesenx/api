@@ -2,12 +2,12 @@ package support
 
 import (
 	"log/slog"
-	baseHttp "net/http"
+	"net/http"
 )
 
-func CloseRequestBody(r *baseHttp.Request) func() {
+func CloseRequestBody(request *http.Request) func() {
 	return func() {
-		if err := r.Body.Close(); err != nil {
+		if err := request.Body.Close(); err != nil {
 			slog.Warn("Error closing request body", "error", err)
 		}
 	}

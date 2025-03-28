@@ -5,7 +5,7 @@ import (
 	"github.com/gocanto/blog/app/reponse"
 	"github.com/gocanto/blog/app/support"
 	"io"
-	baseHttp "net/http"
+	"net/http"
 )
 
 type CreateRequestBag struct {
@@ -20,7 +20,7 @@ type CreateRequestBag struct {
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
 }
 
-func (handler Handler) create(w baseHttp.ResponseWriter, r *baseHttp.Request) *reponse.ResponseError {
+func (handler Handler) create(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
 	body, err := io.ReadAll(r.Body)
 	defer support.CloseRequestBody(r)
 
@@ -43,5 +43,5 @@ func (handler Handler) create(w baseHttp.ResponseWriter, r *baseHttp.Request) *r
 		"data":    json.RawMessage(body),
 	}
 
-	return reponse.SendJSON(w, baseHttp.StatusCreated, payload)
+	return reponse.SendJSON(w, http.StatusCreated, payload)
 }
