@@ -19,6 +19,11 @@ func MakeRepository(model *database.Orm) *Repository {
 }
 
 func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
+	password, err := MakePassword(attr.Password)
+	if err != nil {
+		return nil, err
+	}
+
 	user := &database.User{
 		UUID:              uuid.New().String(),
 		FirstName:         attr.FirstName,
@@ -26,7 +31,7 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 		Username:          attr.Username,
 		DisplayName:       attr.DisplayName,
 		Email:             attr.Email,
-		PasswordHash:      "asassas",
+		PasswordHash:      password.GetHash(),
 		Token:             "gocanto",
 		Bio:               attr.Bio,
 		ProfilePictureURL: attr.ProfilePictureURL,
