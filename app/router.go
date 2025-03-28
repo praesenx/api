@@ -31,7 +31,7 @@ func makeRouter(mux *http.ServeMux, env *env.Environment, container *Container) 
 
 func (router Router) registerUsers() {
 	provider := users.MakeProvider(
-		users.MakeRepository(router.container.orm),
+		users.MakeRepository(router.container.orm, router.env.Admin),
 		router.container.validator,
 	)
 

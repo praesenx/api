@@ -3,6 +3,7 @@ package users
 import (
 	"errors"
 	"github.com/gocanto/blog/app/database"
+	"github.com/gocanto/blog/app/env"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"strings"
@@ -10,11 +11,13 @@ import (
 
 type Repository struct {
 	model *database.Orm
+	admin env.GlobalAdmin
 }
 
-func MakeRepository(model *database.Orm) *Repository {
+func MakeRepository(model *database.Orm, admin env.GlobalAdmin) *Repository {
 	return &Repository{
 		model: model,
+		admin: admin,
 	}
 }
 
@@ -32,7 +35,8 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 		DisplayName:       attr.DisplayName,
 		Email:             attr.Email,
 		PasswordHash:      password.GetHash(),
-		Token:             "gocanto",
+		Token:             r.admin.Token, // sha256
+		TokenSalt:         r.admin.Salt,
 		Bio:               attr.Bio,
 		ProfilePictureURL: attr.ProfilePictureURL,
 	}
