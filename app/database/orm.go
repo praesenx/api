@@ -16,7 +16,7 @@ type Orm struct {
 	env        *env.Environment
 }
 
-func MakeORM(env *env.Environment) (Driver, error) {
+func MakeORM(env *env.Environment) (*Orm, error) {
 	dbEnv := env.DB
 	driver, err := gorm.Open(postgres.Open(dbEnv.GetDSN()), &gorm.Config{})
 
@@ -69,6 +69,7 @@ func (receiver *Orm) Ping() {
 
 	fmt.Println("---------")
 }
-func (receiver *Orm) Driver() *gorm.DB {
+
+func (receiver *Orm) DB() *gorm.DB {
 	return receiver.driver
 }

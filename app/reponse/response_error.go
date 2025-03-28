@@ -33,7 +33,7 @@ func MakeInternalServerError(message string, err error) *ResponseError {
 
 func MakeValidationError(message string, validationErrors map[string]any, err error) *ResponseError {
 	return &ResponseError{
-		Code:             http.StatusBadRequest,
+		Code:             http.StatusForbidden,
 		Message:          message,
 		Err:              err,
 		ValidationErrors: validationErrors,

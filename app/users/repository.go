@@ -1,18 +1,20 @@
 package users
 
 import (
+	"errors"
 	"github.com/gocanto/blog/app/database"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"strings"
 )
 
 type Repository struct {
-	Connection *database.Driver
-	User       *database.User
+	model *database.Orm
 }
 
-func MakeRepository(connection *database.Driver) *Repository {
+func MakeRepository(model *database.Orm) *Repository {
 	return &Repository{
-		Connection: connection,
+		model: model,
 	}
 }
 
@@ -30,12 +32,31 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 		ProfilePictureURL: attr.ProfilePictureURL,
 	}
 
-	orm := *r.Connection
-	result := orm.Driver().Create(&user)
+	result := r.model.DB().Create(&user)
 
 	if result.Error != nil {
 		return nil, result.Error
 	}
 
-	return &CreatedUser{}, nil
+	return &CreatedUser{
+		UUID: user.UUID,
+	}, nil
+}
+
+func (r Repository) FindByUserName(username string) *database.User {
+	user := &database.User{}
+
+	result := r.model.DB().
+		Where("username = ?", username).
+		First(&user)
+
+	if result.Error != nil && errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return nil
+	}
+
+	if strings.Trim(user.UUID, " ") != "" {
+		return user
+	}
+
+	return nil
 }

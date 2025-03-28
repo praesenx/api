@@ -18,7 +18,7 @@ type Router struct {
 type Container struct {
 	validator *support.Validator
 	logs      *logger.Managers
-	orm       *database.Driver
+	orm       *database.Orm
 }
 
 func makeRouter(mux *http.ServeMux, env *env.Environment, container *Container) Router {

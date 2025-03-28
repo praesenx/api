@@ -9,14 +9,14 @@ import (
 	"strconv"
 )
 
-func makeORM(env *env.Environment) *database.Driver {
+func makeORM(env *env.Environment) *database.Orm {
 	dbConn, err := database.MakeORM(env)
 
 	if err != nil {
 		panic("DB: error connecting to PostgreSQL: " + err.Error())
 	}
 
-	return &dbConn
+	return dbConn
 }
 
 func makeLogs(env *env.Environment) *logger.Managers {

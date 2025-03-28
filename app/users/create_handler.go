@@ -2,6 +2,7 @@ package users
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gocanto/blog/app/reponse"
 	"github.com/gocanto/blog/app/support"
 	"io"
@@ -38,15 +39,24 @@ func (handler Handler) create(w http.ResponseWriter, r *http.Request) *reponse.R
 		return reponse.MakeValidationError("Validation failed", validate.GetErrors(), err)
 	}
 
-	_, err = handler.Repository.Create(requestBag)
+	if result := handler.Repository.FindByUserName(requestBag.Username); result != nil {
+		return reponse.MakeValidationError(
+			fmt.Sprintf("user '%s' already exists", requestBag.Username),
+			map[string]any{},
+			nil,
+		)
+	}
+
+	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {
-		return reponse.MakeInternalServerError("There was an issue saving the users", err)
+		return reponse.MakeInternalServerError(err.Error(), err)
 	}
 
 	payload := map[string]any{
 		"message": "User created successfully!",
-		"data":    json.RawMessage(body),
+		"user":    map[string]string{"uuid": created.UUID},
+		//"data":    json.RawMessage(body),
 	}
 
 	return reponse.SendJSON(w, http.StatusCreated, payload)

@@ -7,4 +7,6 @@ type Handler struct {
 	Repository *Repository
 }
 
-type CreatedUser struct{}
+type CreatedUser struct {
+	UUID string `json:"uuid"`
+}
