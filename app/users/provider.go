@@ -1,6 +1,7 @@
 package users
 
 import (
+	"github.com/gocanto/blog/app/middleware"
 	"github.com/gocanto/blog/app/reponse"
 	"github.com/gocanto/blog/app/support"
 	"net/http"
@@ -21,6 +22,14 @@ func MakeProvider(repository *Repository, validator *support.Validator) *Provide
 
 func (provider *Provider) Register(mux *http.ServeMux) {
 	mux.HandleFunc("POST /users", reponse.CreateHandle(
-		provider.usersHandler.create,
+		middleware.ApplyMiddleware(
+			provider.usersHandler.create,
+			middleware.LoggingMiddleware,
+			middleware.AuthenticationMiddleware,
+		),
 	))
+
+	//mux.HandleFunc("POST /users", reponse.CreateHandle(
+	//	provider.usersHandler.create,
+	//))
 }
