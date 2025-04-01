@@ -1,6 +1,7 @@
 package users
 
 import (
+	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/middleware"
 	"github.com/gocanto/blog/app/reponse"
 	"github.com/gocanto/blog/app/support"
@@ -8,11 +9,13 @@ import (
 )
 
 type Provider struct {
+	Env          *env.Environment
 	usersHandler *Handler
 }
 
-func MakeProvider(repository *Repository, validator *support.Validator) *Provider {
+func MakeProvider(repository *Repository, validator *support.Validator, env *env.Environment) *Provider {
 	return &Provider{
+		Env: env,
 		usersHandler: &Handler{
 			Validator:  validator,
 			Repository: repository,
@@ -21,15 +24,13 @@ func MakeProvider(repository *Repository, validator *support.Validator) *Provide
 }
 
 func (provider *Provider) Register(mux *http.ServeMux) {
+	stack := middleware.MakeStack(provider.Env)
+
 	mux.HandleFunc("POST /users", reponse.CreateHandle(
-		middleware.ApplyMiddleware(
+		stack.Push(
 			provider.usersHandler.create,
-			middleware.LoggingMiddleware,
-			middleware.AuthenticationMiddleware,
+			stack.Logging,
+			stack.Admin,
 		),
 	))
-
-	//mux.HandleFunc("POST /users", reponse.CreateHandle(
-	//	provider.usersHandler.create,
-	//))
 }

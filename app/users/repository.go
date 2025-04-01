@@ -35,8 +35,8 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 		DisplayName:       attr.DisplayName,
 		Email:             attr.Email,
 		PasswordHash:      password.GetHash(),
-		Token:             r.admin.Token, // sha256
-		TokenSalt:         r.admin.Salt,
+		Token:             "token",
+		TokenSalt:         "token_salt",
 		Bio:               attr.Bio,
 		ProfilePictureURL: attr.ProfilePictureURL,
 	}

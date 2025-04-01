@@ -7,6 +7,7 @@ import (
 	"github.com/gocanto/blog/app/support"
 	"github.com/joho/godotenv"
 	"strconv"
+	"strings"
 )
 
 func makeORM(env *env.Environment) *database.Orm {
@@ -59,8 +60,8 @@ func makeEnv(validate *support.Validator) *env.Environment {
 	}
 
 	globalAdmin := env.GlobalAdmin{
-		Salt:  values["ENV_APP_ADMIN_USER_TOKEN_SALT"],
-		Token: values["ENV_APP_ADMIN_USER_TOKEN"],
+		PublicToken:  strings.Trim(values["ENV_APP_ADMIN_PUBLIC_TOKEN"], " "),
+		PrivateToken: strings.Trim(values["ENV_APP_ADMIN_PRIVATE_TOKEN"], " "),
 	}
 
 	logs := env.LogsEnvironment{

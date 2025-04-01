@@ -33,6 +33,7 @@ func (router Router) registerUsers() {
 	provider := users.MakeProvider(
 		users.MakeRepository(router.container.orm, router.env.Admin),
 		router.container.validator,
+		router.env,
 	)
 
 	provider.Register(router.mux)
