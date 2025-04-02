@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
     display_name VARCHAR(255),
     email varchar(250) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    token varchar(250) NOT NULL,
-    token_salt varchar(250) NOT NULL,
+    public_token varchar(250) NOT NULL,
     bio TEXT,
     profile_picture_url VARCHAR(2048),
     is_admin BOOLEAN DEFAULT FALSE,
@@ -21,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
-CREATE INDEX idx_users_token ON users (token);
+CREATE INDEX idx_users_token ON users (public_token);
 CREATE INDEX idx_users_verified_at ON users (verified_at);
 CREATE INDEX idx_users_created_at ON users (created_at);
 CREATE INDEX idx_users_deleted_at ON users (deleted_at);

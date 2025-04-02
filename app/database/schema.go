@@ -14,12 +14,11 @@ type User struct {
 	DisplayName       string         `gorm:"type:varchar(255)"`
 	Email             string         `gorm:"type:varchar(250);unique;not null"`
 	PasswordHash      string         `gorm:"type:varchar(255);not null"`
-	Token             string         `gorm:"type:varchar(250);not null;index:idx_users_token"`
-	TokenSalt         string         `gorm:"type:varchar(250);not null"`
+	PublicToken       string         `gorm:"type:varchar(250);not null;index:idx_public_token"`
 	Bio               string         `gorm:"type:text"`
 	ProfilePictureURL string         `gorm:"type:varchar(2048)"`
 	IsAdmin           bool           `gorm:"default:false"`
-	VerifiedAt        *time.Time     `gorm:"index:idx_users_verified_at"`
+	VerifiedAt        time.Time      `gorm:"index:idx_users_verified_at"`
 	CreatedAt         time.Time      `gorm:"default:CURRENT_TIMESTAMP;index:idx_users_created_at"`
 	UpdatedAt         time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt         gorm.DeletedAt `gorm:"index:idx_users_deleted_at"`

@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+const adminUserName = "gocanto"
+
 type AdminUser struct {
 	PublicToken  string `validate:"required,min=10"`
 	PrivateToken string `validate:"required,min=10"`

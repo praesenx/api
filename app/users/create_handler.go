@@ -13,9 +13,10 @@ type CreateRequestBag struct {
 	FirstName            string `json:"first_name" validate:"required,min=4,max=250"`
 	LastName             string `json:"last_name" validate:"required,min=4,max=250"`
 	Username             string `json:"username" validate:"required,alphanum,min=4,max=50"`
-	DisplayName          string `json:"display_name" validate:"omitempty,min=4,max=255"`
+	DisplayName          string `json:"display_name" validate:"omitempty,min=3,max=255"`
 	Email                string `json:"email" validate:"required,email,max=250"`
 	Password             string `json:"password" validate:"required,min=8"`
+	PublicToken          string `json:"public_token"`
 	PasswordConfirmation string `json:"password_confirmation" validate:"required,eqfield=Password"`
 	Bio                  string `json:"bio" validate:"omitempty"`
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
@@ -47,6 +48,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 		)
 	}
 
+	requestBag.PublicToken = r.Header.Get("X-API-Key")
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {

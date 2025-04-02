@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"strings"
+	"time"
 )
 
 type Repository struct {
@@ -34,10 +35,11 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 		DisplayName:       attr.DisplayName,
 		Email:             attr.Email,
 		PasswordHash:      password.GetHash(),
-		Token:             "token",
-		TokenSalt:         "token_salt",
+		PublicToken:       attr.PublicToken,
 		Bio:               attr.Bio,
 		ProfilePictureURL: attr.ProfilePictureURL,
+		VerifiedAt:        time.Now(),
+		IsAdmin:           strings.Trim(attr.Username, " ") == adminUserName,
 	}
 
 	result := r.model.DB().Create(&user)
