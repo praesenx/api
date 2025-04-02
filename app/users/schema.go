@@ -2,7 +2,7 @@ package users
 
 import "github.com/gocanto/blog/app/support"
 
-type Handler struct {
+type HandleUsers struct {
 	Validator  *support.Validator
 	Repository *Repository
 }

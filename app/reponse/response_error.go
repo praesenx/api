@@ -40,6 +40,15 @@ func MakeValidationError(message string, validationErrors map[string]any, err er
 	}
 }
 
+func MakeUnauthorized(message string, err error) *ResponseError {
+	return &ResponseError{
+		Code:             http.StatusUnauthorized,
+		Message:          message,
+		Err:              err,
+		ValidationErrors: make(map[string]any),
+	}
+}
+
 func (e *ResponseError) Error() string {
 	if e.Err != nil {
 		return fmt.Sprintf("%s: %v", e.Message, e.Err)
