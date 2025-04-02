@@ -48,7 +48,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 		)
 	}
 
-	requestBag.PublicToken = r.Header.Get("X-API-Key")
+	requestBag.PublicToken = r.Header.Get(support.ApiKeyHeader)
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {

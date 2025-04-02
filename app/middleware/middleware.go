@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"github.com/gocanto/blog/app/reponse"
+	"github.com/gocanto/blog/app/support"
 	"net/http"
 )
 
@@ -23,7 +24,7 @@ func (s Stack) Logging(next reponse.BaseHandler) reponse.BaseHandler {
 
 func (s Stack) Admin(next reponse.BaseHandler) reponse.BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
-		salt := r.Header.Get("X-API-Key")
+		salt := r.Header.Get(support.ApiKeyHeader)
 
 		if s.AllowsAction(salt) {
 			return next(w, r)
