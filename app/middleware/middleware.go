@@ -27,7 +27,6 @@ func (s Stack) Admin(next reponse.BaseHandler) reponse.BaseHandler {
 
 		if s.AllowsAction(salt) {
 			return next(w, r)
-
 		}
 
 		return reponse.MakeUnauthorized("Unauthorized", nil)
