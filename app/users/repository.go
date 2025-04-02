@@ -3,7 +3,6 @@ package users
 import (
 	"errors"
 	"github.com/gocanto/blog/app/database"
-	"github.com/gocanto/blog/app/env"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"strings"
@@ -11,10 +10,10 @@ import (
 
 type Repository struct {
 	model *database.Orm
-	admin env.GlobalAdmin
+	admin *AdminUser
 }
 
-func MakeRepository(model *database.Orm, admin env.GlobalAdmin) *Repository {
+func MakeRepository(model *database.Orm, admin *AdminUser) *Repository {
 	return &Repository{
 		model: model,
 		admin: admin,

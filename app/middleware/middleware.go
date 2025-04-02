@@ -25,10 +25,11 @@ func (s Stack) Admin(next reponse.BaseHandler) reponse.BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
 		salt := r.Header.Get("X-API-Key")
 
-		if s.ShouldRejectAction(salt) {
-			return reponse.MakeUnauthorized("Unauthorized", nil)
+		if s.AllowsAction(salt) {
+			return next(w, r)
+
 		}
 
-		return next(w, r)
+		return reponse.MakeUnauthorized("Unauthorized", nil)
 	}
 }

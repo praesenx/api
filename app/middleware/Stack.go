@@ -3,24 +3,27 @@ package middleware
 import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/reponse"
+	"github.com/gocanto/blog/app/users"
 )
 
 type Stack struct {
 	env        *env.Environment
 	middleware []Middleware
+	adminUser  *users.AdminUser
 }
 
 type Middleware func(reponse.BaseHandler) reponse.BaseHandler
 
-func MakeStack(env *env.Environment) *Stack {
+func MakeStack(env *env.Environment, adminUser *users.AdminUser) *Stack {
 	return &Stack{
 		env:        env,
+		adminUser:  adminUser,
 		middleware: []Middleware{},
 	}
 }
 
-func (s Stack) ShouldRejectAction(seed string) bool {
-	return s.env.Admin.IsNotAllowed(seed)
+func (s Stack) AllowsAction(seed string) bool {
+	return s.adminUser.IsAllowed(seed)
 }
 
 func (s Stack) Push(handler reponse.BaseHandler, middlewares ...Middleware) reponse.BaseHandler {

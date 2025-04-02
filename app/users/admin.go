@@ -1,4 +1,4 @@
-package env
+package users
 
 import (
 	"crypto/sha256"
@@ -6,12 +6,12 @@ import (
 	"strings"
 )
 
-type GlobalAdmin struct {
+type AdminUser struct {
 	PublicToken  string `validate:"required,min=10"`
 	PrivateToken string `validate:"required,min=10"`
 }
 
-func (ga GlobalAdmin) IsAllowed(seed string) bool {
+func (ga AdminUser) IsAllowed(seed string) bool {
 	token := strings.Trim(ga.PublicToken, " ")
 	salt := strings.Trim(ga.PrivateToken, " ")
 	externalSalt := strings.Trim(seed, " ")
@@ -32,6 +32,6 @@ func (ga GlobalAdmin) IsAllowed(seed string) bool {
 	return token == encodeToString
 }
 
-func (ga GlobalAdmin) IsNotAllowed(seed string) bool {
+func (ga AdminUser) IsNotAllowed(seed string) bool {
 	return !ga.IsAllowed(seed)
 }

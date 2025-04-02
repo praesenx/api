@@ -5,12 +5,12 @@ import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/logger"
 	"github.com/gocanto/blog/app/support"
-	"github.com/joho/godotenv"
+	"github.com/gocanto/blog/app/users"
 	"strconv"
 	"strings"
 )
 
-func makeORM(env *env.Environment) *database.Orm {
+func MakeORM(env *env.Environment) *database.Orm {
 	dbConn, err := database.MakeORM(env)
 
 	if err != nil {
@@ -20,7 +20,7 @@ func makeORM(env *env.Environment) *database.Orm {
 	return dbConn
 }
 
-func makeLogs(env *env.Environment) *logger.Managers {
+func MakeLogs(env *env.Environment) *logger.Managers {
 	lDriver, err := logger.MakeFilesManager(env)
 
 	if err != nil {
@@ -30,20 +30,27 @@ func makeLogs(env *env.Environment) *logger.Managers {
 	return &lDriver
 }
 
-func makeEnv(validate *support.Validator) *env.Environment {
-	errorSufix := "Environment: "
-
-	values, err := godotenv.Read("./../.env")
-
-	if err != nil {
-		panic(errorSufix + "invalid .env file: " + err.Error())
+func MakeAdminUser(env *env.Environment) *users.AdminUser {
+	return &users.AdminUser{
+		PublicToken:  env.App.AppUserAmin.PublicToken,
+		PrivateToken: env.App.AppUserAmin.PrivateToken,
 	}
+}
+
+func MakeEnv(values map[string]string, validate *support.Validator) *env.Environment {
+	errorSufix := "Environment: "
 
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
 
+	userAminEnvValues := &env.AppUserAminEnvValues{
+		PublicToken:  strings.Trim(values["ENV_APP_ADMIN_PUBLIC_TOKEN"], " "),
+		PrivateToken: strings.Trim(values["ENV_APP_ADMIN_PRIVATE_TOKEN"], " "),
+	}
+
 	app := env.AppEnvironment{
-		Name: values["ENV_APP_NAME"],
-		Type: values["ENV_APP_ENV_TYPE"],
+		Name:        values["ENV_APP_NAME"],
+		Type:        values["ENV_APP_ENV_TYPE"],
+		AppUserAmin: userAminEnvValues,
 	}
 
 	db := env.DBEnvironment{
@@ -59,11 +66,6 @@ func makeEnv(validate *support.Validator) *env.Environment {
 		TimeZone:     values["ENV_DB_TIMEZONE"],
 	}
 
-	globalAdmin := env.GlobalAdmin{
-		PublicToken:  strings.Trim(values["ENV_APP_ADMIN_PUBLIC_TOKEN"], " "),
-		PrivateToken: strings.Trim(values["ENV_APP_ADMIN_PRIVATE_TOKEN"], " "),
-	}
-
 	logs := env.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
@@ -75,36 +77,35 @@ func makeEnv(validate *support.Validator) *env.Environment {
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	if _, err = validate.Rejects(app); err != nil {
-		panic(errorSufix + "invalid app model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(app); err != nil {
+		panic(errorSufix + "invalid [APP] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err = validate.Rejects(db); err != nil {
-		panic(errorSufix + "invalid db model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(db); err != nil {
+		panic(errorSufix + "invalid [DB] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err = validate.Rejects(globalAdmin); err != nil {
-		panic(errorSufix + "invalid global admin model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(userAminEnvValues); err != nil {
+		panic(errorSufix + "invalid [AppUserAminEnvValues] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err = validate.Rejects(logs); err != nil {
-		panic(errorSufix + "invalid logs model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(logs); err != nil {
+		panic(errorSufix + "invalid [LOGS] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err = validate.Rejects(net); err != nil {
-		panic(errorSufix + "invalid network model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(net); err != nil {
+		panic(errorSufix + "invalid [NETWORK] model: " + validate.GetErrorsAsJason())
 	}
 
 	blog := &env.Environment{
 		App:     app,
 		DB:      db,
-		Admin:   globalAdmin,
 		Logs:    logs,
 		Network: net,
 	}
 
-	if _, err = validate.Rejects(blog); err != nil {
-		panic(errorSufix + "invalid blog environment model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(blog); err != nil {
+		panic(errorSufix + "invalid blog [ENVIRONMENT] model: " + validate.GetErrorsAsJason())
 	}
 
 	return blog

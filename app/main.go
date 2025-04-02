@@ -4,6 +4,7 @@ import (
 	baseValidator "github.com/go-playground/validator/v10"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/support"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"log/slog"
 	"net/http"
@@ -17,26 +18,36 @@ func init() {
 		baseValidator.WithRequiredStructEnabled(),
 	))
 
-	environment = makeEnv(val)
+	values, err := godotenv.Read("./../.env")
+
+	if err != nil {
+		panic("invalid .env file: " + err.Error())
+	}
+
+	environment = MakeEnv(values, val)
 	validator = val
 }
 
 func main() {
-	orm := makeORM(environment)
-	logs := makeLogs(environment)
+	orm := MakeORM(environment)
+	logs := MakeLogs(environment)
+	adminUser := MakeAdminUser(environment)
 
 	defer (*logs).Close()
 	defer (*orm).Close()
 
 	mux := http.NewServeMux()
 
-	router := makeRouter(mux, environment, &Container{
-		logs:      logs,
-		orm:       orm,
-		validator: validator,
+	app := MakeApp(mux, &App{
+		Validator: validator,
+		Logs:      logs,
+		Orm:       orm,
+		AdminUser: adminUser,
+		Env:       environment,
+		Mux:       mux,
 	})
 
-	router.registerUsers()
+	app.RegisterUsers()
 
 	(*orm).Ping()
 	slog.Info("Starting new server on :" + environment.Network.HttpPort)
