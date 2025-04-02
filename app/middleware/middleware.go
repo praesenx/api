@@ -22,11 +22,11 @@ func (s Stack) Logging(next reponse.BaseHandler) reponse.BaseHandler {
 	}
 }
 
-func (s Stack) Admin(next reponse.BaseHandler) reponse.BaseHandler {
+func (s Stack) AdminUser(next reponse.BaseHandler) reponse.BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
 		salt := r.Header.Get(support.ApiKeyHeader)
 
-		if s.AllowsAction(salt) {
+		if s.isAdminUser(salt) {
 			return next(w, r)
 		}
 

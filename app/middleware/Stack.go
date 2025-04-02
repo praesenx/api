@@ -22,7 +22,7 @@ func MakeStack(env *env.Environment, adminUser *users.AdminUser) *Stack {
 	}
 }
 
-func (s Stack) AllowsAction(seed string) bool {
+func (s Stack) isAdminUser(seed string) bool {
 	return s.adminUser.IsAllowed(seed)
 }
 

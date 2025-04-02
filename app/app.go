@@ -38,7 +38,7 @@ func (app App) RegisterUsers() {
 		stack.Push(
 			handler.Create,
 			stack.Logging,
-			stack.Admin,
+			stack.AdminUser,
 		),
 	))
 }
