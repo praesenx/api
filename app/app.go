@@ -5,7 +5,7 @@ import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/logger"
 	"github.com/gocanto/blog/app/middleware"
-	"github.com/gocanto/blog/app/reponse"
+	"github.com/gocanto/blog/app/response"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"net/http"
@@ -34,7 +34,7 @@ func (app App) RegisterUsers() {
 		Validator:  app.Validator,
 	}
 
-	app.Mux.HandleFunc("POST /users", reponse.CreateHandle(
+	app.Mux.HandleFunc("POST /users", response.CreateHandle(
 		stack.Push(
 			handler.Create,
 			//stack.Logging,

@@ -15,7 +15,7 @@ import (
 	//"bytes"
 	//"encoding/json"
 	//"fmt"
-	"github.com/gocanto/blog/app/reponse"
+	"github.com/gocanto/blog/app/response"
 	"io"
 
 	//"github.com/gocanto/blog/app/support"
@@ -41,7 +41,7 @@ type CreateRequestBag struct {
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
 }
 
-func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
+func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *response.HttpException {
 	body, err := io.ReadAll(r.Body)
 
 	defer func(Body io.ReadCloser) {
@@ -52,7 +52,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 	}(r.Body)
 
 	if err != nil {
-		return reponse.MakeBadRequest("Invalid request payload: cannot read body", err)
+		return response.MakeBadRequestException("Invalid request payload: cannot read body", err)
 	}
 
 	fmt.Println("Raw body length:", len(body))
@@ -62,7 +62,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 	// Get the multipart reader.
 	mr, err := r.MultipartReader()
 	if err != nil {
-		return reponse.MakeBadRequest("Error getting multipart reader", err)
+		return response.MakeBadRequestException("Error getting multipart reader", err)
 	}
 
 	var fileBytes []byte
@@ -77,7 +77,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 		}
 
 		if err != nil {
-			return reponse.MakeBadRequest("Error reading multipart parts", err)
+			return response.MakeBadRequestException("Error reading multipart parts", err)
 		}
 
 		// Check which part we got.
@@ -86,12 +86,12 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 		case "data":
 			// Ensure this is a text field (not a file).
 			if part.FileName() != "" {
-				return reponse.MakeBadRequest("Expected 'data' to be a JSON text field", err)
+				return response.MakeBadRequestException("Expected 'data' to be a JSON text field", err)
 			}
 
 			dataBytes, err = io.ReadAll(part)
 			if err != nil {
-				return reponse.MakeBadRequest("Error reading data field", err)
+				return response.MakeBadRequestException("Error reading data field", err)
 			}
 
 			fmt.Println("Received data field:", string(dataBytes))
@@ -100,7 +100,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 
 			fileBytes, err = io.ReadAll(part)
 			if err != nil {
-				return reponse.MakeBadRequest("Error reading file", err)
+				return response.MakeBadRequestException("Error reading file", err)
 			}
 			fileHeaderName = part.FileName()
 			fmt.Printf("Received file part: %d bytes\n", len(fileBytes))
@@ -125,7 +125,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 
 		if err != nil {
 			fmt.Println("Error writing file:", filename, " <---", err)
-			return reponse.MakeInternalServerError("Error saving the file", err)
+			return response.MakeInternalServerException("Error saving the file", err)
 		}
 		fmt.Println("---> Storage folder:", storage.GetUsersImagesDir())
 		fmt.Println("---> File Path:", filePath)
@@ -134,19 +134,19 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 
 	//var requestBag CreateRequestBag
 	//if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
-	//	return reponse.MakeBadRequest("Invalid request payload: malformed JSON", err)
+	//	return response.MakeBadRequestException("Invalid request payload: malformed JSON", err)
 	//}
 
 	//err = r.ParseMultipartForm(maxFileSize)
 	//if err != nil {
 	//	fmt.Println("--> ", err, " <---")
-	//	return reponse.MakeBadRequest("Error parsing multipart form:", err)
+	//	return response.MakeBadRequestException("Error parsing multipart form:", err)
 	//}
 
 	// Correctly assign the three return values
 	//file, fileHeader, err := r.FormFile("profile_picture_url")
 	//if err != nil {
-	//	return reponse.MakeBadRequest("Error retrieving the file", err)
+	//	return response.MakeBadRequestException("Error retrieving the file", err)
 	//}
 	//defer func(file multipart.File) {
 	//	err := file.Close()
@@ -167,13 +167,13 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 	//}
 	//
 	//if !isValidExtension {
-	//	return reponse.MakeBadRequest("Invalid file extension", err)
+	//	return response.MakeBadRequestException("Invalid file extension", err)
 	//}
 
 	//err = os.MkdirAll(storageDir, os.ModePerm)
 	//if err != nil {
 	//	//http.Error(w, fmt.Sprintf("Error creating storage directory: %v", err), http.StatusInternalServerError)
-	//	return reponse.MakeInternalServerError("Error creating storage directory", err)
+	//	return response.MakeInternalServerException("Error creating storage directory", err)
 	//}
 
 	//filename := uuid.New().String() + ext
@@ -181,7 +181,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 	//
 	//dst, err := os.Create(filePath)
 	//if err != nil {
-	//	return reponse.MakeInternalServerError("Error creating destination file", err)
+	//	return response.MakeInternalServerException("Error creating destination file", err)
 	//}
 	//defer func(dst *os.File) {
 	//	err := dst.Close()
@@ -192,7 +192,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 	//
 	//_, err = io.Copy(dst, file)
 	//if err != nil {
-	//	return reponse.MakeInternalServerError("Error saving the file", err)
+	//	return response.MakeInternalServerException("Error saving the file", err)
 	//}
 
 	// ------
@@ -202,16 +202,16 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 
 	var requestBag CreateRequestBag
 	if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
-		return reponse.MakeBadRequest("Invalid request payload: malformed JSON", err)
+		return response.MakeBadRequestException("Invalid request payload: malformed JSON", err)
 	}
 
 	validate := handler.Validator
 	if rejects, err := validate.Rejects(requestBag); rejects {
-		return reponse.MakeValidationError("Validation failed", validate.GetErrors(), err)
+		return response.MakeValidationException("Validation failed", validate.GetErrors(), err)
 	}
 
 	if result := handler.Repository.FindByUserName(requestBag.Username); result != nil {
-		return reponse.MakeValidationError(
+		return response.MakeValidationException(
 			fmt.Sprintf("user '%s' already exists", requestBag.Username),
 			map[string]any{},
 			nil,
@@ -222,7 +222,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {
-		return reponse.MakeInternalServerError(err.Error(), err)
+		return response.MakeInternalServerException(err.Error(), err)
 	}
 
 	payload := map[string]any{
@@ -231,5 +231,5 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 		//"data":    json.RawMessage(body),
 	}
 
-	return reponse.SendJSON(w, http.StatusCreated, payload)
+	return response.SendJSON(w, http.StatusCreated, payload)
 }

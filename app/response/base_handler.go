@@ -1,4 +1,4 @@
-package reponse
+package response
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type BaseHandler func(w http.ResponseWriter, r *http.Request) *ResponseError
+type BaseHandler func(w http.ResponseWriter, r *http.Request) *HttpException
 
 func CreateHandle(callback BaseHandler) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
@@ -20,7 +20,7 @@ func CreateHandle(callback BaseHandler) http.HandlerFunc {
 	}
 }
 
-func SendJSON(writer http.ResponseWriter, statusCode int, data any) *ResponseError {
+func SendJSON(writer http.ResponseWriter, statusCode int, data any) *HttpException {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	writer.WriteHeader(statusCode)
 
@@ -33,7 +33,7 @@ func SendJSON(writer http.ResponseWriter, statusCode int, data any) *ResponseErr
 
 	if err := json.NewEncoder(writer).Encode(data); err != nil {
 		slog.Error("Error encoding success response", "error", err)
-		return MakeInternalServerError("Failed to encode response", err)
+		return MakeInternalServerException("Failed to encode response", err)
 	}
 
 	return nil // Signal success
