@@ -1,7 +1,7 @@
 package kernel
 
 import (
-	"github.com/gocanto/blog/app/support"
+	"github.com/gocanto/blog/app/env"
 	"net/http"
 )
 
@@ -25,7 +25,7 @@ func (s MiddlewareStack) Logging(next BaseHandler) BaseHandler {
 
 func (s MiddlewareStack) AdminUser(next BaseHandler) BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *HttpException {
-		salt := r.Header.Get(support.ApiKeyHeader)
+		salt := r.Header.Get(env.ApiKeyHeader)
 
 		if s.isAdminUser(salt) {
 			return next(w, r)

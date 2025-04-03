@@ -1,9 +1,11 @@
 package users
 
-import "github.com/gocanto/blog/app/support"
+import (
+	"github.com/gocanto/blog/app/kernel"
+)
 
 type HandleUsers struct {
-	Validator  *support.Validator
+	Validator  *kernel.Validator
 	Repository *Repository
 }
 

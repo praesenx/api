@@ -5,7 +5,6 @@ import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/kernel/kernel_contracts"
-	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"strconv"
 	"strings"
@@ -38,7 +37,7 @@ func MakeAdminUser(env *env.Environment) *users.AdminUser {
 	}
 }
 
-func MakeEnv(values map[string]string, validate *support.Validator) *env.Environment {
+func MakeEnv(values map[string]string, validate *kernel.Validator) *env.Environment {
 	errorSufix := "Environment: "
 
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])

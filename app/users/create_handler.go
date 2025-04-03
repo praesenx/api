@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/storage"
-	"github.com/gocanto/blog/app/support"
 	"github.com/google/uuid"
 	"log/slog"
 	"os"
@@ -218,7 +218,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 		)
 	}
 
-	requestBag.PublicToken = r.Header.Get(support.ApiKeyHeader)
+	requestBag.PublicToken = r.Header.Get(env.ApiKeyHeader)
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {

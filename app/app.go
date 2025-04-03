@@ -5,13 +5,12 @@ import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/kernel/kernel_contracts"
-	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"net/http"
 )
 
 type App struct {
-	Validator *support.Validator            `validate:"required"`
+	Validator *kernel.Validator             `validate:"required"`
 	Logs      *kernel_contracts.LogsManager `validate:"required"`
 	Orm       *database.Orm                 `validate:"required"`
 	AdminUser *users.AdminUser              `validate:"required"`
