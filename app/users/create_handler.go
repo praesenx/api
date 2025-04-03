@@ -5,28 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/kernel/storage"
-	"github.com/google/uuid"
-	"log/slog"
-	"os"
-	"path/filepath"
-	"strings"
-
-	//"bytes"
-	//"encoding/json"
-	//"fmt"
 	"github.com/gocanto/blog/app/kernel"
+	"github.com/gocanto/blog/app/kernel/media"
 	"io"
-
-	//"github.com/gocanto/blog/app/support"
-	//"io"
+	"log/slog"
 	"net/http"
 )
 
-var storageDir string
-
-const maxFileSize = 10 * 1024 * 1024 // 10 MB
-var allowedExtensions = []string{".jpg", ".jpeg", ".png"}
+//const maxFileSize = 10 * 1024 * 1024 // 10 MB
+//var allowedExtensions = []string{".jpg", ".jpeg", ".png"}
 
 type CreateRequestBag struct {
 	FirstName            string `json:"first_name" validate:"required,min=4,max=250"`
@@ -114,91 +101,15 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 	}
 
 	// --- Save the file using fileBytes ---
-	if len(fileBytes) > 0 {
-		ext := strings.ToLower(filepath.Ext(fileHeaderName))
-		filename := uuid.New().String() + ext
-		filePath := filepath.Join(storage.GetUsersImagesDir(), filename)
+	profilePic, err := media.MakeMedia(fileBytes, fileHeaderName)
 
-		err = os.WriteFile(filePath, fileBytes, 0644)
-		fmt.Println("---> File Path:", filePath) // Add this line
-		//dst, err := os.Create(filePath)
-
-		if err != nil {
-			fmt.Println("Error writing file:", filename, " <---", err)
-			return kernel.InternalServerError("Error saving the file", err)
-		}
-		fmt.Println("---> Storage folder:", storage.GetUsersImagesDir())
-		fmt.Println("---> File Path:", filePath)
+	if err != nil {
+		return kernel.BadRequest("Error handling the given file", err)
 	}
-	// --- End of file saving ---
 
-	//var requestBag CreateRequestBag
-	//if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
-	//	return kernel.BadRequest("Invalid request payload: malformed JSON", err)
-	//}
-
-	//err = r.ParseMultipartForm(maxFileSize)
-	//if err != nil {
-	//	fmt.Println("--> ", err, " <---")
-	//	return kernel.BadRequest("Error parsing multipart form:", err)
-	//}
-
-	// Correctly assign the three return values
-	//file, fileHeader, err := r.FormFile("profile_picture_url")
-	//if err != nil {
-	//	return kernel.BadRequest("Error retrieving the file", err)
-	//}
-	//defer func(file multipart.File) {
-	//	err := file.Close()
-	//	if err != nil {
-	//		slog.Error("Issue closing the multipart file", err)
-	//	}
-	//}(file)
-	//// You can now access information from fileHeader, e.g., fileHeader.Filename
-	//fmt.Println("Uploaded filename:", fileHeader.Filename)
-	//
-	//ext := strings.ToLower(filepath.Ext(fileHeader.Filename))
-	//isValidExtension := false
-	//for _, allowedExt := range allowedExtensions {
-	//	if ext == allowedExt {
-	//		isValidExtension = true
-	//		break
-	//	}
-	//}
-	//
-	//if !isValidExtension {
-	//	return kernel.BadRequest("Invalid file extension", err)
-	//}
-
-	//err = os.MkdirAll(storageDir, os.ModePerm)
-	//if err != nil {
-	//	//http.Error(w, fmt.Sprintf("Error creating storage directory: %v", err), http.StatusInternalServerError)
-	//	return kernel.InternalServerError("Error creating storage directory", err)
-	//}
-
-	//filename := uuid.New().String() + ext
-	//filePath := filepath.Join(storage.GetUsersImagesDir(), filename)
-	//
-	//dst, err := os.Create(filePath)
-	//if err != nil {
-	//	return kernel.InternalServerError("Error creating destination file", err)
-	//}
-	//defer func(dst *os.File) {
-	//	err := dst.Close()
-	//	if err != nil {
-	//		slog.Error("Issue closing the destination file", err)
-	//	}
-	//}(dst)
-	//
-	//_, err = io.Copy(dst, file)
-	//if err != nil {
-	//	return kernel.InternalServerError("Error saving the file", err)
-	//}
-
-	// ------
-	//fmt.Println("---> Storage folder:", storage.GetUsersImagesDir())
-	//fmt.Println("---> File Path:", filePath)
-	// ------
+	if err := profilePic.Write(); err != nil {
+		return kernel.BadRequest("Error saving the given file", err)
+	}
 
 	var requestBag CreateRequestBag
 	if err = json.Unmarshal(dataBytes, &requestBag); err != nil {

@@ -19,9 +19,9 @@ ROOT_NETWORK ?= gocanto
 ROOT_PATH ?= $(shell pwd)
 ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
-STORAGE_PATH ?= $(ROOT_PATH)/app/media
+STORAGE_PATH ?= $(ROOT_PATH)/app/storage
 BIN_PATH ?= $(ROOT_PATH)/bin
-BIN_LOGS_PATH ?= $(ROOT_PATH)/bin/media/logs
+BIN_LOGS_PATH ?= $(ROOT_PATH)/bin/storage/logs
 APP_PATH ?= $(ROOT_PATH)/app/
 
 # ------ Database Configuration

@@ -20,7 +20,7 @@ func MakeORM(env *env.Environment) *database.Orm {
 	return dbConn
 }
 
-func MakeLogs(env *env.Environment) *kernel_contract.LogsManager {
+func MakeLogs(env *env.Environment) *logs.Driver {
 	lDriver, err := logs.MakeFilesLogs(env)
 
 	if err != nil {
