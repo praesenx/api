@@ -6,7 +6,12 @@ import (
 	"fmt"
 	"github.com/gocanto/blog/app/storage"
 	"github.com/gocanto/blog/app/support"
+	"github.com/google/uuid"
 	"log/slog"
+	"os"
+	"path/filepath"
+	"strings"
+
 	//"bytes"
 	//"encoding/json"
 	//"fmt"
@@ -62,6 +67,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 
 	var fileBytes []byte
 	var dataBytes []byte
+	var fileHeaderName string
 
 	for {
 		part, err := mr.NextPart()
@@ -96,7 +102,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 			if err != nil {
 				return reponse.MakeBadRequest("Error reading file", err)
 			}
-
+			fileHeaderName = part.FileName()
 			fmt.Printf("Received file part: %d bytes\n", len(fileBytes))
 		default:
 			fmt.Println("Ignoring unexpected part:", part.FormName())
@@ -107,8 +113,91 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *repon
 		}
 	}
 
+	// --- Save the file using fileBytes ---
+	if len(fileBytes) > 0 {
+		ext := strings.ToLower(filepath.Ext(fileHeaderName))
+		filename := uuid.New().String() + ext
+		filePath := filepath.Join(storage.GetUsersImagesDir(), filename)
+
+		err = os.WriteFile(filePath, fileBytes, 0644)
+		fmt.Println("---> File Path:", filePath) // Add this line
+		//dst, err := os.Create(filePath)
+
+		if err != nil {
+			fmt.Println("Error writing file:", filename, " <---", err)
+			return reponse.MakeInternalServerError("Error saving the file", err)
+		}
+		fmt.Println("---> Storage folder:", storage.GetUsersImagesDir())
+		fmt.Println("---> File Path:", filePath)
+	}
+	// --- End of file saving ---
+
+	//var requestBag CreateRequestBag
+	//if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
+	//	return reponse.MakeBadRequest("Invalid request payload: malformed JSON", err)
+	//}
+
+	//err = r.ParseMultipartForm(maxFileSize)
+	//if err != nil {
+	//	fmt.Println("--> ", err, " <---")
+	//	return reponse.MakeBadRequest("Error parsing multipart form:", err)
+	//}
+
+	// Correctly assign the three return values
+	//file, fileHeader, err := r.FormFile("profile_picture_url")
+	//if err != nil {
+	//	return reponse.MakeBadRequest("Error retrieving the file", err)
+	//}
+	//defer func(file multipart.File) {
+	//	err := file.Close()
+	//	if err != nil {
+	//		slog.Error("Issue closing the multipart file", err)
+	//	}
+	//}(file)
+	//// You can now access information from fileHeader, e.g., fileHeader.Filename
+	//fmt.Println("Uploaded filename:", fileHeader.Filename)
+	//
+	//ext := strings.ToLower(filepath.Ext(fileHeader.Filename))
+	//isValidExtension := false
+	//for _, allowedExt := range allowedExtensions {
+	//	if ext == allowedExt {
+	//		isValidExtension = true
+	//		break
+	//	}
+	//}
+	//
+	//if !isValidExtension {
+	//	return reponse.MakeBadRequest("Invalid file extension", err)
+	//}
+
+	//err = os.MkdirAll(storageDir, os.ModePerm)
+	//if err != nil {
+	//	//http.Error(w, fmt.Sprintf("Error creating storage directory: %v", err), http.StatusInternalServerError)
+	//	return reponse.MakeInternalServerError("Error creating storage directory", err)
+	//}
+
+	//filename := uuid.New().String() + ext
+	//filePath := filepath.Join(storage.GetUsersImagesDir(), filename)
+	//
+	//dst, err := os.Create(filePath)
+	//if err != nil {
+	//	return reponse.MakeInternalServerError("Error creating destination file", err)
+	//}
+	//defer func(dst *os.File) {
+	//	err := dst.Close()
+	//	if err != nil {
+	//		slog.Error("Issue closing the destination file", err)
+	//	}
+	//}(dst)
+	//
+	//_, err = io.Copy(dst, file)
+	//if err != nil {
+	//	return reponse.MakeInternalServerError("Error saving the file", err)
+	//}
+
 	// ------
-	fmt.Println("---> Storage folder:", storage.GetUsersDir())
+	//fmt.Println("---> Storage folder:", storage.GetUsersImagesDir())
+	//fmt.Println("---> File Path:", filePath)
 	// ------
 
 	var requestBag CreateRequestBag

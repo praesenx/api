@@ -23,10 +23,10 @@ func GetImagesDir() string {
 	return GetStorageDir() + "/" + ImagesDir
 }
 
-func GetUsersDir() string {
-	return GetStorageDir() + "/" + UsersDir
+func GetUsersImagesDir() string {
+	return GetImagesDir() + "/" + UsersDir
 }
 
-func GetPostsDir() string {
-	return GetStorageDir() + "/" + PostsDir
+func GetPostsImagesDir() string {
+	return GetImagesDir() + "/" + PostsDir
 }

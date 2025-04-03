@@ -22,7 +22,13 @@ tmp
 app/tmp
 
 # --- Storage
-app/storage/logs/*.*
 bin/storage/*.*
+
+app/storage/images/*.*
+!app/storage/images/.gitkeep
+!app/storage/images/posts/.gitkeep
+!app/storage/images/users/.gitkeep
+
+app/storage/logs/*.*
 !app/storage/logs/.gitkeep
 !bin/storage/logs/.gitkeep
