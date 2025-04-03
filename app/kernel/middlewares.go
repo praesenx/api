@@ -5,7 +5,9 @@ import (
 	"net/http"
 )
 
-func (s Stack) Logging(next BaseHandler) BaseHandler {
+type Middleware func(BaseHandler) BaseHandler
+
+func (s MiddlewareStack) Logging(next BaseHandler) BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *HttpException {
 		println("Incoming request:", r.Method, r.URL.Path)
 
@@ -21,7 +23,7 @@ func (s Stack) Logging(next BaseHandler) BaseHandler {
 	}
 }
 
-func (s Stack) AdminUser(next BaseHandler) BaseHandler {
+func (s MiddlewareStack) AdminUser(next BaseHandler) BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *HttpException {
 		salt := r.Header.Get(support.ApiKeyHeader)
 
@@ -29,6 +31,6 @@ func (s Stack) AdminUser(next BaseHandler) BaseHandler {
 			return next(w, r)
 		}
 
-		return MakeUnauthorisedException("Unauthorized", nil)
+		return Unauthorised("Unauthorized", nil)
 	}
 }

@@ -26,7 +26,7 @@ func MakeApp(mux *http.ServeMux, app *App) *App {
 }
 
 func (app App) RegisterUsers() {
-	stack := kernel.MakeStack(app.Env, func(seed string) bool {
+	stack := kernel.MakeMiddlewareStack(app.Env, func(seed string) bool {
 		return app.AdminUser.IsAllowed(seed)
 	})
 

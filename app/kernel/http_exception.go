@@ -14,7 +14,7 @@ type HttpException struct {
 	ValidationErrors map[string]any
 }
 
-func MakeException(code int, message string, err error) *HttpException {
+func MakeHttpException(code int, message string, err error) *HttpException {
 	return &HttpException{
 		Code:             code,
 		Message:          message,
@@ -23,15 +23,15 @@ func MakeException(code int, message string, err error) *HttpException {
 	}
 }
 
-func MakeBadRequestException(message string, err error) *HttpException {
-	return MakeException(http.StatusBadRequest, message, err)
+func BadRequest(message string, err error) *HttpException {
+	return MakeHttpException(http.StatusBadRequest, message, err)
 }
 
-func MakeInternalServerException(message string, err error) *HttpException {
-	return MakeException(http.StatusInternalServerError, message, err)
+func InternalServerError(message string, err error) *HttpException {
+	return MakeHttpException(http.StatusInternalServerError, message, err)
 }
 
-func MakeValidationException(message string, validationErrors map[string]any, err error) *HttpException {
+func RespondWithErrors(message string, validationErrors map[string]any, err error) *HttpException {
 	return &HttpException{
 		Code:             http.StatusForbidden,
 		Message:          message,
@@ -40,7 +40,7 @@ func MakeValidationException(message string, validationErrors map[string]any, er
 	}
 }
 
-func MakeUnauthorisedException(message string, err error) *HttpException {
+func Unauthorised(message string, err error) *HttpException {
 	return &HttpException{
 		Code:             http.StatusUnauthorized,
 		Message:          message,

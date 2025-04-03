@@ -33,7 +33,7 @@ func SendJSON(writer http.ResponseWriter, statusCode int, data any) *HttpExcepti
 
 	if err := json.NewEncoder(writer).Encode(data); err != nil {
 		slog.Error("Error encoding success response", "error", err)
-		return MakeInternalServerException("Failed to encode response", err)
+		return InternalServerError("Failed to encode response", err)
 	}
 
 	return nil // Signal success
