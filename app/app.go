@@ -5,7 +5,6 @@ import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/logger"
-	"github.com/gocanto/blog/app/middleware"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"net/http"
@@ -27,7 +26,9 @@ func MakeApp(mux *http.ServeMux, app *App) *App {
 }
 
 func (app App) RegisterUsers() {
-	stack := middleware.MakeStack(app.Env, app.AdminUser)
+	stack := kernel.MakeStack(app.Env, func(seed string) bool {
+		return app.AdminUser.IsAllowed(seed)
+	})
 
 	handler := users.HandleUsers{
 		Repository: users.MakeRepository(app.Orm, app.AdminUser),
@@ -37,8 +38,8 @@ func (app App) RegisterUsers() {
 	app.Mux.HandleFunc("POST /users", kernel.CreateHandle(
 		stack.Push(
 			handler.Create,
-			//stack.Logging,
-			//stack.AdminUser,
+			stack.Logging,
+			stack.AdminUser,
 		),
 	))
 }
