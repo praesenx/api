@@ -3,7 +3,8 @@ package main
 import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/logger"
+	"github.com/gocanto/blog/app/kernel"
+	"github.com/gocanto/blog/app/kernel/kernel_contracts"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"strconv"
@@ -20,8 +21,8 @@ func MakeORM(env *env.Environment) *database.Orm {
 	return dbConn
 }
 
-func MakeLogs(env *env.Environment) *logger.Managers {
-	lDriver, err := logger.MakeFilesManager(env)
+func MakeLogs(env *env.Environment) *kernel_contracts.LogsManager {
+	lDriver, err := kernel.MakeFilesLogs(env)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
