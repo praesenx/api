@@ -1,13 +1,27 @@
 package users
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/gocanto/blog/app/reponse"
+	"github.com/gocanto/blog/app/storage"
 	"github.com/gocanto/blog/app/support"
+	"log/slog"
+	//"bytes"
+	//"encoding/json"
+	//"fmt"
+	"github.com/gocanto/blog/app/reponse"
 	"io"
+
+	//"github.com/gocanto/blog/app/support"
+	//"io"
 	"net/http"
 )
+
+var storageDir string
+
+const maxFileSize = 10 * 1024 * 1024 // 10 MB
+var allowedExtensions = []string{".jpg", ".jpeg", ".png"}
 
 type CreateRequestBag struct {
 	FirstName            string `json:"first_name" validate:"required,min=4,max=250"`
@@ -24,14 +38,81 @@ type CreateRequestBag struct {
 
 func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
 	body, err := io.ReadAll(r.Body)
-	defer support.CloseRequestBody(r)
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			slog.Error("Issue closing the request body", err)
+		}
+	}(r.Body)
 
 	if err != nil {
 		return reponse.MakeBadRequest("Invalid request payload: cannot read body", err)
 	}
 
+	fmt.Println("Raw body length:", len(body))
+	// Reset the request body so it can be read again.
+	r.Body = io.NopCloser(bytes.NewBuffer(body))
+
+	// Get the multipart reader.
+	mr, err := r.MultipartReader()
+	if err != nil {
+		return reponse.MakeBadRequest("Error getting multipart reader", err)
+	}
+
+	var fileBytes []byte
+	var dataBytes []byte
+
+	for {
+		part, err := mr.NextPart()
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return reponse.MakeBadRequest("Error reading multipart parts", err)
+		}
+
+		// Check which part we got.
+		switch part.FormName() {
+
+		case "data":
+			// Ensure this is a text field (not a file).
+			if part.FileName() != "" {
+				return reponse.MakeBadRequest("Expected 'data' to be a JSON text field", err)
+			}
+
+			dataBytes, err = io.ReadAll(part)
+			if err != nil {
+				return reponse.MakeBadRequest("Error reading data field", err)
+			}
+
+			fmt.Println("Received data field:", string(dataBytes))
+
+		case "profile_picture_url":
+
+			fileBytes, err = io.ReadAll(part)
+			if err != nil {
+				return reponse.MakeBadRequest("Error reading file", err)
+			}
+
+			fmt.Printf("Received file part: %d bytes\n", len(fileBytes))
+		default:
+			fmt.Println("Ignoring unexpected part:", part.FormName())
+		}
+
+		if err = part.Close(); err != nil {
+			slog.Error("Issue closing the multi-part reader", err)
+		}
+	}
+
+	// ------
+	fmt.Println("---> Storage folder:", storage.GetUsersDir())
+	// ------
+
 	var requestBag CreateRequestBag
-	if err = json.Unmarshal(body, &requestBag); err != nil {
+	if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
 		return reponse.MakeBadRequest("Invalid request payload: malformed JSON", err)
 	}
 

@@ -37,8 +37,8 @@ func (app App) RegisterUsers() {
 	app.Mux.HandleFunc("POST /users", reponse.CreateHandle(
 		stack.Push(
 			handler.Create,
-			stack.Logging,
-			stack.AdminUser,
+			//stack.Logging,
+			//stack.AdminUser,
 		),
 	))
 }
