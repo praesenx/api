@@ -21,7 +21,7 @@ bin
 tmp
 app/tmp
 
-# --- Storage
+# --- Media
 bin/storage/*.*
 
 app/storage/images/*.*

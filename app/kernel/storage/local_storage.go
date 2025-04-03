@@ -25,7 +25,7 @@ func (ls *LocalStorage) Save(file multipart.File, filename string) (string, erro
 	if err != nil {
 		return "", fmt.Errorf("creating file: %w", err)
 	}
-	
+
 	defer dst.Close()
 
 	// Copy file contents.

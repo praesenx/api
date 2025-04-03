@@ -1,9 +1,8 @@
-package kernel
+package logs
 
 import (
 	"fmt"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/kernel/kernel_contracts"
 	"log/slog"
 	"os"
 	"time"
@@ -16,7 +15,7 @@ type FilesLogs struct {
 	env    *env.Environment
 }
 
-func MakeFilesLogs(env *env.Environment) (kernel_contracts.LogsManager, error) {
+func MakeFilesLogs(env *env.Environment) (Driver, error) {
 	manager := FilesLogs{}
 	manager.env = env
 

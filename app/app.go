@@ -10,12 +10,12 @@ import (
 )
 
 type App struct {
-	Validator *kernel.Validator             `validate:"required"`
-	Logs      *kernel_contracts.LogsManager `validate:"required"`
-	Orm       *database.Orm                 `validate:"required"`
-	AdminUser *users.AdminUser              `validate:"required"`
-	Env       *env.Environment              `validate:"required"`
-	Mux       *http.ServeMux                `validate:"required"`
+	Validator *kernel.Validator            `validate:"required"`
+	Logs      *kernel_contract.LogsManager `validate:"required"`
+	Orm       *database.Orm                `validate:"required"`
+	AdminUser *users.AdminUser             `validate:"required"`
+	Env       *env.Environment             `validate:"required"`
+	Mux       *http.ServeMux               `validate:"required"`
 }
 
 func MakeApp(mux *http.ServeMux, app *App) *App {

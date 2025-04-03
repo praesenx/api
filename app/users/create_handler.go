@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/storage"
+	"github.com/gocanto/blog/app/kernel/storage"
 	"github.com/google/uuid"
 	"log/slog"
 	"os"
