@@ -1,4 +1,4 @@
-package response
+package kernel
 
 import (
 	"encoding/json"

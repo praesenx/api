@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/logger"
 	"github.com/gocanto/blog/app/middleware"
-	"github.com/gocanto/blog/app/response"
 	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
 	"net/http"
@@ -34,7 +34,7 @@ func (app App) RegisterUsers() {
 		Validator:  app.Validator,
 	}
 
-	app.Mux.HandleFunc("POST /users", response.CreateHandle(
+	app.Mux.HandleFunc("POST /users", kernel.CreateHandle(
 		stack.Push(
 			handler.Create,
 			//stack.Logging,

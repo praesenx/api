@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/response"
+	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/users"
 )
 
@@ -12,7 +12,7 @@ type Stack struct {
 	adminUser  *users.AdminUser
 }
 
-type Middleware func(response.BaseHandler) response.BaseHandler
+type Middleware func(kernel.BaseHandler) kernel.BaseHandler
 
 func MakeStack(env *env.Environment, adminUser *users.AdminUser) *Stack {
 	return &Stack{
@@ -26,7 +26,7 @@ func (s Stack) isAdminUser(seed string) bool {
 	return s.adminUser.IsAllowed(seed)
 }
 
-func (s Stack) Push(handler response.BaseHandler, middlewares ...Middleware) response.BaseHandler {
+func (s Stack) Push(handler kernel.BaseHandler, middlewares ...Middleware) kernel.BaseHandler {
 	// Apply middleware in reverse order, so the first middleware in the list is executed first.
 	for i := len(middlewares) - 1; i >= 0; i-- {
 		handler = middlewares[i](handler)
