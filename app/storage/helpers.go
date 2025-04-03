@@ -12,14 +12,14 @@ func GetStorageDir() string {
 	if err != nil {
 		// Handle the error appropriately.
 		// Path default to relative path if getting WD fails
-		return "./" + folder //
+		return "./" + folder
 	}
 
 	// Resolve the path at runtime.
 	return filepath.Join(dir, Dir)
 }
 
-func GetImageDir() string {
+func GetImagesDir() string {
 	return GetStorageDir() + "/" + ImagesDir
 }
 
