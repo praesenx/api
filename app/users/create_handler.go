@@ -28,7 +28,7 @@ type CreateRequestBag struct {
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
 }
 
-func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kernel.HttpException {
+func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kernel.HttpError {
 	body, err := io.ReadAll(r.Body)
 
 	defer func(Body io.ReadCloser) {

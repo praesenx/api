@@ -8,7 +8,7 @@ import (
 type Middleware func(BaseHandler) BaseHandler
 
 func (s MiddlewareStack) Logging(next BaseHandler) BaseHandler {
-	return func(w http.ResponseWriter, r *http.Request) *HttpException {
+	return func(w http.ResponseWriter, r *http.Request) *HttpError {
 		println("Incoming request:", r.Method, r.URL.Path)
 
 		err := next(w, r)
@@ -24,7 +24,7 @@ func (s MiddlewareStack) Logging(next BaseHandler) BaseHandler {
 }
 
 func (s MiddlewareStack) AdminUser(next BaseHandler) BaseHandler {
-	return func(w http.ResponseWriter, r *http.Request) *HttpException {
+	return func(w http.ResponseWriter, r *http.Request) *HttpError {
 		salt := r.Header.Get(env.ApiKeyHeader)
 
 		if s.isAdminUser(salt) {

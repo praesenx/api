@@ -1,4 +1,4 @@
-package kernel
+package proxy
 
 import (
 	"encoding/json"

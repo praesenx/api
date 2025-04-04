@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type BaseHandler func(w http.ResponseWriter, r *http.Request) *HttpException
+type BaseHandler func(w http.ResponseWriter, r *http.Request) *HttpError
 
 func CreateHandle(callback BaseHandler) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
@@ -20,7 +20,7 @@ func CreateHandle(callback BaseHandler) http.HandlerFunc {
 	}
 }
 
-func SendJSON(writer http.ResponseWriter, statusCode int, data any) *HttpException {
+func SendJSON(writer http.ResponseWriter, statusCode int, data any) *HttpError {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	writer.WriteHeader(statusCode)
 
