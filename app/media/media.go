@@ -6,7 +6,7 @@ import (
 )
 
 func (m *Media) Write() error {
-	err := os.WriteFile(m.filePath, m.file, 0644)
+	err := os.WriteFile(m.path, m.file, 0644)
 
 	if err != nil {
 		return err
@@ -16,14 +16,14 @@ func (m *Media) Write() error {
 }
 
 func (m *Media) FileName() string {
-	return m.filename
+	return m.name
 }
 func (m *Media) FilePath() string {
-	return m.filePath
+	return m.path
 }
 
 func (m *Media) HeaderName() string {
-	return m.headerName
+	return m.header
 }
 
 func (m *Media) Extension() string {
@@ -31,7 +31,7 @@ func (m *Media) Extension() string {
 }
 
 func (m *Media) Filename() string {
-	return m.filename
+	return m.name
 }
 
 func (m *Media) GetStorageDir() string {
