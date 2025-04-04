@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/kernel"
-	"github.com/gocanto/blog/app/kernel/media"
+	"github.com/gocanto/blog/app/media"
 	"io"
 	"log/slog"
 	"net/http"

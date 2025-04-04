@@ -3,9 +3,13 @@ package media
 import (
 	"errors"
 	"github.com/google/uuid"
-	"os"
 	"path/filepath"
 )
+
+const Dir = "media"
+const UsersDir = "users"
+const PostsDir = "posts"
+const StorageDir = "storage"
 
 type Media struct {
 	file       []byte
@@ -28,18 +32,12 @@ func MakeMedia(file []byte, headerName string) (*Media, error) {
 		headerName: headerName,
 		ext:        ext,
 		filename:   filename,
-		filePath:   filepath.Join(GetUsersImagesDir(), filename),
 	}
+
+	media.filePath = filepath.Join(
+		media.GetUsersImagesDir(),
+		filename,
+	)
 
 	return &media, nil
-}
-
-func (m Media) Write() error {
-	err := os.WriteFile(m.filePath, m.file, 0644)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
