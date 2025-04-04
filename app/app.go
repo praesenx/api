@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/gocanto/blog/app/controller"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/logs"
 	"github.com/gocanto/blog/app/proxy"
 	"github.com/gocanto/blog/app/users"
@@ -26,16 +26,16 @@ func MakeApp(mux *http.ServeMux, app *App) *App {
 }
 
 func (app App) RegisterUsers() {
-	stack := kernel.MakeMiddlewareStack(app.Env, func(seed string) bool {
+	stack := controller.MakeMiddlewareStack(app.Env, func(seed string) bool {
 		return app.AdminUser.IsAllowed(seed)
 	})
 
-	handler := users.HandleUsers{
+	handler := users.UserController{
 		Repository: users.MakeRepository(app.Orm, app.AdminUser),
 		Validator:  app.Validator,
 	}
 
-	app.Mux.HandleFunc("POST /users", kernel.CreateHandle(
+	app.Mux.HandleFunc("POST /users", controller.CreateHandle(
 		stack.Push(
 			handler.Create,
 			stack.Logging,

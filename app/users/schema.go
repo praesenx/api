@@ -4,7 +4,7 @@ import (
 	"github.com/gocanto/blog/app/proxy"
 )
 
-type HandleUsers struct {
+type UserController struct {
 	Validator  *proxy.Validator
 	Repository *Repository
 }

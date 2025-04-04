@@ -1,4 +1,4 @@
-package kernel
+package controller
 
 import (
 	"encoding/json"
@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-type BaseHandler func(w http.ResponseWriter, r *http.Request) *HttpError
+type BaseController func(w http.ResponseWriter, r *http.Request) *HttpError
 
-func CreateHandle(callback BaseHandler) http.HandlerFunc {
+func CreateHandle(callback BaseController) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		if err := callback(writer, request); err != nil {
 			err.Respond(writer)

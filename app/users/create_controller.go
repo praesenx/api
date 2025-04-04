@@ -4,16 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/gocanto/blog/app/controller"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/kernel"
 	"github.com/gocanto/blog/app/media"
 	"io"
 	"log/slog"
 	"net/http"
 )
-
-//const maxFileSize = 10 * 1024 * 1024 // 10 MB
-//var allowedExtensions = []string{".jpg", ".jpeg", ".png"}
 
 type CreateRequestBag struct {
 	FirstName            string `json:"first_name" validate:"required,min=4,max=250"`
@@ -28,7 +25,7 @@ type CreateRequestBag struct {
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
 }
 
-func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kernel.HttpError {
+func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *controller.HttpError {
 	body, err := io.ReadAll(r.Body)
 
 	defer func(Body io.ReadCloser) {
@@ -39,7 +36,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 	}(r.Body)
 
 	if err != nil {
-		return kernel.BadRequest("Invalid request payload: cannot read body", err)
+		return controller.BadRequest("Invalid request payload: cannot read body", err)
 	}
 
 	fmt.Println("Raw body length:", len(body))
@@ -49,7 +46,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 	// Get the multipart reader.
 	mr, err := r.MultipartReader()
 	if err != nil {
-		return kernel.BadRequest("Error getting multipart reader", err)
+		return controller.BadRequest("Error getting multipart reader", err)
 	}
 
 	var fileBytes []byte
@@ -64,7 +61,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 		}
 
 		if err != nil {
-			return kernel.BadRequest("Error reading multipart parts", err)
+			return controller.BadRequest("Error reading multipart parts", err)
 		}
 
 		// Check which part we got.
@@ -73,12 +70,12 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 		case "data":
 			// Ensure this is a text field (not a file).
 			if part.FileName() != "" {
-				return kernel.BadRequest("Expected 'data' to be a JSON text field", err)
+				return controller.BadRequest("Expected 'data' to be a JSON text field", err)
 			}
 
 			dataBytes, err = io.ReadAll(part)
 			if err != nil {
-				return kernel.BadRequest("Error reading data field", err)
+				return controller.BadRequest("Error reading data field", err)
 			}
 
 			fmt.Println("Received data field:", string(dataBytes))
@@ -87,7 +84,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 
 			fileBytes, err = io.ReadAll(part)
 			if err != nil {
-				return kernel.BadRequest("Error reading file", err)
+				return controller.BadRequest("Error reading file", err)
 			}
 			fileHeaderName = part.FileName()
 			fmt.Printf("Received file part: %d bytes\n", len(fileBytes))
@@ -104,25 +101,25 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 	profilePic, err := media.MakeMedia(fileBytes, fileHeaderName)
 
 	if err != nil {
-		return kernel.BadRequest("Error handling the given file", err)
+		return controller.BadRequest("Error handling the given file", err)
 	}
 
 	if err := profilePic.Write(); err != nil {
-		return kernel.BadRequest("Error saving the given file", err)
+		return controller.BadRequest("Error saving the given file", err)
 	}
 
 	var requestBag CreateRequestBag
 	if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
-		return kernel.BadRequest("Invalid request payload: malformed JSON", err)
+		return controller.BadRequest("Invalid request payload: malformed JSON", err)
 	}
 
 	validate := handler.Validator
 	if rejects, err := validate.Rejects(requestBag); rejects {
-		return kernel.RespondWithErrors("Validation failed", validate.GetErrors(), err)
+		return controller.RespondWithErrors("Validation failed", validate.GetErrors(), err)
 	}
 
 	if result := handler.Repository.FindByUserName(requestBag.Username); result != nil {
-		return kernel.RespondWithErrors(
+		return controller.RespondWithErrors(
 			fmt.Sprintf("user '%s' already exists", requestBag.Username),
 			map[string]any{},
 			nil,
@@ -133,7 +130,7 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {
-		return kernel.InternalServerError(err.Error(), err)
+		return controller.InternalServerError(err.Error(), err)
 	}
 
 	payload := map[string]any{
@@ -142,5 +139,5 @@ func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *kerne
 		//"data":    json.RawMessage(body),
 	}
 
-	return kernel.SendJSON(w, http.StatusCreated, payload)
+	return controller.SendJSON(w, http.StatusCreated, payload)
 }
