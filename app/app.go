@@ -4,7 +4,6 @@ import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/people"
-	"github.com/gocanto/blog/app/proxy"
 	"github.com/gocanto/blog/app/webkit"
 	"github.com/gocanto/blog/app/webkit/llogs"
 	"github.com/gocanto/blog/app/webkit/middleware"
@@ -12,7 +11,7 @@ import (
 )
 
 type App struct {
-	Validator *proxy.Validator  `validate:"required"`
+	Validator *webkit.Validator `validate:"required"`
 	Logs      *llogs.Driver     `validate:"required"`
 	Orm       *database.Orm     `validate:"required"`
 	AdminUser *people.AdminUser `validate:"required"`

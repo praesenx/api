@@ -1,11 +1,11 @@
 package people
 
 import (
-	"github.com/gocanto/blog/app/proxy"
+	"github.com/gocanto/blog/app/webkit"
 )
 
 type UsersHandler struct {
-	Validator  *proxy.Validator
+	Validator  *webkit.Validator
 	Repository *Repository
 }
 
