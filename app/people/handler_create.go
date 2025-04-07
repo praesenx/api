@@ -1,12 +1,13 @@
-package users
+package people
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gocanto/blog/app/controller"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/media"
+	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog/app/webkit/response"
 	"io"
 	"log/slog"
 	"mime/multipart"
@@ -26,7 +27,7 @@ type CreateRequestBag struct {
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
 }
 
-func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *controller.HttpError {
+func (handler UsersHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
@@ -37,13 +38,13 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 	// Get the multipart reader.
 	mr, err := r.MultipartReader()
 	if err != nil {
-		return controller.BadRequest("Error getting multipart reader", err)
+		return response.BadRequest("Error getting multipart reader", err)
 	}
 
 	var profilePhoto UserProfilePhoto
 
 	if err := extractData(mr, &profilePhoto); err != nil {
-		return controller.BadRequest("Error extracting data", err)
+		return response.BadRequest("Error extracting data", err)
 	}
 
 	// --- Save the file using fileBytes ---
@@ -51,25 +52,25 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 
 	fmt.Println("--->", len(profilePhoto.file), "---> err: ", err)
 	if err != nil {
-		return controller.BadRequest("Error handling the given file", err)
+		return response.BadRequest("Error handling the given file", err)
 	}
 
 	if err := profilePic.Write(); err != nil {
-		return controller.BadRequest("Error saving the given file", err)
+		return response.BadRequest("Error saving the given file", err)
 	}
 
 	var requestBag CreateRequestBag
 	if err = json.Unmarshal(profilePhoto.payload, &requestBag); err != nil {
-		return controller.BadRequest("Invalid request payload: malformed JSON", err)
+		return response.BadRequest("Invalid request payload: malformed JSON", err)
 	}
 
 	validate := handler.Validator
 	if rejects, err := validate.Rejects(requestBag); rejects {
-		return controller.RespondWithErrors("Validation failed", validate.GetErrors(), err)
+		return response.Forbidden("Validation failed", validate.GetErrors(), err)
 	}
 
 	if result := handler.Repository.FindByUserName(requestBag.Username); result != nil {
-		return controller.RespondWithErrors(
+		return response.Forbidden(
 			fmt.Sprintf("user '%s' already exists", requestBag.Username),
 			map[string]any{},
 			nil,
@@ -80,7 +81,7 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {
-		return controller.InternalServerError(err.Error(), err)
+		return response.InternalServerError(err.Error(), err)
 	}
 
 	payload := map[string]any{
@@ -89,7 +90,7 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 		//"data":    json.RawMessage(body),
 	}
 
-	return controller.SendJSON(w, http.StatusCreated, payload)
+	return webkit.SendJSON(w, http.StatusCreated, payload)
 }
 
 func extractData(reader *multipart.Reader, data *UserProfilePhoto) error {
@@ -128,7 +129,7 @@ func extractData(reader *multipart.Reader, data *UserProfilePhoto) error {
 
 			fileBytes, err = io.ReadAll(part)
 			if err != nil {
-				return controller.BadRequest("Error reading file", err)
+				return errors.New("Error reading file" + err.Error())
 			}
 
 			fileHeaderName = part.FileName()

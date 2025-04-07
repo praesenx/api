@@ -1,10 +1,10 @@
-package users
+package people
 
 import (
 	"github.com/gocanto/blog/app/proxy"
 )
 
-type UserController struct {
+type UsersHandler struct {
 	Validator  *proxy.Validator
 	Repository *Repository
 }

@@ -1,4 +1,4 @@
-package users
+package people
 
 import (
 	"crypto/sha256"

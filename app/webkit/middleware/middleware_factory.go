@@ -1,7 +1,8 @@
-package controller
+package middleware
 
 import (
 	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/app/webkit"
 )
 
 type MiddlewareStack struct {
@@ -10,7 +11,7 @@ type MiddlewareStack struct {
 	userAdminResolver func(seed string) bool
 }
 
-type Middleware func(BaseController) BaseController
+type Middleware func(webkit.BaseHandler) webkit.BaseHandler
 
 func MakeMiddlewareStack(env *env.Environment, userAdminResolver func(seed string) bool) *MiddlewareStack {
 	return &MiddlewareStack{

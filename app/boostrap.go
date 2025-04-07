@@ -4,8 +4,8 @@ import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/logs"
+	"github.com/gocanto/blog/app/people"
 	"github.com/gocanto/blog/app/proxy"
-	"github.com/gocanto/blog/app/users"
 	"strconv"
 	"strings"
 )
@@ -30,8 +30,8 @@ func MakeLogs(env *env.Environment) *logs.Driver {
 	return &lDriver
 }
 
-func MakeAdminUser(env *env.Environment) *users.AdminUser {
-	return &users.AdminUser{
+func MakeAdminUser(env *env.Environment) *people.AdminUser {
+	return &people.AdminUser{
 		PublicToken:  env.App.AppUserAmin.PublicToken,
 		PrivateToken: env.App.AppUserAmin.PrivateToken,
 	}

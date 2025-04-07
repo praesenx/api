@@ -1,14 +1,15 @@
-package controller
+package webkit
 
 import (
 	"encoding/json"
+	"github.com/gocanto/blog/app/webkit/response"
 	"log/slog"
 	"net/http"
 )
 
-type BaseController func(w http.ResponseWriter, r *http.Request) *HttpError
+type BaseHandler func(w http.ResponseWriter, r *http.Request) *response.Response
 
-func CreateHandle(callback BaseController) http.HandlerFunc {
+func CreateHandle(callback BaseHandler) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		if err := callback(writer, request); err != nil {
 			err.Respond(writer)
@@ -20,7 +21,7 @@ func CreateHandle(callback BaseController) http.HandlerFunc {
 	}
 }
 
-func SendJSON(writer http.ResponseWriter, statusCode int, data any) *HttpError {
+func SendJSON(writer http.ResponseWriter, statusCode int, data any) *response.Response {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	writer.WriteHeader(statusCode)
 
@@ -33,7 +34,7 @@ func SendJSON(writer http.ResponseWriter, statusCode int, data any) *HttpError {
 
 	if err := json.NewEncoder(writer).Encode(data); err != nil {
 		slog.Error("Error encoding success response", "error", err)
-		return InternalServerError("Failed to encode response", err)
+		return response.InternalServerError("Failed to encode response", err)
 	}
 
 	return nil // Signal success

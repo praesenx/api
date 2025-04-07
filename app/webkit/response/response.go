@@ -1,4 +1,4 @@
-package controller
+package response
 
 import (
 	"encoding/json"
@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-type HttpError struct {
+type Response struct {
 	Code             int
 	Message          string
 	Err              error
 	ValidationErrors map[string]any
 }
 
-func MakeHttpError(code int, message string, err error) *HttpError {
-	return &HttpError{
+func MakeResponse(code int, message string, err error) *Response {
+	return &Response{
 		Code:             code,
 		Message:          message,
 		Err:              err,
@@ -23,16 +23,16 @@ func MakeHttpError(code int, message string, err error) *HttpError {
 	}
 }
 
-func BadRequest(message string, err error) *HttpError {
-	return MakeHttpError(http.StatusBadRequest, message, err)
+func BadRequest(message string, err error) *Response {
+	return MakeResponse(http.StatusBadRequest, message, err)
 }
 
-func InternalServerError(message string, err error) *HttpError {
-	return MakeHttpError(http.StatusInternalServerError, message, err)
+func InternalServerError(message string, err error) *Response {
+	return MakeResponse(http.StatusInternalServerError, message, err)
 }
 
-func RespondWithErrors(message string, validationErrors map[string]any, err error) *HttpError {
-	return &HttpError{
+func Forbidden(message string, validationErrors map[string]any, err error) *Response {
+	return &Response{
 		Code:             http.StatusForbidden,
 		Message:          message,
 		Err:              err,
@@ -40,8 +40,8 @@ func RespondWithErrors(message string, validationErrors map[string]any, err erro
 	}
 }
 
-func Unauthorised(message string, err error) *HttpError {
-	return &HttpError{
+func Unauthorized(message string, err error) *Response {
+	return &Response{
 		Code:             http.StatusUnauthorized,
 		Message:          message,
 		Err:              err,
@@ -49,7 +49,7 @@ func Unauthorised(message string, err error) *HttpError {
 	}
 }
 
-func (e *HttpError) Error() string {
+func (e *Response) Error() string {
 	if e.Err != nil {
 		return fmt.Sprintf("%s: %v", e.Message, e.Err)
 	}
@@ -57,11 +57,11 @@ func (e *HttpError) Error() string {
 	return e.Message
 }
 
-func (e *HttpError) Unwrap() error {
+func (e *Response) Unwrap() error {
 	return e.Err
 }
 
-func (e *HttpError) Respond(w http.ResponseWriter) {
+func (e *Response) Respond(w http.ResponseWriter) {
 	slog.Error("HTTP Error", "status", e.Code, "message", e.Message, "error", e.Err, "validation_errors", e.ValidationErrors)
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
