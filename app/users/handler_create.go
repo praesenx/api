@@ -7,35 +7,31 @@ import (
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/webkit"
 	"github.com/gocanto/blog/app/webkit/media"
+	"github.com/gocanto/blog/app/webkit/request"
 	"github.com/gocanto/blog/app/webkit/response"
 	"io"
-	"log/slog"
 	"mime/multipart"
 	"net/http"
 )
 
 func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			slog.Error("Issue closing the request body", err)
-		}
-	}(r.Body)
-
-	// Get the multipart reader.
-	mr, err := r.MultipartReader()
-	if err != nil {
-		return response.BadRequest("Error getting multipart reader", err)
-	}
-
 	var profilePhoto RawCreateRequestBag
 
-	if err := extractData(mr, &profilePhoto); err != nil {
-		return response.BadRequest("Error extracting data", err)
+	req, err := request.MakeMultipartRequest(r, &profilePhoto)
+	defer req.Close(nil)
+
+	if err != nil {
+		fmt.Println("1 ---> ", err)
+		return response.BadRequest("issues creating the request", err)
 	}
 
-	// --- Save the file using fileBytes ---
-	profilePic, err := media.MakeMedia(profilePhoto.file, profilePhoto.headerName)
+	err = req.ParseRawData(extractData)
+	if err != nil {
+		fmt.Println("---> ", err)
+		return response.BadRequest("NEW: Error getting multipart reader", err)
+	}
+
+	profilePic, err := media.MakeMedia(req.GetFile(), req.GetHeaderName())
 
 	if err != nil {
 		return response.BadRequest("Error handling the given file", err)
