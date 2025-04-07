@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/people"
+	"github.com/gocanto/blog/app/users"
 	"github.com/gocanto/blog/app/webkit"
 	"github.com/gocanto/blog/app/webkit/llogs"
 	"strconv"
@@ -30,8 +30,8 @@ func MakeLogs(env *env.Environment) *llogs.Driver {
 	return &lDriver
 }
 
-func MakeAdminUser(env *env.Environment) *people.AdminUser {
-	return &people.AdminUser{
+func MakeAdminUser(env *env.Environment) *users.AdminUser {
+	return &users.AdminUser{
 		PublicToken:  env.App.AppUserAmin.PublicToken,
 		PrivateToken: env.App.AppUserAmin.PrivateToken,
 	}

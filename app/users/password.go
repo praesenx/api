@@ -1,4 +1,4 @@
-package people
+package users
 
 import "golang.org/x/crypto/bcrypt"
 

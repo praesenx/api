@@ -1,4 +1,4 @@
-package people
+package users
 
 import (
 	"github.com/gocanto/blog/app/webkit"

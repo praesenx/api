@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/people"
+	"github.com/gocanto/blog/app/users"
 	"github.com/gocanto/blog/app/webkit"
 	"github.com/gocanto/blog/app/webkit/llogs"
 	"github.com/gocanto/blog/app/webkit/middleware"
@@ -14,7 +14,7 @@ type App struct {
 	Validator *webkit.Validator `validate:"required"`
 	Logs      *llogs.Driver     `validate:"required"`
 	Orm       *database.Orm     `validate:"required"`
-	AdminUser *people.AdminUser `validate:"required"`
+	AdminUser *users.AdminUser  `validate:"required"`
 	Env       *env.Environment  `validate:"required"`
 	Mux       *http.ServeMux    `validate:"required"`
 }
@@ -30,8 +30,8 @@ func (app App) RegisterUsers() {
 		return app.AdminUser.IsAllowed(seed)
 	})
 
-	handler := people.UsersHandler{
-		Repository: people.MakeRepository(app.Orm, app.AdminUser),
+	handler := users.UsersHandler{
+		Repository: users.MakeRepository(app.Orm, app.AdminUser),
 		Validator:  app.Validator,
 	}
 

@@ -1,12 +1,12 @@
-package people
+package users
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/media"
 	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog/app/webkit/media"
 	"github.com/gocanto/blog/app/webkit/response"
 	"io"
 	"log/slog"
