@@ -12,3 +12,9 @@ type UserController struct {
 type CreatedUser struct {
 	UUID string `json:"uuid"`
 }
+
+type UserProfilePhoto struct {
+	file       []byte
+	payload    []byte
+	headerName string
+}

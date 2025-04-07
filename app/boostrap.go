@@ -66,7 +66,7 @@ func MakeEnv(values map[string]string, validate *proxy.Validator) *env.Environme
 		TimeZone:     values["ENV_DB_TIMEZONE"],
 	}
 
-	logs := env.LogsEnvironment{
+	logsCreds := env.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
@@ -89,8 +89,8 @@ func MakeEnv(values map[string]string, validate *proxy.Validator) *env.Environme
 		panic(errorSufix + "invalid [AppUserAminEnvValues] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(logs); err != nil {
-		panic(errorSufix + "invalid [LOGS] model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(logsCreds); err != nil {
+		panic(errorSufix + "invalid [Logs Creds] model: " + validate.GetErrorsAsJason())
 	}
 
 	if _, err := validate.Rejects(net); err != nil {
@@ -100,7 +100,7 @@ func MakeEnv(values map[string]string, validate *proxy.Validator) *env.Environme
 	blog := &env.Environment{
 		App:     app,
 		DB:      db,
-		Logs:    logs,
+		Logs:    logsCreds,
 		Network: net,
 	}
 

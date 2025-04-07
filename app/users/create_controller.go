@@ -1,14 +1,15 @@
 package users
 
 import (
-	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gocanto/blog/app/controller"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/media"
 	"io"
 	"log/slog"
+	"mime/multipart"
 	"net/http"
 )
 
@@ -26,8 +27,6 @@ type CreateRequestBag struct {
 }
 
 func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *controller.HttpError {
-	body, err := io.ReadAll(r.Body)
-
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
@@ -35,71 +34,22 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 		}
 	}(r.Body)
 
-	if err != nil {
-		return controller.BadRequest("Invalid request payload: cannot read body", err)
-	}
-
-	fmt.Println("Raw body length:", len(body))
-	// Reset the request body so it can be read again.
-	r.Body = io.NopCloser(bytes.NewBuffer(body))
-
 	// Get the multipart reader.
 	mr, err := r.MultipartReader()
 	if err != nil {
 		return controller.BadRequest("Error getting multipart reader", err)
 	}
 
-	var fileBytes []byte
-	var dataBytes []byte
-	var fileHeaderName string
+	var profilePhoto UserProfilePhoto
 
-	for {
-		part, err := mr.NextPart()
-
-		if err == io.EOF {
-			break
-		}
-
-		if err != nil {
-			return controller.BadRequest("Error reading multipart parts", err)
-		}
-
-		// Check which part we got.
-		switch part.FormName() {
-
-		case "data":
-			// Ensure this is a text field (not a file).
-			if part.FileName() != "" {
-				return controller.BadRequest("Expected 'data' to be a JSON text field", err)
-			}
-
-			dataBytes, err = io.ReadAll(part)
-			if err != nil {
-				return controller.BadRequest("Error reading data field", err)
-			}
-
-			fmt.Println("Received data field:", string(dataBytes))
-
-		case "profile_picture_url":
-
-			fileBytes, err = io.ReadAll(part)
-			if err != nil {
-				return controller.BadRequest("Error reading file", err)
-			}
-			fileHeaderName = part.FileName()
-			fmt.Printf("Received file part: %d bytes\n", len(fileBytes))
-		default:
-			fmt.Println("Ignoring unexpected part:", part.FormName())
-		}
-
-		if err = part.Close(); err != nil {
-			slog.Error("Issue closing the multi-part reader", err)
-		}
+	if err := extractData(mr, &profilePhoto); err != nil {
+		return controller.BadRequest("Error extracting data", err)
 	}
 
 	// --- Save the file using fileBytes ---
-	profilePic, err := media.MakeMedia(fileBytes, fileHeaderName)
+	profilePic, err := media.MakeMedia(profilePhoto.file, profilePhoto.headerName)
 
+	fmt.Println("--->", len(profilePhoto.file), "---> err: ", err)
 	if err != nil {
 		return controller.BadRequest("Error handling the given file", err)
 	}
@@ -109,7 +59,7 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 	}
 
 	var requestBag CreateRequestBag
-	if err = json.Unmarshal(dataBytes, &requestBag); err != nil {
+	if err = json.Unmarshal(profilePhoto.payload, &requestBag); err != nil {
 		return controller.BadRequest("Invalid request payload: malformed JSON", err)
 	}
 
@@ -140,4 +90,61 @@ func (handler UserController) Create(w http.ResponseWriter, r *http.Request) *co
 	}
 
 	return controller.SendJSON(w, http.StatusCreated, payload)
+}
+
+func extractData(reader *multipart.Reader, data *UserProfilePhoto) error {
+	var fileBytes []byte
+	var dataBytes []byte
+	var fileHeaderName string
+
+	for {
+		part, err := reader.NextPart()
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return err
+		}
+
+		// Check which part we got.
+		switch part.FormName() {
+
+		case "data":
+			if part.FileName() != "" {
+				return errors.New("expected 'data' to be a JSON text field")
+			}
+
+			dataBytes, err = io.ReadAll(part)
+			if err != nil {
+				return errors.New("Error reading data field" + err.Error())
+			}
+
+			data.payload = dataBytes
+			fmt.Println("Received data field:", string(dataBytes))
+
+		case "profile_picture_url":
+
+			fileBytes, err = io.ReadAll(part)
+			if err != nil {
+				return controller.BadRequest("Error reading file", err)
+			}
+
+			fileHeaderName = part.FileName()
+			fmt.Printf("Received file name: %s\n", fileHeaderName)
+			fmt.Printf("Received file part: %d bytes\n", len(fileBytes))
+
+			data.file = fileBytes
+			data.headerName = fileHeaderName
+		default:
+			fmt.Println("Ignoring unexpected part:", part.FormName())
+		}
+
+		if err = part.Close(); err != nil {
+			return errors.New("Issue closing the multi-part reader" + err.Error())
+		}
+	}
+
+	return nil
 }
