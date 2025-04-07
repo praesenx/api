@@ -30,7 +30,7 @@ func (app App) RegisterUsers() {
 		return app.AdminUser.IsAllowed(seed)
 	})
 
-	handler := users.UsersHandler{
+	handler := users.UserHandler{
 		Repository: users.MakeRepository(app.Orm, app.AdminUser),
 		Validator:  app.Validator,
 	}

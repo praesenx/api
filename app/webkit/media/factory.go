@@ -13,6 +13,7 @@ const PostsDir = "posts"
 const StorageDir = "storage"
 
 var maxFileSize = int64(50 * 1024 * 1024) // 50 MB in bytes
+var allowedExtensions = []string{".jpg", ".jpeg", ".png"}
 
 type Media struct {
 	file   []byte
@@ -57,7 +58,6 @@ func MakeMedia(file []byte, headerName string) (*Media, error) {
 }
 
 func hasValidExt(ext string) bool {
-	var allowedExtensions = []string{".jpg", ".jpeg", ".png"}
 
 	for _, fileExt := range allowedExtensions {
 

@@ -4,17 +4,7 @@ import (
 	"github.com/gocanto/blog/app/webkit"
 )
 
-type UsersHandler struct {
+type UserHandler struct {
 	Validator  *webkit.Validator
 	Repository *Repository
-}
-
-type CreatedUser struct {
-	UUID string `json:"uuid"`
-}
-
-type UserProfilePhoto struct {
-	file       []byte
-	payload    []byte
-	headerName string
 }
