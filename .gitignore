@@ -11,11 +11,10 @@ go.work.sum
 
 # --- app
 .env
-database/data
+database/infra/data
 
 # --- air
 tmp
-app/tmp
 
 # --- Bin / Storage
 bin
@@ -30,11 +29,11 @@ bin/storage/media/users/*.*
 !bin/storage/media/users/.gitkeep
 
 # --- App / Storage
-app/storage/logs/*.*
-app/storage/media/*.*
-app/storage/media/posts/*.*
-app/storage/media/users/*.*
-!app/storage/logs/.gitkeep
-!app/storage/media/.gitkeep
-!app/storage/media/posts/.gitkeep
-!app/storage/media/users/.gitkeep
+storage/logs/*.*
+storage/media/*.*
+storage/media/posts/*.*
+storage/media/users/*.*
+!storage/logs/.gitkeep
+!storage/media/.gitkeep
+!storage/media/posts/.gitkeep
+!storage/media/users/.gitkeep

@@ -1,7 +1,7 @@
 package users
 
 import (
-	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog/webkit"
 )
 
 type UserHandler struct {

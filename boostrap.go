@@ -3,11 +3,11 @@ package main
 import (
 	"github.com/getsentry/sentry-go"
 	sentryhttp "github.com/getsentry/sentry-go/http"
-	"github.com/gocanto/blog/app/database"
-	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/users"
-	"github.com/gocanto/blog/app/webkit"
-	"github.com/gocanto/blog/app/webkit/llogs"
+	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/users"
+	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/webkit/llogs"
 	"log"
 	"strconv"
 	"strings"
@@ -16,7 +16,7 @@ import (
 
 func MakeSentry(env *env.Environment) *webkit.Sentry {
 	cOptions := sentry.ClientOptions{
-		Dsn:   environment.Sentry.DSN,
+		Dsn:   env.Sentry.DSN,
 		Debug: true,
 	}
 
@@ -103,7 +103,7 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	sentry := env.SentryEnvironment{
+	sentryEnvironment := env.SentryEnvironment{
 		DSN: values["ENV_SENTRY_DSN"],
 		CSP: values["ENV_SENTRY_CSP"],
 	}
@@ -128,7 +128,7 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		panic(errorSufix + "invalid [NETWORK] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(sentry); err != nil {
+	if _, err := validate.Rejects(sentryEnvironment); err != nil {
 		panic(errorSufix + "invalid [SENTRY] model: " + validate.GetErrorsAsJason())
 	}
 
@@ -137,7 +137,7 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		DB:      db,
 		Logs:    logsCreds,
 		Network: net,
-		Sentry:  sentry,
+		Sentry:  sentryEnvironment,
 	}
 
 	if _, err := validate.Rejects(blog); err != nil {

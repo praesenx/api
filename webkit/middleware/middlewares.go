@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/webkit"
-	"github.com/gocanto/blog/app/webkit/response"
+	"github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/webkit/response"
 	"net/http"
 )
 

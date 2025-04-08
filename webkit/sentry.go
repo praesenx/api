@@ -2,7 +2,7 @@ package webkit
 
 import (
 	sentryhttp "github.com/getsentry/sentry-go/http"
-	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/env"
 )
 
 type Sentry struct {

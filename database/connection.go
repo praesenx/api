@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/env"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log/slog"

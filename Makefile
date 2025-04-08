@@ -19,29 +19,29 @@ ROOT_NETWORK ?= gocanto
 ROOT_PATH ?= $(shell pwd)
 ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
-STORAGE_PATH ?= $(ROOT_PATH)/app/storage
+STORAGE_PATH ?= $(ROOT_PATH)/storage
 BIN_PATH ?= $(ROOT_PATH)/bin
 BIN_LOGS_PATH ?= $(ROOT_PATH)/bin/storage/logs
-APP_PATH ?= $(ROOT_PATH)/app/
+APP_PATH ?= $(ROOT_PATH)/
 
 # ------ Database Configuration
 # --- Docker
 DB_DOCKER_SERVICE_NAME ?= postgres
 DB_DOCKER_CONTAINER_NAME ?= gocanto-db
 # --- Paths
-DB_ROOT_PATH ?= $(ROOT_PATH)/database
-DB_SSL_PATH ?= $(DB_ROOT_PATH)/ssl
-DB_DATA_PATH ?= $(DB_ROOT_PATH)/data
+DB_INFRA_ROOT_PATH ?= $(ROOT_PATH)/database/infra
+DB_INFRA_SSL_PATH ?= $(DB_INFRA_ROOT_PATH)/ssl
+DB_INFRA_DATA_PATH ?= $(DB_INFRA_ROOT_PATH)/data
 # --- SSL
-DB_SERVER_CRT ?= $(DB_SSL_PATH)/server.crt
-DB_SERVER_CSR ?= $(DB_SSL_PATH)/server.csr
-DB_SERVER_KEY ?= $(DB_SSL_PATH)/server.key
+DB_INFRA_SERVER_CRT ?= $(DB_INFRA_SSL_PATH)/server.crt
+DB_INFRA_SERVER_CSR ?= $(DB_INFRA_SSL_PATH)/server.csr
+DB_INFRA_SERVER_KEY ?= $(DB_INFRA_SSL_PATH)/server.key
 # --- Migrations
-DB_MIGRATE_PATH ?= $(ROOT_PATH)/database/migrations
+DB_MIGRATE_PATH ?= $(DB_INFRA_ROOT_PATH)/migrations
 DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
 fresh:
-	rm -rf $(DB_DATA_PATH) && \
+	rm -rf $(DB_INFRA_DATA_PATH) && \
 	docker compose down --remove-orphans && \
 	docker container prune -f && \
 	docker image prune -f && \
@@ -107,19 +107,19 @@ db\:logs:
 
 db\:delete:
 	docker compose down $(DB_DOCKER_SERVICE_NAME) --remove-orphans && \
-	rm -rf $(DB_DATA_PATH) && \
+	rm -rf $(DB_INFRA_DATA_PATH) && \
 	docker ps
 
 db\:secure:
 	make fresh && \
-	rm -rf $(DB_SERVER_CRT) && rm -rf $(DB_SERVER_CSR) && rm -rf $(DB_SERVER_KEY) && \
-	openssl genpkey -algorithm RSA -out $(DB_SERVER_KEY) && \
-    openssl req -new -key $(DB_SERVER_KEY) -out $(DB_SERVER_CSR) && \
-    openssl x509 -req -days 365 -in $(DB_SERVER_CSR) -signkey $(DB_SERVER_KEY) -out $(DB_SERVER_CRT) && \
+	rm -rf $(DB_INFRA_SERVER_CRT) && rm -rf $(DB_INFRA_SERVER_CSR) && rm -rf $(DB_INFRA_SERVER_KEY) && \
+	openssl genpkey -algorithm RSA -out $(DB_INFRA_SERVER_KEY) && \
+    openssl req -new -key $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CSR) && \
+    openssl x509 -req -days 365 -in $(DB_INFRA_SERVER_CSR) -signkey $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CRT) && \
     make db:secure:permissions
 
 db\:secure\:permissions:
-	chmod 600 $(DB_SERVER_KEY) && chmod 600 $(DB_SERVER_CRT)
+	chmod 600 $(DB_INFRA_SERVER_KEY) && chmod 600 $(DB_INFRA_SERVER_CRT)
 
 db\:secure\:show::
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \

@@ -2,7 +2,7 @@ package users
 
 import (
 	"errors"
-	"github.com/gocanto/blog/app/database"
+	"github.com/gocanto/blog/database"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"strings"
