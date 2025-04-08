@@ -1,6 +1,7 @@
 package main
 
 import (
+	sentryhttp "github.com/getsentry/sentry-go/http"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/users"
@@ -9,6 +10,17 @@ import (
 	"strconv"
 	"strings"
 )
+
+func MakeSentry(env *env.Environment) *webkit.Sentry {
+	options := sentryhttp.Options{}
+	handler := sentryhttp.New(options)
+
+	return &webkit.Sentry{
+		Handler: handler,
+		Options: &options,
+		Env:     env,
+	}
+}
 
 func MakeDbConnection(env *env.Environment) *database.Connection {
 	dbConn, err := database.MakeConnection(env)

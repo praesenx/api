@@ -32,6 +32,7 @@ func main() {
 	dbConnection := MakeDbConnection(environment)
 	logs := MakeLogs(environment)
 	adminUser := MakeAdminUser(environment)
+	localSentry := MakeSentry(environment)
 
 	defer (*logs).Close()
 	defer (*dbConnection).Close()
@@ -45,6 +46,7 @@ func main() {
 		AdminUser:    adminUser,
 		Env:          environment,
 		Mux:          mux,
+		Sentry:       localSentry,
 	})
 
 	app.RegisterUsers()
