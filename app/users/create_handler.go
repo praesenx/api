@@ -69,7 +69,11 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 
 	payload := map[string]any{
 		"message": "User created successfully!",
-		"user":    map[string]string{"uuid": created.UUID},
+		"user": map[string]string{
+			"uuid":                created.UUID,
+			"picture_file_name":   requestBag.PictureFileName,
+			"profile_picture_url": requestBag.ProfilePictureURL,
+		},
 	}
 
 	return webkit.SendJSON(w, http.StatusCreated, payload)
