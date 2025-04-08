@@ -17,14 +17,6 @@ type Request struct {
 	multiPartRawData media.MultipartFormInterface
 }
 
-//func MakeRequest(r *http.Request) *Request {
-//	return &Request{
-//		baseRequest:      r,
-//		isMultipart:      false,
-//		multiPartRawData: nil,
-//	}
-//}
-
 func MakeMultipartRequest[T media.MultipartFormInterface](r *http.Request, rawData T) (*Request, error) {
 	reader, err := r.MultipartReader()
 
