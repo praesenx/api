@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/gocanto/blog/env"
 	"github.com/gocanto/blog/webkit"
-	media2 "github.com/gocanto/blog/webkit/media"
+	"github.com/gocanto/blog/webkit/media"
 	"github.com/gocanto/blog/webkit/request"
 	"github.com/gocanto/blog/webkit/response"
 	"io"
@@ -43,7 +43,7 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 		return response.Unprocessable(fmt.Sprintf("user '%s' already exists", requestBag.Username), nil)
 	}
 
-	profilePic, err := media2.MakeMedia(
+	profilePic, err := media.MakeMedia(
 		requestBag.Username,
 		multipartRequest.GetFile(),
 		multipartRequest.GetHeaderName(),
@@ -53,7 +53,7 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 		return response.BadRequest("Error handling the given file", err)
 	}
 
-	if err := profilePic.Upload(media2.GetUsersImagesDir()); err != nil {
+	if err := profilePic.Upload(media.GetUsersImagesDir()); err != nil {
 		return response.BadRequest("Error saving the given file", err)
 	}
 
@@ -79,7 +79,7 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 	return webkit.SendJSON(w, http.StatusCreated, payload)
 }
 
-func extractData[T media2.MultipartFormInterface](reader *multipart.Reader, data T) error {
+func extractData[T media.MultipartFormInterface](reader *multipart.Reader, data T) error {
 	for {
 		part, err := reader.NextPart()
 

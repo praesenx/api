@@ -1,23 +1,22 @@
-package blog
+package main
 
 import (
 	"github.com/getsentry/sentry-go"
 	sentryhttp "github.com/getsentry/sentry-go/http"
-	blog2 "github.com/gocanto/blog"
 	"github.com/gocanto/blog/database"
-	env2 "github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/env"
 	"github.com/gocanto/blog/users"
-	webkit2 "github.com/gocanto/blog/webkit"
-	llogs2 "github.com/gocanto/blog/webkit/llogs"
+	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/webkit/llogs"
 	"log"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func MakeSentry(env *env2.Environment) *webkit2.Sentry {
+func MakeSentry(env *env.Environment) *webkit.Sentry {
 	cOptions := sentry.ClientOptions{
-		Dsn:   blog2.environment.Sentry.DSN,
+		Dsn:   env.Sentry.DSN,
 		Debug: true,
 	}
 
@@ -30,14 +29,14 @@ func MakeSentry(env *env2.Environment) *webkit2.Sentry {
 	options := sentryhttp.Options{}
 	handler := sentryhttp.New(options)
 
-	return &webkit2.Sentry{
+	return &webkit.Sentry{
 		Handler: handler,
 		Options: &options,
 		Env:     env,
 	}
 }
 
-func MakeDbConnection(env *env2.Environment) *database.Connection {
+func MakeDbConnection(env *env.Environment) *database.Connection {
 	dbConn, err := database.MakeConnection(env)
 
 	if err != nil {
@@ -47,8 +46,8 @@ func MakeDbConnection(env *env2.Environment) *database.Connection {
 	return dbConn
 }
 
-func MakeLogs(env *env2.Environment) *llogs2.Driver {
-	lDriver, err := llogs2.MakeFilesLogs(env)
+func MakeLogs(env *env.Environment) *llogs.Driver {
+	lDriver, err := llogs.MakeFilesLogs(env)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
@@ -57,30 +56,30 @@ func MakeLogs(env *env2.Environment) *llogs2.Driver {
 	return &lDriver
 }
 
-func MakeAdminUser(env *env2.Environment) *users.AdminUser {
+func MakeAdminUser(env *env.Environment) *users.AdminUser {
 	return &users.AdminUser{
 		PublicToken:  env.App.AppUserAmin.PublicToken,
 		PrivateToken: env.App.AppUserAmin.PrivateToken,
 	}
 }
 
-func MakeEnv(values map[string]string, validate *webkit2.Validator) *env2.Environment {
+func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environment {
 	errorSufix := "Environment: "
 
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
 
-	userAminEnvValues := &env2.AppUserAminEnvValues{
+	userAminEnvValues := &env.AppUserAminEnvValues{
 		PublicToken:  strings.Trim(values["ENV_APP_ADMIN_PUBLIC_TOKEN"], " "),
 		PrivateToken: strings.Trim(values["ENV_APP_ADMIN_PRIVATE_TOKEN"], " "),
 	}
 
-	app := env2.AppEnvironment{
+	app := env.AppEnvironment{
 		Name:        values["ENV_APP_NAME"],
 		Type:        values["ENV_APP_ENV_TYPE"],
 		AppUserAmin: userAminEnvValues,
 	}
 
-	db := env2.DBEnvironment{
+	db := env.DBEnvironment{
 		UserName:     values["ENV_DB_USER_NAME"],
 		UserPassword: values["ENV_DB_USER_PASSWORD"],
 		DatabaseName: values["ENV_DB_DATABASE_NAME"],
@@ -93,18 +92,18 @@ func MakeEnv(values map[string]string, validate *webkit2.Validator) *env2.Enviro
 		TimeZone:     values["ENV_DB_TIMEZONE"],
 	}
 
-	logsCreds := env2.LogsEnvironment{
+	logsCreds := env.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
 	}
 
-	net := env2.NetEnvironment{
+	net := env.NetEnvironment{
 		HttpHost: values["ENV_HTTP_HOST"],
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
-	sentry := env2.SentryEnvironment{
+	sentryEnvironment := env.SentryEnvironment{
 		DSN: values["ENV_SENTRY_DSN"],
 		CSP: values["ENV_SENTRY_CSP"],
 	}
@@ -129,16 +128,16 @@ func MakeEnv(values map[string]string, validate *webkit2.Validator) *env2.Enviro
 		panic(errorSufix + "invalid [NETWORK] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(sentry); err != nil {
+	if _, err := validate.Rejects(sentryEnvironment); err != nil {
 		panic(errorSufix + "invalid [SENTRY] model: " + validate.GetErrorsAsJason())
 	}
 
-	blog := &env2.Environment{
+	blog := &env.Environment{
 		App:     app,
 		DB:      db,
 		Logs:    logsCreds,
 		Network: net,
-		Sentry:  sentry,
+		Sentry:  sentryEnvironment,
 	}
 
 	if _, err := validate.Rejects(blog); err != nil {
