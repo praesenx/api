@@ -9,14 +9,14 @@ import (
 	"log/slog"
 )
 
-type Orm struct {
+type Connection struct {
 	url        string
 	driverName string
 	driver     *gorm.DB
 	env        *env.Environment
 }
 
-func MakeORM(env *env.Environment) (*Orm, error) {
+func MakeConnection(env *env.Environment) (*Connection, error) {
 	dbEnv := env.DB
 	driver, err := gorm.Open(postgres.Open(dbEnv.GetDSN()), &gorm.Config{})
 
@@ -24,7 +24,7 @@ func MakeORM(env *env.Environment) (*Orm, error) {
 		return nil, err
 	}
 
-	return &Orm{
+	return &Connection{
 		url:        dbEnv.URL,
 		driver:     driver,
 		driverName: dbEnv.DriverName,
@@ -32,8 +32,8 @@ func MakeORM(env *env.Environment) (*Orm, error) {
 	}, nil
 }
 
-func (receiver *Orm) Close() bool {
-	if sqlDB, err := receiver.driver.DB(); err != nil {
+func (c *Connection) Close() bool {
+	if sqlDB, err := c.driver.DB(); err != nil {
 		slog.Error("There was an error closing the db: " + err.Error())
 
 		return false
@@ -47,12 +47,12 @@ func (receiver *Orm) Close() bool {
 	return true
 }
 
-func (receiver *Orm) Ping() {
+func (c *Connection) Ping() {
 	var driver *sql.DB
 
 	fmt.Println("\n---------")
 
-	if conn, err := receiver.driver.DB(); err != nil {
+	if conn, err := c.driver.DB(); err != nil {
 		fmt.Println(fmt.Sprintf("error retrieving the db driver: %v", err.Error()))
 
 		return
@@ -70,6 +70,6 @@ func (receiver *Orm) Ping() {
 	fmt.Println("---------")
 }
 
-func (receiver *Orm) DB() *gorm.DB {
-	return receiver.driver
+func (c *Connection) Sql() *gorm.DB {
+	return c.driver
 }

@@ -1,4 +1,4 @@
-package reponse
+package response
 
 import (
 	"encoding/json"
@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-type ResponseError struct {
+type Response struct {
 	Code             int
 	Message          string
 	Err              error
 	ValidationErrors map[string]any
 }
 
-func MakeResponseError(code int, message string, err error) *ResponseError {
-	return &ResponseError{
+func MakeResponse(code int, message string, err error) *Response {
+	return &Response{
 		Code:             code,
 		Message:          message,
 		Err:              err,
@@ -23,16 +23,16 @@ func MakeResponseError(code int, message string, err error) *ResponseError {
 	}
 }
 
-func MakeBadRequest(message string, err error) *ResponseError {
-	return MakeResponseError(http.StatusBadRequest, message, err)
+func BadRequest(message string, err error) *Response {
+	return MakeResponse(http.StatusBadRequest, message, err)
 }
 
-func MakeInternalServerError(message string, err error) *ResponseError {
-	return MakeResponseError(http.StatusInternalServerError, message, err)
+func InternalServerError(message string, err error) *Response {
+	return MakeResponse(http.StatusInternalServerError, message, err)
 }
 
-func MakeValidationError(message string, validationErrors map[string]any, err error) *ResponseError {
-	return &ResponseError{
+func Forbidden(message string, validationErrors map[string]any, err error) *Response {
+	return &Response{
 		Code:             http.StatusForbidden,
 		Message:          message,
 		Err:              err,
@@ -40,8 +40,8 @@ func MakeValidationError(message string, validationErrors map[string]any, err er
 	}
 }
 
-func MakeUnauthorized(message string, err error) *ResponseError {
-	return &ResponseError{
+func Unauthorized(message string, err error) *Response {
+	return &Response{
 		Code:             http.StatusUnauthorized,
 		Message:          message,
 		Err:              err,
@@ -49,7 +49,16 @@ func MakeUnauthorized(message string, err error) *ResponseError {
 	}
 }
 
-func (e *ResponseError) Error() string {
+func Unprocessable(message string, err error) *Response {
+	return &Response{
+		Code:             http.StatusUnprocessableEntity,
+		Message:          message,
+		Err:              err,
+		ValidationErrors: make(map[string]any),
+	}
+}
+
+func (e *Response) Error() string {
 	if e.Err != nil {
 		return fmt.Sprintf("%s: %v", e.Message, e.Err)
 	}
@@ -57,11 +66,11 @@ func (e *ResponseError) Error() string {
 	return e.Message
 }
 
-func (e *ResponseError) Unwrap() error {
+func (e *Response) Unwrap() error {
 	return e.Err
 }
 
-func (e *ResponseError) Respond(w http.ResponseWriter) {
+func (e *Response) Respond(w http.ResponseWriter) {
 	slog.Error("HTTP Error", "status", e.Code, "message", e.Message, "error", e.Err, "validation_errors", e.ValidationErrors)
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")

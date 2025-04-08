@@ -2,64 +2,122 @@ package users
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"github.com/gocanto/blog/app/reponse"
-	"github.com/gocanto/blog/app/support"
+	"github.com/gocanto/blog/app/env"
+	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog/app/webkit/media"
+	"github.com/gocanto/blog/app/webkit/request"
+	"github.com/gocanto/blog/app/webkit/response"
 	"io"
+	"mime/multipart"
 	"net/http"
 )
 
-type CreateRequestBag struct {
-	FirstName            string `json:"first_name" validate:"required,min=4,max=250"`
-	LastName             string `json:"last_name" validate:"required,min=4,max=250"`
-	Username             string `json:"username" validate:"required,alphanum,min=4,max=50"`
-	DisplayName          string `json:"display_name" validate:"omitempty,min=3,max=255"`
-	Email                string `json:"email" validate:"required,email,max=250"`
-	Password             string `json:"password" validate:"required,min=8"`
-	PublicToken          string `json:"public_token"`
-	PasswordConfirmation string `json:"password_confirmation" validate:"required,eqfield=Password"`
-	Bio                  string `json:"bio" validate:"omitempty"`
-	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
-}
+func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
+	var rawRequest RawCreateRequestBag
 
-func (handler HandleUsers) Create(w http.ResponseWriter, r *http.Request) *reponse.ResponseError {
-	body, err := io.ReadAll(r.Body)
-	defer support.CloseRequestBody(r)
+	multipartRequest, err := request.MakeMultipartRequest(r, &rawRequest)
+	defer multipartRequest.Close(nil)
 
 	if err != nil {
-		return reponse.MakeBadRequest("Invalid request payload: cannot read body", err)
+		return response.BadRequest("issues creating the request", err)
+	}
+
+	err = multipartRequest.ParseRawData(extractData)
+	if err != nil {
+		return response.BadRequest("NEW: Error getting multipart reader", err)
 	}
 
 	var requestBag CreateRequestBag
-	if err = json.Unmarshal(body, &requestBag); err != nil {
-		return reponse.MakeBadRequest("Invalid request payload: malformed JSON", err)
+	if err = json.Unmarshal(rawRequest.payload, &requestBag); err != nil {
+		return response.BadRequest("Invalid request payload: malformed JSON", err)
 	}
 
 	validate := handler.Validator
 	if rejects, err := validate.Rejects(requestBag); rejects {
-		return reponse.MakeValidationError("Validation failed", validate.GetErrors(), err)
+		return response.Forbidden("Validation failed", validate.GetErrors(), err)
 	}
 
 	if result := handler.Repository.FindByUserName(requestBag.Username); result != nil {
-		return reponse.MakeValidationError(
-			fmt.Sprintf("user '%s' already exists", requestBag.Username),
-			map[string]any{},
-			nil,
-		)
+		return response.Unprocessable(fmt.Sprintf("user '%s' already exists", requestBag.Username), nil)
 	}
 
-	requestBag.PublicToken = r.Header.Get(support.ApiKeyHeader)
+	profilePic, err := media.MakeMedia(
+		requestBag.Username,
+		multipartRequest.GetFile(),
+		multipartRequest.GetHeaderName(),
+	)
+
+	if err != nil {
+		return response.BadRequest("Error handling the given file", err)
+	}
+
+	if err := profilePic.Upload(media.GetUsersImagesDir()); err != nil {
+		return response.BadRequest("Error saving the given file", err)
+	}
+
+	requestBag.PublicToken = r.Header.Get(env.ApiKeyHeader)
+	requestBag.PictureFileName = profilePic.GetFileName()
+	requestBag.ProfilePictureURL = profilePic.GetFilePath(requestBag.Username)
+
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {
-		return reponse.MakeInternalServerError(err.Error(), err)
+		return response.InternalServerError(err.Error(), err)
 	}
 
 	payload := map[string]any{
 		"message": "User created successfully!",
-		"user":    map[string]string{"uuid": created.UUID},
-		//"data":    json.RawMessage(body),
+		"user": map[string]string{
+			"uuid":                created.UUID,
+			"picture_file_name":   requestBag.PictureFileName,
+			"profile_picture_url": requestBag.ProfilePictureURL,
+		},
 	}
 
-	return reponse.SendJSON(w, http.StatusCreated, payload)
+	return webkit.SendJSON(w, http.StatusCreated, payload)
+}
+
+func extractData[T media.MultipartFormInterface](reader *multipart.Reader, data T) error {
+	for {
+		part, err := reader.NextPart()
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return err
+		}
+
+		switch part.FormName() {
+
+		case "data":
+			if part.FileName() != "" {
+				return errors.New("expected 'data' to be a JSON text field")
+			}
+
+			if dataBytes, err := io.ReadAll(part); err != nil {
+				return errors.New("Error reading data field" + err.Error())
+			} else {
+				data.SetPayload(dataBytes)
+			}
+
+		case "profile_picture_url":
+
+			if fileBytes, err := io.ReadAll(part); err != nil {
+				return errors.New("Error reading file" + err.Error())
+			} else {
+				data.SetFile(fileBytes)
+				data.SetHeaderName(part.FileName())
+			}
+		}
+
+		if err = part.Close(); err != nil {
+			return errors.New("Issue closing the multi-part reader" + err.Error())
+		}
+	}
+
+	return nil
 }

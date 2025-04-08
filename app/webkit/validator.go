@@ -1,4 +1,4 @@
-package support
+package webkit
 
 import (
 	"encoding/json"

@@ -3,25 +3,25 @@ package main
 import (
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/logger"
-	"github.com/gocanto/blog/app/support"
 	"github.com/gocanto/blog/app/users"
+	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog/app/webkit/llogs"
 	"strconv"
 	"strings"
 )
 
-func MakeORM(env *env.Environment) *database.Orm {
-	dbConn, err := database.MakeORM(env)
+func MakeDbConnection(env *env.Environment) *database.Connection {
+	dbConn, err := database.MakeConnection(env)
 
 	if err != nil {
-		panic("DB: error connecting to PostgreSQL: " + err.Error())
+		panic("Sql: error connecting to PostgreSQL: " + err.Error())
 	}
 
 	return dbConn
 }
 
-func MakeLogs(env *env.Environment) *logger.Managers {
-	lDriver, err := logger.MakeFilesManager(env)
+func MakeLogs(env *env.Environment) *llogs.Driver {
+	lDriver, err := llogs.MakeFilesLogs(env)
 
 	if err != nil {
 		panic("Logs: error opening logs file: " + err.Error())
@@ -37,7 +37,7 @@ func MakeAdminUser(env *env.Environment) *users.AdminUser {
 	}
 }
 
-func MakeEnv(values map[string]string, validate *support.Validator) *env.Environment {
+func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environment {
 	errorSufix := "Environment: "
 
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])
@@ -66,7 +66,7 @@ func MakeEnv(values map[string]string, validate *support.Validator) *env.Environ
 		TimeZone:     values["ENV_DB_TIMEZONE"],
 	}
 
-	logs := env.LogsEnvironment{
+	logsCreds := env.LogsEnvironment{
 		Level:      values["ENV_APP_LOG_LEVEL"],
 		Dir:        values["ENV_APP_LOGS_DIR"],
 		DateFormat: values["ENV_APP_LOGS_DATE_FORMAT"],
@@ -82,15 +82,15 @@ func MakeEnv(values map[string]string, validate *support.Validator) *env.Environ
 	}
 
 	if _, err := validate.Rejects(db); err != nil {
-		panic(errorSufix + "invalid [DB] model: " + validate.GetErrorsAsJason())
+		panic(errorSufix + "invalid [Sql] model: " + validate.GetErrorsAsJason())
 	}
 
 	if _, err := validate.Rejects(userAminEnvValues); err != nil {
 		panic(errorSufix + "invalid [AppUserAminEnvValues] model: " + validate.GetErrorsAsJason())
 	}
 
-	if _, err := validate.Rejects(logs); err != nil {
-		panic(errorSufix + "invalid [LOGS] model: " + validate.GetErrorsAsJason())
+	if _, err := validate.Rejects(logsCreds); err != nil {
+		panic(errorSufix + "invalid [Logs Creds] model: " + validate.GetErrorsAsJason())
 	}
 
 	if _, err := validate.Rejects(net); err != nil {
@@ -100,7 +100,7 @@ func MakeEnv(values map[string]string, validate *support.Validator) *env.Environ
 	blog := &env.Environment{
 		App:     app,
 		DB:      db,
-		Logs:    logs,
+		Logs:    logsCreds,
 		Network: net,
 	}
 

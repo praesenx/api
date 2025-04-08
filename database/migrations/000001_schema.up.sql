@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL,
     public_token varchar(250) NOT NULL,
     bio TEXT,
+    picture_file_name VARCHAR(2048),
     profile_picture_url VARCHAR(2048),
     is_admin BOOLEAN DEFAULT FALSE,
     verified_at TIMESTAMP DEFAULT NULL,
