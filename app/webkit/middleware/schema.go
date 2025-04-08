@@ -5,7 +5,7 @@ import (
 	"github.com/gocanto/blog/app/webkit"
 )
 
-type MiddlewareStack struct {
+type MiddlewaresStack struct {
 	env               *env.Environment
 	middleware        []Middleware
 	userAdminResolver func(seed string) bool
@@ -13,8 +13,8 @@ type MiddlewareStack struct {
 
 type Middleware func(webkit.BaseHandler) webkit.BaseHandler
 
-func MakeMiddlewareStack(env *env.Environment, userAdminResolver func(seed string) bool) *MiddlewareStack {
-	return &MiddlewareStack{
+func MakeMiddlewareStack(env *env.Environment, userAdminResolver func(seed string) bool) *MiddlewaresStack {
+	return &MiddlewaresStack{
 		env:               env,
 		userAdminResolver: userAdminResolver,
 		middleware:        []Middleware{},

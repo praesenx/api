@@ -1,14 +1,40 @@
 package main
 
 import (
+	"github.com/getsentry/sentry-go"
+	sentryhttp "github.com/getsentry/sentry-go/http"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/users"
 	"github.com/gocanto/blog/app/webkit"
 	"github.com/gocanto/blog/app/webkit/llogs"
+	"log"
 	"strconv"
 	"strings"
+	"time"
 )
+
+func MakeSentry(env *env.Environment) *webkit.Sentry {
+	cOptions := sentry.ClientOptions{
+		Dsn:   environment.Sentry.DSN,
+		Debug: true,
+	}
+
+	if err := sentry.Init(cOptions); err != nil {
+		log.Fatalf("sentry.Init: %s", err)
+	}
+
+	defer sentry.Flush(2 * time.Second)
+
+	options := sentryhttp.Options{}
+	handler := sentryhttp.New(options)
+
+	return &webkit.Sentry{
+		Handler: handler,
+		Options: &options,
+		Env:     env,
+	}
+}
 
 func MakeDbConnection(env *env.Environment) *database.Connection {
 	dbConn, err := database.MakeConnection(env)
@@ -77,6 +103,11 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
+	sentry := env.SentryEnvironment{
+		DSN: values["ENV_SENTRY_DSN"],
+		CSP: values["ENV_SENTRY_CSP"],
+	}
+
 	if _, err := validate.Rejects(app); err != nil {
 		panic(errorSufix + "invalid [APP] model: " + validate.GetErrorsAsJason())
 	}
@@ -97,11 +128,16 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		panic(errorSufix + "invalid [NETWORK] model: " + validate.GetErrorsAsJason())
 	}
 
+	if _, err := validate.Rejects(sentry); err != nil {
+		panic(errorSufix + "invalid [SENTRY] model: " + validate.GetErrorsAsJason())
+	}
+
 	blog := &env.Environment{
 		App:     app,
 		DB:      db,
 		Logs:    logsCreds,
 		Network: net,
+		Sentry:  sentry,
 	}
 
 	if _, err := validate.Rejects(blog); err != nil {

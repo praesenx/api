@@ -17,6 +17,7 @@ type App struct {
 	AdminUser    *users.AdminUser     `validate:"required"`
 	Env          *env.Environment     `validate:"required"`
 	Mux          *http.ServeMux       `validate:"required"`
+	Sentry       *webkit.Sentry       `validate:"required"`
 }
 
 func MakeApp(mux *http.ServeMux, app *App) *App {
