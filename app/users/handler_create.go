@@ -15,34 +15,22 @@ import (
 )
 
 func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
-	var profilePhoto RawCreateRequestBag
+	var rawRequest RawCreateRequestBag
 
-	req, err := request.MakeMultipartRequest(r, &profilePhoto)
-	defer req.Close(nil)
+	multipartRequest, err := request.MakeMultipartRequest(r, &rawRequest)
+	defer multipartRequest.Close(nil)
 
 	if err != nil {
-		fmt.Println("1 ---> ", err)
 		return response.BadRequest("issues creating the request", err)
 	}
 
-	err = req.ParseRawData(extractData)
+	err = multipartRequest.ParseRawData(extractData)
 	if err != nil {
-		fmt.Println("---> ", err)
 		return response.BadRequest("NEW: Error getting multipart reader", err)
 	}
 
-	profilePic, err := media.MakeMedia(req.GetFile(), req.GetHeaderName())
-
-	if err != nil {
-		return response.BadRequest("Error handling the given file", err)
-	}
-
-	if err := profilePic.Write(); err != nil {
-		return response.BadRequest("Error saving the given file", err)
-	}
-
 	var requestBag CreateRequestBag
-	if err = json.Unmarshal(profilePhoto.payload, &requestBag); err != nil {
+	if err = json.Unmarshal(rawRequest.payload, &requestBag); err != nil {
 		return response.BadRequest("Invalid request payload: malformed JSON", err)
 	}
 
@@ -52,14 +40,26 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 	}
 
 	if result := handler.Repository.FindByUserName(requestBag.Username); result != nil {
-		return response.Forbidden(
-			fmt.Sprintf("user '%s' already exists", requestBag.Username),
-			map[string]any{},
-			nil,
-		)
+		return response.Unprocessable(fmt.Sprintf("user '%s' already exists", requestBag.Username), nil)
+	}
+
+	profilePic, err := media.MakeMedia(
+		requestBag.Username,
+		multipartRequest.GetFile(),
+		multipartRequest.GetHeaderName(),
+	)
+
+	if err != nil {
+		return response.BadRequest("Error handling the given file", err)
+	}
+
+	if err := profilePic.Upload(); err != nil {
+		return response.BadRequest("Error saving the given file", err)
 	}
 
 	requestBag.PublicToken = r.Header.Get(env.ApiKeyHeader)
+	requestBag.ProfilePictureURL = profilePic.GetFilePath(requestBag.Username)
+
 	created, err := handler.Repository.Create(requestBag)
 
 	if err != nil {
@@ -69,7 +69,6 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 	payload := map[string]any{
 		"message": "User created successfully!",
 		"user":    map[string]string{"uuid": created.UUID},
-		//"data":    json.RawMessage(body),
 	}
 
 	return webkit.SendJSON(w, http.StatusCreated, payload)

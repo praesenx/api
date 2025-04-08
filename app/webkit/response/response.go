@@ -49,6 +49,15 @@ func Unauthorized(message string, err error) *Response {
 	}
 }
 
+func Unprocessable(message string, err error) *Response {
+	return &Response{
+		Code:             http.StatusUnprocessableEntity,
+		Message:          message,
+		Err:              err,
+		ValidationErrors: make(map[string]any),
+	}
+}
+
 func (e *Response) Error() string {
 	if e.Err != nil {
 		return fmt.Sprintf("%s: %v", e.Message, e.Err)
