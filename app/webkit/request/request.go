@@ -55,18 +55,6 @@ func (req *Request) Close(message *string) {
 	}(req.baseRequest.Body)
 }
 
-//func (req *Request) GetMultipartReader() (*multipart.Reader, error) {
-//	reader, err := req.baseRequest.MultipartReader()
-//
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	req.multipartReader = reader
-//
-//	return reader, nil
-//}
-
 func (req *Request) ParseRawData(callback func(reader *multipart.Reader, data media.MultipartFormInterface) error) error {
 	fmt.Println(fmt.Sprintf("dd: %+v", req))
 	if req.multipartReader == nil {
