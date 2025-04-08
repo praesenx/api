@@ -24,9 +24,9 @@ services:
     ports:
       - "${ENV_DB_PORT}:${ENV_DB_PORT}"
     volumes:
-        - ./database/data:/var/lib/postgresql/data
-        - ./database/ssl/server.crt:/etc/ssl/certs/server.crt
-        - ./database/ssl/server.key:/etc/ssl/private/server.key
+        - ./app/database/infra/ssl/server.crt:/etc/ssl/certs/server.crt
+        - ./app/database/infra/ssl/server.key:/etc/ssl/private/server.key
+        - ./app/database/infra/data:/var/lib/postgresql/data
         - ./app/database/infra/config/postgresql.conf:/etc/postgresql/postgresql.conf
         - ./app/database/infra/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     logging:
