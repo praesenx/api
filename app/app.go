@@ -11,12 +11,12 @@ import (
 )
 
 type App struct {
-	Validator *webkit.Validator `validate:"required"`
-	Logs      *llogs.Driver     `validate:"required"`
-	Orm       *database.Orm     `validate:"required"`
-	AdminUser *users.AdminUser  `validate:"required"`
-	Env       *env.Environment  `validate:"required"`
-	Mux       *http.ServeMux    `validate:"required"`
+	Validator    *webkit.Validator    `validate:"required"`
+	Logs         *llogs.Driver        `validate:"required"`
+	dbConnection *database.Connection `validate:"required"`
+	AdminUser    *users.AdminUser     `validate:"required"`
+	Env          *env.Environment     `validate:"required"`
+	Mux          *http.ServeMux       `validate:"required"`
 }
 
 func MakeApp(mux *http.ServeMux, app *App) *App {
@@ -31,7 +31,7 @@ func (app App) RegisterUsers() {
 	})
 
 	handler := users.UserHandler{
-		Repository: users.MakeRepository(app.Orm, app.AdminUser),
+		Repository: users.MakeRepository(app.dbConnection, app.AdminUser),
 		Validator:  app.Validator,
 	}
 

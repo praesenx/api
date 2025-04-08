@@ -16,6 +16,7 @@ type User struct {
 	PasswordHash      string         `gorm:"type:varchar(255);not null"`
 	PublicToken       string         `gorm:"type:varchar(250);not null;index:idx_public_token"`
 	Bio               string         `gorm:"type:text"`
+	PictureFileName   string         `gorm:"type:varchar(2048)"`
 	ProfilePictureURL string         `gorm:"type:varchar(2048)"`
 	IsAdmin           bool           `gorm:"default:false"`
 	VerifiedAt        time.Time      `gorm:"index:idx_users_verified_at"`

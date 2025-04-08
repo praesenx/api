@@ -14,6 +14,7 @@ type CreateRequestBag struct {
 	PublicToken          string `json:"public_token"`
 	PasswordConfirmation string `json:"password_confirmation" validate:"required,eqfield=Password"`
 	Bio                  string `json:"bio" validate:"omitempty"`
+	PictureFileName      string `json:"picture_file_name" validate:"omitempty"`
 	ProfilePictureURL    string `json:"profile_picture_url" validate:"omitempty,url,max=2048"`
 }
 

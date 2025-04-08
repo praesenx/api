@@ -6,13 +6,10 @@ import (
 )
 
 func hasValidExt(ext string) bool {
-
 	for _, fileExt := range allowedExtensions {
-
 		if fileExt == ext {
 			return true
 		}
-
 	}
 
 	return false

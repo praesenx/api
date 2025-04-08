@@ -29,27 +29,27 @@ func init() {
 }
 
 func main() {
-	orm := MakeORM(environment)
+	dbConnection := MakeDbConnection(environment)
 	logs := MakeLogs(environment)
 	adminUser := MakeAdminUser(environment)
 
 	defer (*logs).Close()
-	defer (*orm).Close()
+	defer (*dbConnection).Close()
 
 	mux := http.NewServeMux()
 
 	app := MakeApp(mux, &App{
-		Validator: validator,
-		Logs:      logs,
-		Orm:       orm,
-		AdminUser: adminUser,
-		Env:       environment,
-		Mux:       mux,
+		Validator:    validator,
+		Logs:         logs,
+		dbConnection: dbConnection,
+		AdminUser:    adminUser,
+		Env:          environment,
+		Mux:          mux,
 	})
 
 	app.RegisterUsers()
 
-	(*orm).Ping()
+	(*dbConnection).Ping()
 	slog.Info("Starting new server on :" + environment.Network.HttpPort)
 
 	if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {

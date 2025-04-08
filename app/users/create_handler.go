@@ -53,11 +53,12 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 		return response.BadRequest("Error handling the given file", err)
 	}
 
-	if err := profilePic.Upload(); err != nil {
+	if err := profilePic.Upload(media.GetUsersImagesDir()); err != nil {
 		return response.BadRequest("Error saving the given file", err)
 	}
 
 	requestBag.PublicToken = r.Header.Get(env.ApiKeyHeader)
+	requestBag.PictureFileName = profilePic.GetFileName()
 	requestBag.ProfilePictureURL = profilePic.GetFilePath(requestBag.Username)
 
 	created, err := handler.Repository.Create(requestBag)

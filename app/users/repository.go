@@ -10,19 +10,20 @@ import (
 )
 
 type Repository struct {
-	model *database.Orm
-	admin *AdminUser
+	connection *database.Connection
+	admin      *AdminUser
 }
 
-func MakeRepository(model *database.Orm, admin *AdminUser) *Repository {
+func MakeRepository(model *database.Connection, admin *AdminUser) *Repository {
 	return &Repository{
-		model: model,
-		admin: admin,
+		connection: model,
+		admin:      admin,
 	}
 }
 
 func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 	password, err := MakePassword(attr.Password)
+
 	if err != nil {
 		return nil, err
 	}
@@ -37,12 +38,13 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 		PasswordHash:      password.GetHash(),
 		PublicToken:       attr.PublicToken,
 		Bio:               attr.Bio,
+		PictureFileName:   attr.PictureFileName,
 		ProfilePictureURL: attr.ProfilePictureURL,
 		VerifiedAt:        time.Now(),
 		IsAdmin:           strings.Trim(attr.Username, " ") == adminUserName,
 	}
 
-	result := r.model.DB().Create(&user)
+	result := r.connection.Sql().Create(&user)
 
 	if result.Error != nil {
 		return nil, result.Error
@@ -56,7 +58,7 @@ func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
 func (r Repository) FindByUserName(username string) *database.User {
 	user := &database.User{}
 
-	result := r.model.DB().
+	result := r.connection.Sql().
 		Where("username = ?", username).
 		First(&user)
 

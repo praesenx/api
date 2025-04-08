@@ -10,11 +10,11 @@ import (
 	"strings"
 )
 
-func MakeORM(env *env.Environment) *database.Orm {
-	dbConn, err := database.MakeORM(env)
+func MakeDbConnection(env *env.Environment) *database.Connection {
+	dbConn, err := database.MakeConnection(env)
 
 	if err != nil {
-		panic("DB: error connecting to PostgreSQL: " + err.Error())
+		panic("Sql: error connecting to PostgreSQL: " + err.Error())
 	}
 
 	return dbConn
@@ -82,7 +82,7 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 	}
 
 	if _, err := validate.Rejects(db); err != nil {
-		panic(errorSufix + "invalid [DB] model: " + validate.GetErrorsAsJason())
+		panic(errorSufix + "invalid [Sql] model: " + validate.GetErrorsAsJason())
 	}
 
 	if _, err := validate.Rejects(userAminEnvValues); err != nil {
