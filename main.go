@@ -3,8 +3,9 @@ package main
 import (
 	"github.com/getsentry/sentry-go"
 	baseValidator "github.com/go-playground/validator/v10"
-	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog"
+	"github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/webkit"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"log/slog"
@@ -25,24 +26,24 @@ func init() {
 		panic("invalid .env file: " + err.Error())
 	}
 
-	environment = MakeEnv(values, val)
+	environment = blog.MakeEnv(values, val)
 	validator = val
 }
 
 func main() {
 	defer sentry.Recover()
 
-	dbConnection := MakeDbConnection(environment)
-	logs := MakeLogs(environment)
-	adminUser := MakeAdminUser(environment)
-	localSentry := MakeSentry(environment)
+	dbConnection := blog.MakeDbConnection(environment)
+	logs := blog.MakeLogs(environment)
+	adminUser := blog.MakeAdminUser(environment)
+	localSentry := blog.MakeSentry(environment)
 
 	defer (*logs).Close()
 	defer (*dbConnection).Close()
 
 	mux := http.NewServeMux()
 
-	app := MakeApp(mux, &App{
+	app := blog.MakeApp(mux, &blog.App{
 		Validator:    validator,
 		Logs:         logs,
 		dbConnection: dbConnection,

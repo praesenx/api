@@ -19,17 +19,17 @@ ROOT_NETWORK ?= gocanto
 ROOT_PATH ?= $(shell pwd)
 ROOT_ENV_FILE ?= $(ROOT_PATH)/.env
 ROOT_EXAMPLE_ENV_FILE? = $(ROOT_PATH)/.env.example
-STORAGE_PATH ?= $(ROOT_PATH)/app/storage
+STORAGE_PATH ?= $(ROOT_PATH)/storage
 BIN_PATH ?= $(ROOT_PATH)/bin
 BIN_LOGS_PATH ?= $(ROOT_PATH)/bin/storage/logs
-APP_PATH ?= $(ROOT_PATH)/app/
+APP_PATH ?= $(ROOT_PATH)/
 
 # ------ Database Configuration
 # --- Docker
 DB_DOCKER_SERVICE_NAME ?= postgres
 DB_DOCKER_CONTAINER_NAME ?= gocanto-db
 # --- Paths
-DB_INFRA_ROOT_PATH ?= $(ROOT_PATH)/app/database/infra
+DB_INFRA_ROOT_PATH ?= $(ROOT_PATH)/database/infra
 DB_INFRA_SSL_PATH ?= $(DB_INFRA_ROOT_PATH)/ssl
 DB_INFRA_DATA_PATH ?= $(DB_INFRA_ROOT_PATH)/data
 # --- SSL

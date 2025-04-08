@@ -2,7 +2,7 @@ package webkit
 
 import (
 	"encoding/json"
-	"github.com/gocanto/blog/app/webkit/response"
+	"github.com/gocanto/blog/webkit/response"
 	"log/slog"
 	"net/http"
 )

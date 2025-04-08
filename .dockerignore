@@ -1,5 +1,5 @@
 .env
 .git
-database/data
+database/infra/data
 .idea
 tmp

@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/gocanto/blog/app/env"
-	"github.com/gocanto/blog/app/webkit"
+	"github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/webkit"
 )
 
 type MiddlewaresStack struct {
