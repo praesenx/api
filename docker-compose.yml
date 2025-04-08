@@ -28,7 +28,7 @@ services:
         - ./database/ssl/server.crt:/etc/ssl/certs/server.crt
         - ./database/ssl/server.key:/etc/ssl/private/server.key
         - ./app/database/infra/config/postgresql.conf:/etc/postgresql/postgresql.conf
-        - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ./app/database/infra/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     logging:
       driver: "json-file"
       options:
