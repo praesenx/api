@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/getsentry/sentry-go"
 	baseValidator "github.com/go-playground/validator/v10"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/webkit"
@@ -29,6 +30,8 @@ func init() {
 }
 
 func main() {
+	defer sentry.Recover()
+
 	dbConnection := MakeDbConnection(environment)
 	logs := MakeLogs(environment)
 	adminUser := MakeAdminUser(environment)

@@ -1,17 +1,31 @@
 package main
 
 import (
+	"github.com/getsentry/sentry-go"
 	sentryhttp "github.com/getsentry/sentry-go/http"
 	"github.com/gocanto/blog/app/database"
 	"github.com/gocanto/blog/app/env"
 	"github.com/gocanto/blog/app/users"
 	"github.com/gocanto/blog/app/webkit"
 	"github.com/gocanto/blog/app/webkit/llogs"
+	"log"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func MakeSentry(env *env.Environment) *webkit.Sentry {
+	cOptions := sentry.ClientOptions{
+		Dsn:   environment.Sentry.DSN,
+		Debug: true,
+	}
+
+	if err := sentry.Init(cOptions); err != nil {
+		log.Fatalf("sentry.Init: %s", err)
+	}
+
+	defer sentry.Flush(2 * time.Second)
+
 	options := sentryhttp.Options{}
 	handler := sentryhttp.New(options)
 
