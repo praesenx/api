@@ -5,4 +5,5 @@ type Environment struct {
 	DB      DBEnvironment
 	Logs    LogsEnvironment
 	Network NetEnvironment
+	Sentry  SentryEnvironment
 }

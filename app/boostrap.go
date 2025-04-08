@@ -77,6 +77,11 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		HttpPort: values["ENV_HTTP_PORT"],
 	}
 
+	sentry := env.SentryEnvironment{
+		DSN: values["ENV_SENTRY_DSN"],
+		CSP: values["ENV_SENTRY_CSP"],
+	}
+
 	if _, err := validate.Rejects(app); err != nil {
 		panic(errorSufix + "invalid [APP] model: " + validate.GetErrorsAsJason())
 	}
@@ -97,11 +102,16 @@ func MakeEnv(values map[string]string, validate *webkit.Validator) *env.Environm
 		panic(errorSufix + "invalid [NETWORK] model: " + validate.GetErrorsAsJason())
 	}
 
+	if _, err := validate.Rejects(sentry); err != nil {
+		panic(errorSufix + "invalid [SENTRY] model: " + validate.GetErrorsAsJason())
+	}
+
 	blog := &env.Environment{
 		App:     app,
 		DB:      db,
 		Logs:    logsCreds,
 		Network: net,
+		Sentry:  sentry,
 	}
 
 	if _, err := validate.Rejects(blog); err != nil {
