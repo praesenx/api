@@ -11,6 +11,7 @@ go.work.sum
 
 # --- app
 .env
+.env.production
 database/infra/data
 
 # --- air

@@ -65,7 +65,7 @@ build\:fresh:
 	make build:app && make build:run
 
 build\:app:
-	cp $(ROOT_PATH)/.env $(BIN_PATH)/.env && \
+	cp $(ROOT_PATH)/.env.production $(BIN_PATH)/.env && \
 	make logs:bin:fresh && \
 	rm -f $(ROOT_PATH)/bin/app && \
 	CGO_ENABLED=0 go build -a -ldflags='-X main.Version=$(VERSION)' -o "$(ROOT_PATH)/bin/app" -tags '$(DATABASE) $(SOURCE)' $(APP_PATH)
