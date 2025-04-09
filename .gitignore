@@ -18,6 +18,7 @@ tmp
 
 # --- Bin / Storage
 bin
+!bin/.env
 !bin/.gitkeep
 bin/storage/logs/*.*
 bin/storage/media/*.*
