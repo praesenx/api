@@ -1,0 +1,1 @@
+TRUNCATE TABLE post_tags CASCADE;
