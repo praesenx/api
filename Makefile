@@ -28,17 +28,23 @@ APP_PATH ?= $(ROOT_PATH)/
 # --- Docker
 DB_DOCKER_SERVICE_NAME ?= postgres
 DB_DOCKER_CONTAINER_NAME ?= gocanto-db
+
 # --- Paths
 DB_INFRA_ROOT_PATH ?= $(ROOT_PATH)/database/infra
 DB_INFRA_SSL_PATH ?= $(DB_INFRA_ROOT_PATH)/ssl
 DB_INFRA_DATA_PATH ?= $(DB_INFRA_ROOT_PATH)/data
+
 # --- SSL
 DB_INFRA_SERVER_CRT ?= $(DB_INFRA_SSL_PATH)/server.crt
 DB_INFRA_SERVER_CSR ?= $(DB_INFRA_SSL_PATH)/server.csr
 DB_INFRA_SERVER_KEY ?= $(DB_INFRA_SSL_PATH)/server.key
+
 # --- Migrations
 DB_MIGRATE_PATH ?= $(DB_INFRA_ROOT_PATH)/migrations
 DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
+
+DB_MIGRATE_SEEDER_PATH ?= $(DB_INFRA_ROOT_PATH)/seeders
+DB_MIGRATE_SEEDER_VOL_MAP ?= $(DB_MIGRATE_SEEDER_PATH):$(DB_MIGRATE_SEEDER_PATH)
 
 fresh:
 	rm -rf $(DB_INFRA_DATA_PATH) && \
@@ -130,6 +136,35 @@ migrate\:up:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
 	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+
+
+
+#DB_MIGRATE_SEEDER_PATH ?= $(DB_INFRA_ROOT_PATH)/seeders
+#DB_MIGRATE_SEEDER_VOL_MAP ?= $(DB_MIGRATE_SEEDER_PATH):$(DB_MIGRATE_SEEDER_PATH)
+
+seed\:run:
+	echo $(DB_MIGRATE_SEEDER_PATH)
+	@echo "\n${BLUE}${PADDING}--- Running DB Seeders ---\n${NC}"
+	@docker run -v $(DB_MIGRATE_SEEDER_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_SEEDER_PATH) -database $(ENV_DB_URL) up
+	@echo "\n${GREEN}${PADDING}--- Done Running DB Seeders ---\n${NC}"
+
+seed\:flush:
+	@echo "\n${BLUE}${PADDING}--- Removing DB Seeds ---\n${NC}"
+	@docker run -v $(DB_MIGRATE_SEEDER_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_SEEDER_PATH) -database $(ENV_DB_URL) down 1
+	@echo "\n${GREEN}${PADDING}--- Removing DB Seeds ---\n${NC}"
+
+seed\:create:
+	docker run -v $(DB_MIGRATE_SEEDER_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate create -ext sql -dir $(DB_MIGRATE_SEEDER_PATH) -seq $(name)
+
+
+
+
+
+
+
+
+
+
 
 migrate\:down:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
