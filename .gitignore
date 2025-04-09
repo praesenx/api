@@ -1,24 +1,17 @@
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
-go.work
-go.work.sum
-.idea
-
-# --- app
+# --- [API]: Root
 .env
 .env.production
 database/infra/data
-client/node_modules
-
-# --- air
 tmp
 
-# --- Bin / Storage
+# --- [CLIENT]: Site
+client/.DS_Store
+client/dist
+client/dist-ssr
+client/*.local
+client/node_modules
+
+# --- [API]: Bin
 bin
 !bin/.env
 !bin/.gitkeep
@@ -31,7 +24,7 @@ bin/storage/media/users/*.*
 !bin/storage/media/posts/.gitkeep
 !bin/storage/media/users/.gitkeep
 
-# --- App / Storage
+# --- [API]: Storage
 storage/logs/*.*
 storage/media/*.*
 storage/media/posts/*.*
@@ -40,3 +33,19 @@ storage/media/users/*.*
 !storage/media/.gitkeep
 !storage/media/posts/.gitkeep
 !storage/media/users/.gitkeep
+
+# --- [IDEs]: Files
+.DS_Store
+.idea
+
+# --- [GO]: Exceculatables/Source files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+go.work.sum
+
