@@ -19,7 +19,7 @@ func init() {
 		baseValidator.WithRequiredStructEnabled(),
 	))
 
-	values, err := godotenv.Read("./../.env")
+	values, err := godotenv.Read("./.env")
 
 	if err != nil {
 		panic("invalid .env file: " + err.Error())
