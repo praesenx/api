@@ -1,6 +1,6 @@
 
 ------------------------------------------------------ USERS -----------------------------------------------------------
---- 1
+
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     uuid UUID UNIQUE NOT NULL,
@@ -28,7 +28,6 @@ CREATE INDEX idx_users_deleted_at ON users (deleted_at);
 CREATE INDEX idx_users_deleted_at_id ON users (deleted_at, id);
 
 ----------------------------------------------------- POSTS ------------------------------------------------------------
---- 2
 CREATE TABLE IF NOT EXISTS posts (
     id BIGSERIAL PRIMARY KEY,
     uuid UUID UNIQUE NOT NULL,
@@ -50,7 +49,6 @@ CREATE INDEX idx_posts_author_pub ON posts (author_id, published_at DESC, id);
 CREATE INDEX idx_posts_published_at ON posts (published_at);
 
 ------------------------------------------------- CATEGORIES -----------------------------------------------------------
---- 3
 CREATE TABLE IF NOT EXISTS categories (
     id BIGSERIAL PRIMARY KEY,
     uuid UUID UNIQUE NOT NULL,
@@ -62,7 +60,6 @@ CREATE TABLE IF NOT EXISTS categories (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
---- 4
 CREATE TABLE IF NOT EXISTS post_categories (
     post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     category_id BIGINT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
@@ -74,7 +71,6 @@ CREATE TABLE IF NOT EXISTS post_categories (
 CREATE INDEX idx_category_post ON post_categories (category_id, post_id);
 
 ---------------------------------------------------- TAGS --------------------------------------------------------------
---- 5
 CREATE TABLE IF NOT EXISTS tags (
     id BIGSERIAL PRIMARY KEY,
     uuid UUID UNIQUE NOT NULL,
@@ -86,7 +82,6 @@ CREATE TABLE IF NOT EXISTS tags (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
---- 6
 CREATE TABLE IF NOT EXISTS post_tags (
     post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     tag_id BIGINT NOT NULL REFERENCES tags(id) ON DELETE CASCADE,
@@ -95,7 +90,6 @@ CREATE TABLE IF NOT EXISTS post_tags (
     PRIMARY KEY (post_id, tag_id)
 );
 
---- 7
 CREATE TABLE IF NOT EXISTS post_views (
     id BIGSERIAL PRIMARY KEY,
     post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
@@ -110,7 +104,6 @@ CREATE INDEX idx_post_tags_tag_post ON post_tags (tag_id, post_id);
 CREATE INDEX idx_post_views_post_viewed_at ON post_views (post_id, viewed_at);
 
 ---------------------------------------------------- COMMENTS ----------------------------------------------------------
---- 8
 CREATE TABLE IF NOT EXISTS comments (
     id BIGSERIAL PRIMARY KEY,
     uuid UUID UNIQUE NOT NULL,
@@ -129,7 +122,6 @@ CREATE INDEX idx_comments_post_created_at ON comments (post_id, created_at);
 CREATE INDEX idx_comments_parent_id ON comments (parent_id);
 
 ----------------------------------------------------- LIKES ------------------------------------------------------------
---- 9
 CREATE TABLE likes (
     id BIGSERIAL PRIMARY KEY,
     post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
