@@ -1,23 +1,23 @@
-package main
+package boostrap
 
 import (
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/env"
-	users2 "github.com/gocanto/blog/users"
-	webkit2 "github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/users"
+	"github.com/gocanto/blog/webkit"
 	"github.com/gocanto/blog/webkit/llogs"
 	"github.com/gocanto/blog/webkit/middleware"
 	"net/http"
 )
 
 type App struct {
-	Validator    *webkit2.Validator   `validate:"required"`
+	Validator    *webkit.Validator    `validate:"required"`
 	Logs         *llogs.Driver        `validate:"required"`
-	dbConnection *database.Connection `validate:"required"`
-	AdminUser    *users2.AdminUser    `validate:"required"`
+	DbConnection *database.Connection `validate:"required"`
+	AdminUser    *users.AdminUser     `validate:"required"`
 	Env          *env.Environment     `validate:"required"`
 	Mux          *http.ServeMux       `validate:"required"`
-	Sentry       *webkit2.Sentry      `validate:"required"`
+	Sentry       *webkit.Sentry       `validate:"required"`
 }
 
 func MakeApp(mux *http.ServeMux, app *App) *App {
@@ -31,12 +31,12 @@ func (app App) RegisterUsers() {
 		return app.AdminUser.IsAllowed(seed)
 	})
 
-	handler := users2.UserHandler{
-		Repository: users2.MakeRepository(app.dbConnection, app.AdminUser),
+	handler := users.UserHandler{
+		Repository: users.MakeRepository(app.DbConnection, app.AdminUser),
 		Validator:  app.Validator,
 	}
 
-	app.Mux.HandleFunc("POST /users", webkit2.CreateHandle(
+	app.Mux.HandleFunc("POST /users", webkit.CreateHandle(
 		stack.Push(
 			handler.Create,
 			stack.AdminUser,

@@ -1,4 +1,4 @@
-package main
+package boostrap
 
 import (
 	"github.com/getsentry/sentry-go"

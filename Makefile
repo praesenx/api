@@ -29,6 +29,7 @@ APP_PATH ?= $(ROOT_PATH)/
 DB_DOCKER_SERVICE_NAME ?= postgres
 DB_DOCKER_CONTAINER_NAME ?= gocanto-db
 # --- Paths
+DB_SEEDER_ROOT_PATH ?= $(ROOT_PATH)/database/seeder
 DB_INFRA_ROOT_PATH ?= $(ROOT_PATH)/database/infra
 DB_INFRA_SSL_PATH ?= $(DB_INFRA_ROOT_PATH)/ssl
 DB_INFRA_DATA_PATH ?= $(DB_INFRA_ROOT_PATH)/data
@@ -39,6 +40,15 @@ DB_INFRA_SERVER_KEY ?= $(DB_INFRA_SSL_PATH)/server.key
 # --- Migrations
 DB_MIGRATE_PATH ?= $(DB_INFRA_ROOT_PATH)/migrations
 DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
+
+.PHONY: fresh audit watch
+.PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
+.PHONY: env\:init
+.PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
+.PHONY: db\:delete db\:secure db\:secure\:show db\:chmod
+.PHONY: db\:seed
+.PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
+.PHONY: logs\:fresh logs\:bin\:fresh
 
 fresh:
 	rm -rf $(DB_INFRA_DATA_PATH) && \
@@ -119,12 +129,15 @@ db\:secure:
     openssl x509 -req -days 365 -in $(DB_INFRA_SERVER_CSR) -signkey $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CRT) && \
     make db:secure:permissions
 
-db\:secure\:permissions:
+db\:chmod:
 	chmod 600 $(DB_INFRA_SERVER_KEY) && chmod 600 $(DB_INFRA_SERVER_CRT)
 
-db\:secure\:show::
+db\:secure\:show:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
+
+db\:seed:
+	go run $(DB_SEEDER_ROOT_PATH)/main.go
 
 migrate\:up:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
@@ -154,11 +167,3 @@ logs\:bin\:fresh:
 define external_deps
 	@echo '-- $(1)';  go list -f '{{join .Deps "\n"}}' $(1) | grep -v github.com/$(REPO_OWNER)/blog | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
 endef
-
-.PHONY: fresh audit watch
-.PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
-.PHONY: env\:init
-.PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
-.PHONY: db\:delete db\:secure db\:secure\:show db\:secure\:permissions
-.PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
-.PHONY: logs\:fresh logs\:bin\:fresh
