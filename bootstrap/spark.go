@@ -1,4 +1,4 @@
-package boostrap
+package bootstrap
 
 import (
 	"github.com/gocanto/blog/env"

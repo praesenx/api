@@ -1,55 +1,55 @@
 package main
 
 import (
-    "github.com/getsentry/sentry-go"
-    "github.com/gocanto/blog/boostrap"
-    "github.com/gocanto/blog/env"
-    "github.com/gocanto/blog/webkit"
-    _ "github.com/lib/pq"
-    "log/slog"
-    "net/http"
+	"github.com/getsentry/sentry-go"
+	"github.com/gocanto/blog/bootstrap"
+	"github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/webkit"
+	_ "github.com/lib/pq"
+	"log/slog"
+	"net/http"
 )
 
 var environment *env.Environment
 var validator *webkit.Validator
 
 func init() {
-    secrets, validate := boostrap.Spark("./.env")
+	secrets, validate := bootstrap.Spark("./.env")
 
-    environment = secrets
-    validator = validate
+	environment = secrets
+	validator = validate
 }
 
 func main() {
-    defer sentry.Recover()
+	defer sentry.Recover()
 
-    dbConnection := boostrap.MakeDbConnection(environment)
-    logs := boostrap.MakeLogs(environment)
-    adminUser := boostrap.MakeAdminUser(environment)
-    localSentry := boostrap.MakeSentry(environment)
+	dbConnection := bootstrap.MakeDbConnection(environment)
+	logs := bootstrap.MakeLogs(environment)
+	adminUser := bootstrap.MakeAdminUser(environment)
+	localSentry := bootstrap.MakeSentry(environment)
 
-    defer (*logs).Close()
-    defer (*dbConnection).Close()
+	defer (*logs).Close()
+	defer (*dbConnection).Close()
 
-    mux := http.NewServeMux()
+	mux := http.NewServeMux()
 
-    app := boostrap.MakeApp(mux, &boostrap.App{
-        Validator:    validator,
-        Logs:         logs,
-        DbConnection: dbConnection,
-        AdminUser:    adminUser,
-        Env:          environment,
-        Mux:          mux,
-        Sentry:       localSentry,
-    })
+	app := bootstrap.MakeApp(mux, &bootstrap.App{
+		Validator:    validator,
+		Logs:         logs,
+		DbConnection: dbConnection,
+		AdminUser:    adminUser,
+		Env:          environment,
+		Mux:          mux,
+		Sentry:       localSentry,
+	})
 
-    app.RegisterUsers()
+	app.RegisterUsers()
 
-    (*dbConnection).Ping()
-    slog.Info("Starting new server on :" + environment.Network.HttpPort)
+	(*dbConnection).Ping()
+	slog.Info("Starting new server on :" + environment.Network.HttpPort)
 
-    if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {
-        slog.Error("Error starting server", "error", err)
-        panic("Error starting server." + err.Error())
-    }
+	if err := http.ListenAndServe(environment.Network.GetHostURL(), mux); err != nil {
+		slog.Error("Error starting server", "error", err)
+		panic("Error starting server." + err.Error())
+	}
 }

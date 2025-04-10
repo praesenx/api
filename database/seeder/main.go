@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/boostrap"
+	"github.com/gocanto/blog/bootstrap"
 	"github.com/gocanto/blog/env"
 	"github.com/gocanto/blog/webkit"
 )
@@ -11,7 +11,7 @@ var environment *env.Environment
 var validator *webkit.Validator
 
 func init() {
-	secrets, validate := boostrap.Spark("./.env")
+	secrets, validate := bootstrap.Spark("./.env")
 
 	environment = secrets
 	validator = validate
@@ -20,8 +20,8 @@ func init() {
 func main() {
 	fmt.Println((*environment).DB.Port)
 
-	conn := boostrap.MakeDbConnection(environment)
-	logs := boostrap.MakeLogs(environment)
+	conn := bootstrap.MakeDbConnection(environment)
+	logs := bootstrap.MakeLogs(environment)
 
 	defer (*logs).Close()
 	defer (*conn).Close()
