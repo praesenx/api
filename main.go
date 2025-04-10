@@ -2,11 +2,9 @@ package main
 
 import (
     "github.com/getsentry/sentry-go"
-    baseValidator "github.com/go-playground/validator/v10"
     "github.com/gocanto/blog/boostrap"
     "github.com/gocanto/blog/env"
     "github.com/gocanto/blog/webkit"
-    "github.com/joho/godotenv"
     _ "github.com/lib/pq"
     "log/slog"
     "net/http"
@@ -16,18 +14,10 @@ var environment *env.Environment
 var validator *webkit.Validator
 
 func init() {
-    val := webkit.MakeValidatorFrom(baseValidator.New(
-        baseValidator.WithRequiredStructEnabled(),
-    ))
+    secrets, validate := boostrap.Spark("./.env")
 
-    values, err := godotenv.Read("./.env")
-
-    if err != nil {
-        panic("invalid .env file: " + err.Error())
-    }
-
-    environment = boostrap.MakeEnv(values, val)
-    validator = val
+    environment = secrets
+    validator = validate
 }
 
 func main() {
