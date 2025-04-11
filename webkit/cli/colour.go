@@ -20,7 +20,7 @@ var colours = []string{Reset, Red, Green, Yellow, Blue, Magenta, Cyan, Gray, Whi
 
 type TextColour struct {
 	text    string
-	color   string
+	colour  string
 	padding bool
 }
 
@@ -32,7 +32,7 @@ func MakeTextColour(text string, colour string) (*TextColour, error) {
 	return &TextColour{
 		text:    text,
 		padding: false,
-		color:   colour,
+		colour:  colour,
 	}, nil
 }
 
@@ -54,15 +54,15 @@ func MakePaddedTextColour(text string, colour string) (*TextColour, error) {
 
 func (t *TextColour) SetMessage(text string, colour string) {
 	t.text = text
-	t.color = colour
+	t.colour = colour
 }
 
 func (t *TextColour) Get() string {
 	if t.padding == false {
-		return t.color + t.text + Reset
+		return t.colour + t.text + Reset
 	}
 
-	return fmt.Sprintf("\n     ----- %s%s%s -----     \n\n", t.color, t.text, Reset)
+	return fmt.Sprintf("\n     ----- %s%s%s -----     \n\n", t.colour, t.text, Reset)
 }
 
 func isInvalidValidColor(seed string) bool {
