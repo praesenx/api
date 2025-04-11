@@ -16,7 +16,7 @@ var Cyan = "\033[36m"
 var Gray = "\033[37m"
 var White = "\033[97m"
 
-var colours []string = []string{Reset, Red, Green, Yellow, Blue, Magenta, Cyan, Gray, White}
+var colours = []string{Reset, Red, Green, Yellow, Blue, Magenta, Cyan, Gray, White}
 
 type TextColour struct {
 	text    string
@@ -52,7 +52,12 @@ func MakePaddedTextColour(text string, colour string) (*TextColour, error) {
 	return textColour, nil
 }
 
-func (t TextColour) Get() string {
+func (t *TextColour) SetMessage(text string, colour string) {
+	t.text = text
+	t.color = colour
+}
+
+func (t *TextColour) Get() string {
 	if t.padding == false {
 		return t.color + t.text + Reset
 	}

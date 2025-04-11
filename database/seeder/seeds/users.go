@@ -17,8 +17,6 @@ type CreateUsersAttrs struct {
 }
 
 func CreateUser(attrs CreateUsersAttrs) database.User {
-    //database.MakeTruncate(attrs.DB, "users")
-
     pass, _ := users.MakePassword("password")
 
     user := database.User{
@@ -36,6 +34,7 @@ func CreateUser(attrs CreateUsersAttrs) database.User {
     }
 
     attrs.DB.Sql().Create(&user)
+    fmt.Println("Created: ", attrs.Name)
 
     return user
 }

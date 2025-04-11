@@ -46,7 +46,7 @@ DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
 .PHONY: db\:delete db\:secure db\:secure\:show db\:chmod
-.PHONY: db\:seed
+.PHONY: seed\:flush seed\:data
 .PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
 .PHONY: logs\:fresh logs\:bin\:fresh
 
@@ -70,6 +70,12 @@ watch:
 	# --- Works with (air).
 	# https://github.com/air-verse/air
 	cd $(APP_PATH) && air
+
+seed\:data:
+	go run $(DB_SEEDER_ROOT_PATH)/main.go
+
+seed\:flush:
+	go run $(DB_SEEDER_ROOT_PATH)/main.go --truncate
 
 build\:fresh:
 	make build:app && make build:run
@@ -135,9 +141,6 @@ db\:chmod:
 db\:secure\:show:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
-
-db\:seed:
-	go run $(DB_SEEDER_ROOT_PATH)/main.go
 
 migrate\:up:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
