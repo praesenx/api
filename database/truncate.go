@@ -1,24 +1,29 @@
 package database
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/gocanto/blog/env"
+)
 
-type DbTruncate struct {
-	Db    *Connection
-	Table string
+type Truncate struct {
+	database *Connection
+	env      *env.Environment
 }
 
-func MakeTruncate(db *Connection, table string) *DbTruncate {
-	return &DbTruncate{
-		Db:    db,
-		Table: table,
+func MakeTruncate(db *Connection, env *env.Environment) *Truncate {
+	return &Truncate{
+		database: db,
+		env:      env,
 	}
 }
 
-func (t DbTruncate) Truncate() {
-	t.Db.Sql().Exec(fmt.Sprintf("TRUNCATE TABLE %s CASCADE", t.Table))
-}
+func (t Truncate) Execute() error {
+	defer t.database.Close()
 
-func (t DbTruncate) Fresh() {
-	//db.Exec("DROP TABLE users")
-	//t.Db.Sql().Exec(fmt.Sprintf("TRUNCATE TABLE %s", t.Table))
+	for i := len(Tables) - 1; i >= 0; i-- {
+		t.database.Sql().Exec(fmt.Sprintf("TRUNCATE TABLE %s RESTART IDENTITY CASCADE;", Tables[i]))
+		fmt.Println(fmt.Sprintf("Table [%s] sucessfully trucated.", Tables[i]))
+	}
+
+	return nil
 }

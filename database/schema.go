@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var tables []string = []string{
+var Tables []string = []string{
 	"users", "posts", "categories",
 	"post_categories", "tags", "post_tags",
 	"post_views", "post_views", "comments",

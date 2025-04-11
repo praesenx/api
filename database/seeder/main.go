@@ -1,68 +1,69 @@
 package main
 
 import (
-    "fmt"
-    "github.com/gocanto/blog/bootstrap"
-    "github.com/gocanto/blog/database"
-    "github.com/gocanto/blog/database/seeder/seeds"
-    "github.com/gocanto/blog/env"
-    "github.com/gocanto/blog/webkit/cli"
-    "os"
+	"fmt"
+	"github.com/gocanto/blog/bootstrap"
+	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/database/seeder/seeds"
+	"github.com/gocanto/blog/env"
+	"github.com/gocanto/blog/webkit/cli"
+	"os"
 )
 
 var environment *env.Environment
 
 func init() {
-    secrets, _ := bootstrap.Spark("./.env")
+	secrets, _ := bootstrap.Spark("./.env")
 
-    environment = secrets
+	environment = secrets
 }
 
 func main() {
-    dbConnection := bootstrap.MakeDbConnection(environment)
-    logs := bootstrap.MakeLogs(environment)
+	dbConnection := bootstrap.MakeDbConnection(environment)
+	logs := bootstrap.MakeLogs(environment)
 
-    defer (*logs).Close()
-    defer (*dbConnection).Close()
+	defer (*logs).Close()
+	defer (*dbConnection).Close()
 
-    // -- Truncate
-    truncateDB(environment)
-    // --
+	// -- Truncate
+	if err := truncateDB(dbConnection, environment); err != nil {
+		panic(err)
+	}
 
-    dbConnection.Sql().Exec("SET session_replication_role = 'replica';")
-    createUsers(dbConnection)
-    dbConnection.Sql().Exec("SET session_replication_role = 'origin';")
+	createUsers(dbConnection)
 
-    fmt.Println("\nDone ...")
+	fmt.Println("\nDone ...")
 }
 
-func truncateDB(env *env.Environment) {
-    text, err := cli.MakePaddedTextColour("Senders are forbidden in production.", cli.Red)
+func truncateDB(dbConnection *database.Connection, environment *env.Environment) error {
+	text, err := cli.MakePaddedTextColour("Senders are forbidden in production.", cli.Red)
 
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
-    if env.App.IsProduction() {
-        fmt.Print(text.Get())
-        os.Exit(1)
-    }
+	if environment.App.IsProduction() {
+		fmt.Print(text.Get())
+		os.Exit(1)
+	}
 
-    fmt.Println("OK.")
+	truncate := database.MakeTruncate(dbConnection, environment)
+
+	return truncate.Execute()
 }
 
 func createUsers(DBconn *database.Connection) {
-    seeds.CreateUser(seeds.CreateUsersAttrs{
-        DB:       DBconn,
-        Username: "gocanto",
-        Name:     "Gus",
-        IsAdmin:  true,
-    })
+	seeds.CreateUser(seeds.CreateUsersAttrs{
+		DB:       DBconn,
+		Username: "gocanto",
+		Name:     "Gus",
+		IsAdmin:  true,
+	})
 
-    seeds.CreateUser(seeds.CreateUsersAttrs{
-        DB:       DBconn,
-        Username: "liane",
-        Name:     "Li",
-        IsAdmin:  false,
-    })
+	seeds.CreateUser(seeds.CreateUsersAttrs{
+		DB:       DBconn,
+		Username: "liane",
+		Name:     "Li",
+		IsAdmin:  false,
+	})
 }
