@@ -5,6 +5,13 @@ import (
 	"time"
 )
 
+var tables []string = []string{
+	"users", "posts", "categories",
+	"post_categories", "tags", "post_tags",
+	"post_views", "post_views", "comments",
+	"likes",
+}
+
 type User struct {
 	ID                uint64         `gorm:"primaryKey;autoIncrement"`
 	UUID              string         `gorm:"type:uuid;unique;not null"`

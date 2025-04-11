@@ -1,31 +1,68 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gocanto/blog/bootstrap"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit"
+    "fmt"
+    "github.com/gocanto/blog/bootstrap"
+    "github.com/gocanto/blog/database"
+    "github.com/gocanto/blog/database/seeder/seeds"
+    "github.com/gocanto/blog/env"
+    "github.com/gocanto/blog/webkit/cli"
+    "os"
 )
 
 var environment *env.Environment
-var validator *webkit.Validator
 
 func init() {
-	secrets, validate := bootstrap.Spark("./.env")
+    secrets, _ := bootstrap.Spark("./.env")
 
-	environment = secrets
-	validator = validate
+    environment = secrets
 }
 
 func main() {
-	fmt.Println((*environment).DB.Port)
+    dbConnection := bootstrap.MakeDbConnection(environment)
+    logs := bootstrap.MakeLogs(environment)
 
-	conn := bootstrap.MakeDbConnection(environment)
-	logs := bootstrap.MakeLogs(environment)
+    defer (*logs).Close()
+    defer (*dbConnection).Close()
 
-	defer (*logs).Close()
-	defer (*conn).Close()
+    // -- Truncate
+    truncateDB(environment)
+    // --
 
-	conn.Ping()
-	fmt.Println("Seeder main ...")
+    dbConnection.Sql().Exec("SET session_replication_role = 'replica';")
+    createUsers(dbConnection)
+    dbConnection.Sql().Exec("SET session_replication_role = 'origin';")
+
+    fmt.Println("\nDone ...")
+}
+
+func truncateDB(env *env.Environment) {
+    text, err := cli.MakePaddedTextColour("Senders are forbidden in production.", cli.Red)
+
+    if err != nil {
+        panic(err)
+    }
+
+    if env.App.IsProduction() {
+        fmt.Print(text.Get())
+        os.Exit(1)
+    }
+
+    fmt.Println("OK.")
+}
+
+func createUsers(DBconn *database.Connection) {
+    seeds.CreateUser(seeds.CreateUsersAttrs{
+        DB:       DBconn,
+        Username: "gocanto",
+        Name:     "Gus",
+        IsAdmin:  true,
+    })
+
+    seeds.CreateUser(seeds.CreateUsersAttrs{
+        DB:       DBconn,
+        Username: "liane",
+        Name:     "Li",
+        IsAdmin:  false,
+    })
 }
