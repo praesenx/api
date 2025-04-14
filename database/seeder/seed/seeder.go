@@ -79,3 +79,8 @@ func (s *Seeder) SeedCategories() {
 		Description: fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
 	})
 }
+
+func (s *Seeder) SeedTags() {
+	seed := MakeTagsSeed(s.dbConn)
+	seed.Create()
+}

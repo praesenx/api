@@ -94,21 +94,6 @@ func linkCategoriesToPosts(db *gorm.DB, posts []database.Post, cats []database.C
 	}
 }
 
-func createTags(db *gorm.DB) []database.Tag {
-	names := []string{"Tech", "AI", "Leadership", "Ethics", "Automation", "Teamwork", "Agile", "OpenAI", "Scaling", "Future"}
-	var tags []database.Tag
-	for _, name := range names {
-		t := database.Tag{
-			UUID: uuid.NewString(),
-			Name: name,
-			Slug: fmt.Sprintf("%s-tag", name),
-		}
-		db.Create(&t)
-		tags = append(tags, t)
-	}
-	return tags
-}
-
 func linkTagsToPosts(db *gorm.DB, posts []database.Post, tags []database.Tag, rng *rand.Rand) {
 	for _, post := range posts {
 		n := rng.Intn(1)

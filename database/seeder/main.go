@@ -29,7 +29,9 @@ func main() {
     seeder := seed.MakeSeeder(dbConnection)
 
     UserA, UserB := seeder.SeedUsers()
+
     seeder.SeedCategories()
+    seeder.SeedTags()
 
     //seed.
     seeder.SeedPosts(UserA, UserB)
