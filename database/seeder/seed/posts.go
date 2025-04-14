@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type PostSeed struct {
+type PostsSeed struct {
 	db *database.Connection
 }
 
@@ -26,13 +26,13 @@ type PostsAttrs struct {
 	Likes       []database.Like
 }
 
-func MakePostsSeed(db *database.Connection) *PostSeed {
-	return &PostSeed{
+func MakePostsSeed(db *database.Connection) *PostsSeed {
+	return &PostsSeed{
 		db: db,
 	}
 }
 
-func (s PostSeed) CreatePosts(attrs PostsAttrs, number int) []database.Post {
+func (s PostsSeed) CreatePosts(attrs PostsAttrs, number int) []database.Post {
 	var posts []database.Post
 
 	for i := 1; i <= number; i++ {
@@ -40,7 +40,7 @@ func (s PostSeed) CreatePosts(attrs PostsAttrs, number int) []database.Post {
 			UUID:          uuid.NewString(),
 			AuthorID:      attrs.AuthorID,
 			Slug:          fmt.Sprintf("%s-post-%s-%d", attrs.Author.Username, attrs.Slug, i),
-			Title:         fmt.Sprintf("Post %d by %s", i, attrs.Author.Username),
+			Title:         fmt.Sprintf("Post: [%d] by %s", i, attrs.Author.Username),
 			Excerpt:       "This is an excerpt.",
 			Content:       "This is the full content of the post.",
 			CoverImageURL: "",

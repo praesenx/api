@@ -87,21 +87,6 @@ import (
 //	return posts
 //}
 
-func createCategories(db *gorm.DB) []database.Category {
-	names := []string{"Tech", "AI", "Leadership", "Innovation", "Cloud", "Data", "DevOps", "ML", "Startups", "Engineering"}
-	var cats []database.Category
-	for _, name := range names {
-		c := database.Category{
-			UUID: uuid.NewString(),
-			Name: name,
-			Slug: fmt.Sprintf("%s-slug", name),
-		}
-		db.Create(&c)
-		cats = append(cats, c)
-	}
-	return cats
-}
-
 func linkCategoriesToPosts(db *gorm.DB, posts []database.Post, cats []database.Category, rng *rand.Rand) {
 	for _, post := range posts {
 		n := rng.Intn(1)

@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"errors"
 	"fmt"
 	"slices"
 )
@@ -24,47 +23,26 @@ type TextColour struct {
 	padding bool
 }
 
-func MakeTextColour(text string, colour string) (*TextColour, error) {
-	if isInvalidValidColor(colour) {
-		return nil, errors.New("the given colour is invalid")
+func MakeTextColour(text string, colour string) TextColour {
+	if !slices.Contains(colours, colour) {
+		text = White
 	}
 
-	return &TextColour{
+	return TextColour{
 		text:    text,
-		padding: false,
 		colour:  colour,
-	}, nil
+		padding: true,
+	}
 }
 
-func MakePaddedTextColour(text string, colour string) (*TextColour, error) {
-	if isInvalidValidColor(colour) {
-		return nil, errors.New("the given colour is invalid")
-	}
+func (t TextColour) Print() string {
+	return fmt.Sprintf("%s > %s %s\n", t.colour, t.text, Reset)
+}
 
-	textColour, err := MakeTextColour(text, colour)
+func (t TextColour) Println() {
+	_, err := fmt.Println(fmt.Sprintf("%s > %s %s\n", t.colour, t.text, Reset))
 
 	if err != nil {
-		return nil, err
+		fmt.Println(err.Error())
 	}
-
-	textColour.padding = true
-
-	return textColour, nil
-}
-
-func (t *TextColour) SetMessage(text string, colour string) {
-	t.text = text
-	t.colour = colour
-}
-
-func (t *TextColour) Get() string {
-	if t.padding == false {
-		return t.colour + t.text + Reset
-	}
-
-	return fmt.Sprintf("%s >  %s %s\n", t.colour, t.text, Reset)
-}
-
-func isInvalidValidColor(seed string) bool {
-	return !slices.Contains(colours, seed)
 }

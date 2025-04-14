@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type UserSeed struct {
+type UsersSeed struct {
 	db *database.Connection
 }
 
@@ -19,13 +19,13 @@ type UsersAttrs struct {
 	IsAdmin  bool
 }
 
-func MakeUsersSeed(db *database.Connection) *UserSeed {
-	return &UserSeed{
+func MakeUsersSeed(db *database.Connection) *UsersSeed {
+	return &UsersSeed{
 		db: db,
 	}
 }
 
-func (s UserSeed) Create(attrs UsersAttrs) database.User {
+func (s UsersSeed) Create(attrs UsersAttrs) database.User {
 	pass, _ := users.MakePassword("password")
 
 	user := database.User{
