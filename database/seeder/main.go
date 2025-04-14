@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "github.com/gocanto/blog/bootstrap"
     "github.com/gocanto/blog/database"
     "github.com/gocanto/blog/database/seeder/seed"
@@ -37,8 +38,16 @@ func main() {
     seeder.SeedPosts(UserA, UserB)
 
     // ------
+    var posts database.Post
+    if err := dbConnection.Sql().Model(&UserA).Association("Posts").Find(&posts); err != nil {
+        panic(fmt.Sprintf("Could not find post by id: %v", err))
+    } else {
+        fmt.Println(posts)
+    }
 
-    cli.MakeTextColour("Done", cli.Green).Println()
+    //fmt.Println("--> ", UserA.ID, len(UserA.Posts))
+
+    //cli.MakeTextColour("Done", cli.Green).Println()
 }
 
 func truncateDB(dbConnection *database.Connection, environment *env.Environment) {
