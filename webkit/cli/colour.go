@@ -62,7 +62,7 @@ func (t *TextColour) Get() string {
 		return t.colour + t.text + Reset
 	}
 
-	return fmt.Sprintf("\n     ----- %s%s%s -----     \n\n", t.colour, t.text, Reset)
+	return fmt.Sprintf("%s >  %s %s\n", t.colour, t.text, Reset)
 }
 
 func isInvalidValidColor(seed string) bool {
