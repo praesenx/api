@@ -1,4 +1,4 @@
-package seeds
+package seed
 
 import (
 	"fmt"
@@ -9,14 +9,23 @@ import (
 	"time"
 )
 
-type CreateUsersAttrs struct {
-	DB       *database.Connection
+type UserSeed struct {
+	db *database.Connection
+}
+
+type UsersAttrs struct {
 	Username string
 	Name     string
 	IsAdmin  bool
 }
 
-func CreateUser(attrs CreateUsersAttrs) database.User {
+func MakeUsersSeed(db *database.Connection) *UserSeed {
+	return &UserSeed{
+		db: db,
+	}
+}
+
+func (s UserSeed) Create(attrs UsersAttrs) database.User {
 	pass, _ := users.MakePassword("password")
 
 	user := database.User{
@@ -33,7 +42,7 @@ func CreateUser(attrs CreateUsersAttrs) database.User {
 		VerifiedAt:   time.Now(),
 	}
 
-	attrs.DB.Sql().Create(&user)
+	s.db.Sql().Create(&user)
 	fmt.Println("Created: ", attrs.Name)
 
 	return user
