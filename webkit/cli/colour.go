@@ -25,7 +25,7 @@ type TextColour struct {
 
 func MakeTextColour(text string, colour string) TextColour {
 	if !slices.Contains(colours, colour) {
-		text = White
+		colour = White
 	}
 
 	return TextColour{
