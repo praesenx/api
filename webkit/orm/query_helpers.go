@@ -5,10 +5,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func IsNotFound(seed error) bool {
-	return seed != nil && errors.Is(seed, gorm.ErrRecordNotFound)
+func IsNotFound(err error) bool {
+	return err != nil && errors.Is(err, gorm.ErrRecordNotFound)
 }
 
-func IsFoundButHasErrors(seed error) bool {
-	return seed != nil && !errors.Is(seed, gorm.ErrRecordNotFound)
+func IsFoundButHasErrors(err error) bool {
+	return err != nil && !errors.Is(err, gorm.ErrRecordNotFound)
 }

@@ -1,12 +1,10 @@
 package users
 
 import (
-    "errors"
     "fmt"
     "github.com/gocanto/blog/database"
     "github.com/gocanto/blog/webkit/orm"
     "github.com/google/uuid"
-    "gorm.io/gorm"
     "strings"
     "time"
 )
@@ -64,7 +62,7 @@ func (r Repository) FindByUserName(username string) *database.User {
         Where("username = ?", username).
         First(&user)
 
-    if result.Error != nil && errors.Is(result.Error, gorm.ErrRecordNotFound) {
+    if orm.IsNotFound(result.Error) {
         return nil
     }
 
@@ -75,29 +73,25 @@ func (r Repository) FindByUserName(username string) *database.User {
     return nil
 }
 
-func (r Repository) FindPosts(author database.User) (*[]database.Post, error) {
+func (r Repository) FindPosts(author database.User) ([]database.Post, error) {
     var posts []database.Post
 
     err := r.connection.Sql().
-        Model(&database.User{}).
-        Preload("Posts", func(db *gorm.DB) *gorm.DB {
-            return db.
-                Where("author_id = ?", author.ID).
-                Where("published_at IS NOT NULL").
-                Where("published_at IS NOT NULL").
-                Where("deleted_at IS NULL").
-                Order("created_at desc")
-        }).
+        Model(&database.Post{}).
+        Where("author_id = ?", author.ID).
+        Where("published_at IS NOT NULL").
+        Where("deleted_at IS NULL").
+        Order("created_at desc").
         Find(&posts).
         Error
 
     if orm.IsNotFound(err) {
-        return nil, errors.New(fmt.Sprintf("posts not found for author [%s]: %s", author.Username, err.Error()))
+        return nil, fmt.Errorf("posts not found for author [%s]: %s", author.Username, err.Error())
     }
 
     if orm.IsFoundButHasErrors(err) {
-        return nil, errors.New(fmt.Sprintf("issue retrieving author's [%s] posts: %s", author.Username, err.Error()))
+        return nil, fmt.Errorf("issue retrieving author's [%s] posts: %s", author.Username, err.Error())
     }
 
-    return &posts, nil
+    return posts, nil
 }
