@@ -2,8 +2,24 @@ package database
 
 import (
 	"gorm.io/gorm"
+	"slices"
 	"time"
 )
+
+var schemaTables = []string{
+	"users", "posts", "categories",
+	"post_categories", "tags", "post_tags",
+	"post_views", "post_views", "comments",
+	"likes",
+}
+
+func GetSchemaTables() []string {
+	return schemaTables
+}
+
+func isValidTable(seed string) bool {
+	return slices.Contains(schemaTables, seed)
+}
 
 type User struct {
 	ID                uint64         `gorm:"primaryKey;autoIncrement"`

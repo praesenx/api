@@ -2,10 +2,9 @@ package main
 
 import (
 	"github.com/getsentry/sentry-go"
-	baseValidator "github.com/go-playground/validator/v10"
+	"github.com/gocanto/blog/bootstrap"
 	"github.com/gocanto/blog/env"
 	"github.com/gocanto/blog/webkit"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"log/slog"
 	"net/http"
@@ -15,37 +14,29 @@ var environment *env.Environment
 var validator *webkit.Validator
 
 func init() {
-	val := webkit.MakeValidatorFrom(baseValidator.New(
-		baseValidator.WithRequiredStructEnabled(),
-	))
+	secrets, validate := bootstrap.Spark("./.env")
 
-	values, err := godotenv.Read("./.env")
-
-	if err != nil {
-		panic("invalid .env file: " + err.Error())
-	}
-
-	environment = MakeEnv(values, val)
-	validator = val
+	environment = secrets
+	validator = validate
 }
 
 func main() {
 	defer sentry.Recover()
 
-	dbConnection := MakeDbConnection(environment)
-	logs := MakeLogs(environment)
-	adminUser := MakeAdminUser(environment)
-	localSentry := MakeSentry(environment)
+	dbConnection := bootstrap.MakeDbConnection(environment)
+	logs := bootstrap.MakeLogs(environment)
+	adminUser := bootstrap.MakeAdminUser(environment)
+	localSentry := bootstrap.MakeSentry(environment)
 
 	defer (*logs).Close()
 	defer (*dbConnection).Close()
 
 	mux := http.NewServeMux()
 
-	app := MakeApp(mux, &App{
+	app := bootstrap.MakeApp(mux, &bootstrap.App{
 		Validator:    validator,
 		Logs:         logs,
-		dbConnection: dbConnection,
+		DbConnection: dbConnection,
 		AdminUser:    adminUser,
 		Env:          environment,
 		Mux:          mux,

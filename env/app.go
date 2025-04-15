@@ -16,14 +16,14 @@ type AppUserAminEnvValues struct {
 	PrivateToken string `validate:"required,min=10"`
 }
 
-func (e AppEnvironment) isProduction() bool {
+func (e AppEnvironment) IsProduction() bool {
 	return e.Type == production
 }
 
-func (e AppEnvironment) isStaging() bool {
+func (e AppEnvironment) IsStaging() bool {
 	return e.Type == staging
 }
 
-func (e AppEnvironment) isLocal() bool {
+func (e AppEnvironment) IsLocal() bool {
 	return e.Type == local
 }
