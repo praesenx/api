@@ -142,6 +142,7 @@ type Comment struct {
 
 type Like struct {
 	ID        uint64    `gorm:"primaryKey;autoIncrement"`
+	UUID      string    `gorm:"type:uuid;unique;not null"`
 	PostID    uint64    `gorm:"not null;index;uniqueIndex:idx_likes_post_user"`
 	Post      Post      `gorm:"foreignKey:PostID;constraint:OnDelete:CASCADE"`
 	UserID    uint64    `gorm:"not null;index;uniqueIndex:idx_likes_post_user"`

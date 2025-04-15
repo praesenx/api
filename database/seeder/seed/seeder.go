@@ -98,3 +98,17 @@ func (s *Seeder) SeedComments(posts ...database.Post) {
         panic(err)
     }
 }
+
+func (s *Seeder) SeedLikes(posts ...database.Post) {
+    seed := MakeLikesSeed(s.dbConn)
+    var attrs []LikesAttrs
+
+    for _, post := range posts {
+        attrs = append(attrs, LikesAttrs{
+            PostID: post.ID,
+            UserID: post.AuthorID,
+        })
+    }
+
+    seed.Create(attrs...)
+}

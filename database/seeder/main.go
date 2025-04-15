@@ -40,6 +40,7 @@ func main() {
 	seeder.SeedCategories()
 	seeder.SeedTags()
 	seeder.SeedComments(posts...)
+	seeder.SeedLikes(posts...)
 
 	cli.MakeTextColour("Done", cli.Green).Println()
 }
