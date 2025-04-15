@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"os"
 	"slices"
 )
 
@@ -43,6 +44,6 @@ func (t TextColour) Println() {
 	_, err := fmt.Println(fmt.Sprintf("%s > %s %s\n", t.colour, t.text, Reset))
 
 	if err != nil {
-		fmt.Println(err.Error())
+		_, _ = fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
 }
