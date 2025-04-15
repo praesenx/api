@@ -124,6 +124,7 @@ CREATE INDEX idx_comments_parent_id ON comments (parent_id);
 ----------------------------------------------------- LIKES ------------------------------------------------------------
 CREATE TABLE likes (
     id BIGSERIAL PRIMARY KEY,
+    uuid UUID UNIQUE NOT NULL,
     post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

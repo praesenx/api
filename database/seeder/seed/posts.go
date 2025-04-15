@@ -17,7 +17,7 @@ type PostsAttrs struct {
 	Title       string
 	Excerpt     string
 	Content     string
-	PublishedAt time.Time
+	PublishedAt *time.Time
 	Author      database.User
 	Categories  []database.Category
 	Tags        []database.Tag
@@ -44,7 +44,7 @@ func (s PostsSeed) CreatePosts(attrs PostsAttrs, number int) []database.Post {
 			Excerpt:       "This is an excerpt.",
 			Content:       "This is the full content of the post.",
 			CoverImageURL: "",
-			PublishedAt:   nil, //time.Now(),
+			PublishedAt:   attrs.PublishedAt,
 			Categories:    []database.Category{},
 			Tags:          []database.Tag{},
 			PostViews:     []database.PostView{},
