@@ -24,21 +24,22 @@ func main() {
 	defer (*logs).Close()
 	defer (*dbConnection).Close()
 
+	// --- Tests
+	//adminUser := bootstrap.MakeAdminUser(environment)
+	//usersRepo := users.Repository{Connection: dbConnection, Admin: adminUser}
+	//result, err := usersRepo.FindPosts(UserA)
+	//fmt.Println("-> resul: ", len(result), " err: ", err)
+
 	truncateDB(dbConnection, environment)
 
 	seeder := seed.MakeSeeder(dbConnection)
 
 	UserA, UserB := seeder.SeedUsers()
+	posts := seeder.SeedPosts(UserA, UserB)
 
 	seeder.SeedCategories()
 	seeder.SeedTags()
-
-	//seed.
-	seeder.SeedPosts(UserA, UserB)
-
-	// ------
-
-	//fmt.Println("--> ", UserA.ID, len(UserA.Posts))
+	seeder.SeedComments(posts...)
 
 	cli.MakeTextColour("Done", cli.Green).Println()
 }
