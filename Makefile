@@ -45,8 +45,7 @@ DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 .PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
-.PHONY: db\:delete db\:secure db\:secure\:show db\:chmod
-.PHONY: seed\:flush seed\:data
+.PHONY: db\:delete db\:secure db\:secure\:show db\:chmod db\:seed
 .PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
 .PHONY: logs\:fresh logs\:bin\:fresh
 
@@ -70,12 +69,6 @@ watch:
 	# --- Works with (air).
 	# https://github.com/air-verse/air
 	cd $(APP_PATH) && air
-
-seed\:data:
-	go run $(DB_SEEDER_ROOT_PATH)/main.go
-
-seed\:flush:
-	go run $(DB_SEEDER_ROOT_PATH)/main.go --truncate
 
 build\:fresh:
 	make build:app && make build:run
@@ -105,6 +98,9 @@ db\:local:
 	# --- Works with your local PG installation.
 	cd  $(EN_DB_BIN_DIR) && \
 	./psql -h $(ENV_DB_HOST) -U $(ENV_DB_USER_NAME) -d $(ENV_DB_DATABASE_NAME) -p $(ENV_DB_PORT)
+
+db\:seed:
+	go run $(DB_SEEDER_ROOT_PATH)/main.go
 
 db\:up:
 	docker compose up $(DB_DOCKER_SERVICE_NAME) -d && \
