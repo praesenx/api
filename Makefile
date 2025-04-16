@@ -50,7 +50,9 @@ DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 .PHONY: logs\:fresh logs\:bin\:fresh
 
 format:
-	gofmt -w -s ./**/*.go
+	gofmt -w -s ./**/*.go && \
+	git add . && \
+	git commit -S -a -m "apply style"
 
 fresh:
 	rm -rf $(DB_INFRA_DATA_PATH) && \
