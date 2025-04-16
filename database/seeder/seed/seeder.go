@@ -72,9 +72,10 @@ func (s *Seeder) SeedCategories() []database.Category {
     })
 }
 
-func (s *Seeder) SeedTags() {
+func (s *Seeder) SeedTags() []database.Tag {
     seed := MakeTagsSeed(s.dbConn)
-    seed.Create()
+
+    return seed.Create()
 }
 
 func (s *Seeder) SeedComments(posts ...database.Post) {
@@ -133,22 +134,27 @@ func (s *Seeder) SeedPostsCategories(categories []database.Category, posts []dat
 
     seed.Create(category, post)
 
-    //if len(categories) > 0 {
-    //	randomIndex := salt.Intn(len(categories))
-    //	randomCategory = categories[randomIndex]
-    //} else {
-    //	// ---> default
-    //	//return database.Category{}, database.Post{}, fmt.Errorf("no categories available")
-    //}
-    //
-    //if len(posts) > 0 {
-    //	randomIndex := salt.Intn(len(posts))
-    //	randomPost = posts[randomIndex]
-    //} else {
-    //	// ---> default
-    //	//database.Category{}, database.Post{}, fmt.Errorf("no posts available")
-    //}
-    //
-    ////return randomCategory, randomPost, nil
+}
+
+func (s *Seeder) SeedPostTags(tags []database.Tag, posts []database.Post) {
+    if len(tags) == 0 || len(posts) == 0 {
+        return
+    }
+
+    seed := MakePostTagsSeed(s.dbConn)
+
+    var post database.Post
+    var label database.Tag
+
+    source := rand.NewSource(time.Now().UnixNano())
+    salt := rand.New(source)
+
+    tIndex := salt.Intn(len(tags))
+    label = tags[tIndex]
+
+    pIndex := salt.Intn(len(posts))
+    post = posts[pIndex]
+
+    seed.Create(label, post)
 
 }
