@@ -1,4 +1,4 @@
-package seed
+package seeds
 
 import (
 	"github.com/gocanto/blog/database"
