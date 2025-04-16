@@ -1,160 +1,160 @@
 package seed
 
 import (
-    "fmt"
-    "github.com/gocanto/blog/database"
-    "github.com/google/uuid"
-    "math/rand"
-    "time"
+	"fmt"
+	"github.com/gocanto/blog/database"
+	"github.com/google/uuid"
+	"math/rand"
+	"time"
 )
 
 type Seeder struct {
-    dbConn *database.Connection
+	dbConn *database.Connection
 }
 
 func MakeSeeder(dbConnection *database.Connection) *Seeder {
-    return &Seeder{
-        dbConn: dbConnection,
-    }
+	return &Seeder{
+		dbConn: dbConnection,
+	}
 }
 
 func (s *Seeder) SeedUsers() (database.User, database.User) {
-    users := MakeUsersSeed(s.dbConn)
+	users := MakeUsersSeed(s.dbConn)
 
-    UserA := users.Create(UsersAttrs{
-        Username: "gocanto",
-        Name:     "Gus",
-        IsAdmin:  true,
-    })
+	UserA := users.Create(UsersAttrs{
+		Username: "gocanto",
+		Name:     "Gus",
+		IsAdmin:  true,
+	})
 
-    UserB := users.Create(UsersAttrs{
-        Username: "li",
-        Name:     "liane",
-        IsAdmin:  false,
-    })
+	UserB := users.Create(UsersAttrs{
+		Username: "li",
+		Name:     "liane",
+		IsAdmin:  false,
+	})
 
-    return UserA, UserB
+	return UserA, UserB
 }
 
 func (s *Seeder) SeedPosts(UserA, UserB database.User) []database.Post {
-    posts := MakePostsSeed(s.dbConn)
-    timex := time.Now()
+	posts := MakePostsSeed(s.dbConn)
+	timex := time.Now()
 
-    PostsA := posts.CreatePosts(PostsAttrs{
-        AuthorID:    UserA.ID,
-        Slug:        fmt.Sprintf("post-slug-%s", uuid.NewString()),
-        Title:       fmt.Sprintf("Post %s title", uuid.NewString()),
-        Excerpt:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
-        Content:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris. Nullam tempor velit id mi luctus, a scelerisque libero accumsan. In hac habitasse platea dictumst. Cras ac nunc nec massa tristique fringilla.", uuid.NewString()),
-        PublishedAt: &timex,
-        Author:      UserA,
-    }, 1)
+	PostsA := posts.CreatePosts(PostsAttrs{
+		AuthorID:    UserA.ID,
+		Slug:        fmt.Sprintf("post-slug-%s", uuid.NewString()),
+		Title:       fmt.Sprintf("Post %s title", uuid.NewString()),
+		Excerpt:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
+		Content:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris. Nullam tempor velit id mi luctus, a scelerisque libero accumsan. In hac habitasse platea dictumst. Cras ac nunc nec massa tristique fringilla.", uuid.NewString()),
+		PublishedAt: &timex,
+		Author:      UserA,
+	}, 1)
 
-    PostsB := posts.CreatePosts(PostsAttrs{
-        AuthorID:    UserB.ID,
-        Slug:        fmt.Sprintf("post-slug-%s", uuid.NewString()),
-        Title:       fmt.Sprintf("Post %s title", uuid.NewString()),
-        Excerpt:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
-        Content:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris. Nullam tempor velit id mi luctus, a scelerisque libero accumsan. In hac habitasse platea dictumst. Cras ac nunc nec massa tristique fringilla.", uuid.NewString()),
-        PublishedAt: &timex,
-        Author:      UserB,
-    }, 1)
+	PostsB := posts.CreatePosts(PostsAttrs{
+		AuthorID:    UserB.ID,
+		Slug:        fmt.Sprintf("post-slug-%s", uuid.NewString()),
+		Title:       fmt.Sprintf("Post %s title", uuid.NewString()),
+		Excerpt:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
+		Content:     fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris. Nullam tempor velit id mi luctus, a scelerisque libero accumsan. In hac habitasse platea dictumst. Cras ac nunc nec massa tristique fringilla.", uuid.NewString()),
+		PublishedAt: &timex,
+		Author:      UserB,
+	}, 1)
 
-    return append(PostsA, PostsB...)
+	return append(PostsA, PostsB...)
 }
 
 func (s *Seeder) SeedCategories() []database.Category {
-    categories := MakeCategoriesSeed(s.dbConn)
+	categories := MakeCategoriesSeed(s.dbConn)
 
-    return categories.Create(CategoriesAttrs{
-        Slug:        fmt.Sprintf("category-slug-%s", uuid.NewString()),
-        Description: fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
-    })
+	return categories.Create(CategoriesAttrs{
+		Slug:        fmt.Sprintf("category-slug-%s", uuid.NewString()),
+		Description: fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
+	})
 }
 
 func (s *Seeder) SeedTags() []database.Tag {
-    seed := MakeTagsSeed(s.dbConn)
+	seed := MakeTagsSeed(s.dbConn)
 
-    return seed.Create()
+	return seed.Create()
 }
 
 func (s *Seeder) SeedComments(posts ...database.Post) {
-    seed := MakeCommentsSeed(s.dbConn)
+	seed := MakeCommentsSeed(s.dbConn)
 
-    timex := time.Now()
-    var attrs []CommentsAttrs
+	timex := time.Now()
+	var attrs []CommentsAttrs
 
-    for index, post := range posts {
-        attrs = append(attrs, CommentsAttrs{
-            PostID:     post.ID,
-            AuthorID:   post.AuthorID,
-            ParentID:   nil,
-            Content:    fmt.Sprintf("[%d] Nullam quis arcu in magna pulvinar tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit nulla ut cursus laoreet. Nullam elementum lorem vel facilisis laoreet. Cras ac turpis vel erat vehicula venenatis.", index),
-            ApprovedAt: &timex,
-        })
-    }
+	for index, post := range posts {
+		attrs = append(attrs, CommentsAttrs{
+			PostID:     post.ID,
+			AuthorID:   post.AuthorID,
+			ParentID:   nil,
+			Content:    fmt.Sprintf("[%d] Nullam quis arcu in magna pulvinar tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit nulla ut cursus laoreet. Nullam elementum lorem vel facilisis laoreet. Cras ac turpis vel erat vehicula venenatis.", index),
+			ApprovedAt: &timex,
+		})
+	}
 
-    if _, err := seed.Create(attrs...); err != nil {
-        panic(err)
-    }
+	if _, err := seed.Create(attrs...); err != nil {
+		panic(err)
+	}
 }
 
 func (s *Seeder) SeedLikes(posts ...database.Post) {
-    seed := MakeLikesSeed(s.dbConn)
-    var attrs []LikesAttrs
+	seed := MakeLikesSeed(s.dbConn)
+	var attrs []LikesAttrs
 
-    for _, post := range posts {
-        attrs = append(attrs, LikesAttrs{
-            PostID: post.ID,
-            UserID: post.AuthorID,
-        })
-    }
+	for _, post := range posts {
+		attrs = append(attrs, LikesAttrs{
+			PostID: post.ID,
+			UserID: post.AuthorID,
+		})
+	}
 
-    seed.Create(attrs...)
+	seed.Create(attrs...)
 }
 
 func (s *Seeder) SeedPostsCategories(categories []database.Category, posts []database.Post) {
-    if len(categories) == 0 || len(posts) == 0 {
-        return
-    }
+	if len(categories) == 0 || len(posts) == 0 {
+		return
+	}
 
-    seed := MakePostCategoriesSeed(s.dbConn)
+	seed := MakePostCategoriesSeed(s.dbConn)
 
-    var post database.Post
-    var category database.Category
+	var post database.Post
+	var category database.Category
 
-    source := rand.NewSource(time.Now().UnixNano())
-    salt := rand.New(source)
+	source := rand.NewSource(time.Now().UnixNano())
+	salt := rand.New(source)
 
-    cIndex := salt.Intn(len(categories))
-    category = categories[cIndex]
+	cIndex := salt.Intn(len(categories))
+	category = categories[cIndex]
 
-    pIndex := salt.Intn(len(posts))
-    post = posts[pIndex]
+	pIndex := salt.Intn(len(posts))
+	post = posts[pIndex]
 
-    seed.Create(category, post)
+	seed.Create(category, post)
 
 }
 
 func (s *Seeder) SeedPostTags(tags []database.Tag, posts []database.Post) {
-    if len(tags) == 0 || len(posts) == 0 {
-        return
-    }
+	if len(tags) == 0 || len(posts) == 0 {
+		return
+	}
 
-    seed := MakePostTagsSeed(s.dbConn)
+	seed := MakePostTagsSeed(s.dbConn)
 
-    var post database.Post
-    var label database.Tag
+	var post database.Post
+	var label database.Tag
 
-    source := rand.NewSource(time.Now().UnixNano())
-    salt := rand.New(source)
+	source := rand.NewSource(time.Now().UnixNano())
+	salt := rand.New(source)
 
-    tIndex := salt.Intn(len(tags))
-    label = tags[tIndex]
+	tIndex := salt.Intn(len(tags))
+	label = tags[tIndex]
 
-    pIndex := salt.Intn(len(posts))
-    post = posts[pIndex]
+	pIndex := salt.Intn(len(posts))
+	post = posts[pIndex]
 
-    seed.Create(label, post)
+	seed.Create(label, post)
 
 }

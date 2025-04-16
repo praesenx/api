@@ -41,13 +41,16 @@ DB_INFRA_SERVER_KEY ?= $(DB_INFRA_SSL_PATH)/server.key
 DB_MIGRATE_PATH ?= $(DB_INFRA_ROOT_PATH)/migrations
 DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
-.PHONY: fresh audit watch
+.PHONY: fresh audit watch format
 .PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
 .PHONY: env\:init
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
 .PHONY: db\:delete db\:secure db\:secure\:show db\:chmod db\:seed
 .PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
 .PHONY: logs\:fresh logs\:bin\:fresh
+
+format:
+	gofmt -w -s ./**/*.go
 
 fresh:
 	rm -rf $(DB_INFRA_DATA_PATH) && \
