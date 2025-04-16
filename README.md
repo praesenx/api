@@ -1,3 +1,5 @@
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/gocanto/blog?utm_source=oss&utm_medium=github&utm_campaign=gocanto%2Fblog&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
 ### About me
 
 Hi, I'm someone who loves building tech. For over 15 years, I've worked with computers, software, and teams. I'm good at making sure things run smoothly and work well.
