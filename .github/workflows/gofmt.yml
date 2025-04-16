@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [pull_request]
 
 name: Go Fmt
 
@@ -20,7 +20,7 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Run Formatter
-              run: gofmt -w ./**/*.go
+              run: gofmt -w -s .
 
             - name: Commit Changes
               uses: stefanzweifel/git-auto-commit-action@v4.0.0
