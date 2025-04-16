@@ -37,10 +37,11 @@ func main() {
 	UserA, UserB := seeder.SeedUsers()
 	posts := seeder.SeedPosts(UserA, UserB)
 
-	seeder.SeedCategories()
+	categories := seeder.SeedCategories()
 	seeder.SeedTags()
 	seeder.SeedComments(posts...)
 	seeder.SeedLikes(posts...)
+	seeder.SeedPostsCategories(categories, posts)
 
 	cli.MakeTextColour("Done", cli.Green).Println()
 }
