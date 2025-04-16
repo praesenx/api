@@ -43,6 +43,7 @@ func main() {
 	seeder.SeedLikes(posts...)
 	seeder.SeedPostsCategories(categories, posts)
 	seeder.SeedPostTags(tags, posts)
+	seeder.SeedPostViews(posts, UserA, UserB)
 
 	cli.MakeTextColour("Done", cli.Green).Println()
 }
