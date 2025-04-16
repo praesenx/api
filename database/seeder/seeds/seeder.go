@@ -1,9 +1,10 @@
-package seed
+package seeds
 
 import (
 	"fmt"
 	"github.com/gocanto/blog/database"
 	"github.com/google/uuid"
+	"math/rand"
 	"time"
 )
 
@@ -59,23 +60,22 @@ func (s *Seeder) SeedPosts(UserA, UserB database.User) []database.Post {
 		Author:      UserB,
 	}, 1)
 
-	//fmt.Println("==========>", PostsA, PostsB)
-
 	return append(PostsA, PostsB...)
 }
 
-func (s *Seeder) SeedCategories() {
+func (s *Seeder) SeedCategories() []database.Category {
 	categories := MakeCategoriesSeed(s.dbConn)
 
-	categories.Create(CategoriesAttrs{
+	return categories.Create(CategoriesAttrs{
 		Slug:        fmt.Sprintf("category-slug-%s", uuid.NewString()),
 		Description: fmt.Sprintf("[%s] Sed at risus vel nulla consequat fermentum. Donec et orci mauris", uuid.NewString()),
 	})
 }
 
-func (s *Seeder) SeedTags() {
+func (s *Seeder) SeedTags() []database.Tag {
 	seed := MakeTagsSeed(s.dbConn)
-	seed.Create()
+
+	return seed.Create()
 }
 
 func (s *Seeder) SeedComments(posts ...database.Post) {
@@ -111,4 +111,73 @@ func (s *Seeder) SeedLikes(posts ...database.Post) {
 	}
 
 	seed.Create(attrs...)
+}
+
+func (s *Seeder) SeedPostsCategories(categories []database.Category, posts []database.Post) {
+	if len(categories) == 0 || len(posts) == 0 {
+		return
+	}
+
+	seed := MakePostCategoriesSeed(s.dbConn)
+
+	var post database.Post
+	var category database.Category
+
+	source := rand.NewSource(time.Now().UnixNano())
+	salt := rand.New(source)
+
+	cIndex := salt.Intn(len(categories))
+	category = categories[cIndex]
+
+	pIndex := salt.Intn(len(posts))
+	post = posts[pIndex]
+
+	seed.Create(category, post)
+
+}
+
+func (s *Seeder) SeedPostTags(tags []database.Tag, posts []database.Post) {
+	if len(tags) == 0 || len(posts) == 0 {
+		return
+	}
+
+	seed := MakePostTagsSeed(s.dbConn)
+
+	var post database.Post
+	var label database.Tag
+
+	source := rand.NewSource(time.Now().UnixNano())
+	salt := rand.New(source)
+
+	tIndex := salt.Intn(len(tags))
+	label = tags[tIndex]
+
+	pIndex := salt.Intn(len(posts))
+	post = posts[pIndex]
+
+	seed.Create(label, post)
+
+}
+
+func (s *Seeder) SeedPostViews(posts []database.Post, users ...database.User) {
+	if len(posts) == 0 || len(users) == 0 {
+		return
+	}
+
+	seed := MakePostViewsSeed(s.dbConn)
+
+	var attrs []PostViewsAttr
+
+	for pIndex, post := range posts {
+		for uIndex, user := range users {
+			attrs = append(attrs, PostViewsAttr{
+				Post:      post,
+				User:      user,
+				IPAddress: fmt.Sprintf("192.168.0.%d", pIndex+1),
+				UserAgent: fmt.Sprintf("[post:%d][user:%d] - Mozilla/5.0 (Macintosh; ...) ...", pIndex+1, uIndex+1),
+			})
+		}
+	}
+
+	seed.Create(attrs)
 }
