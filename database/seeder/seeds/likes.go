@@ -1,7 +1,9 @@
 package seeds
 
 import (
+	"fmt"
 	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/webkit/gorm"
 	"github.com/google/uuid"
 )
 
@@ -21,7 +23,7 @@ func MakeLikesSeed(db *database.Connection) *LikesSeed {
 	}
 }
 
-func (s LikesSeed) Create(attrs ...LikesAttrs) []database.Like {
+func (s LikesSeed) Create(attrs ...LikesAttrs) ([]database.Like, error) {
 	var likes []database.Like
 
 	for _, attr := range attrs {
@@ -32,7 +34,11 @@ func (s LikesSeed) Create(attrs ...LikesAttrs) []database.Like {
 		})
 	}
 
-	s.db.Sql().Create(&likes)
+	result := s.db.Sql().Create(&likes)
 
-	return likes
+	if gorm.HasDbIssues(result.Error) {
+		return nil, fmt.Errorf("error seeding likes: %s", result.Error)
+	}
+
+	return likes, nil
 }

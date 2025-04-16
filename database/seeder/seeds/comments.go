@@ -50,9 +50,13 @@ func (s CommentsSeed) Create(attrs ...CommentsAttrs) ([]database.Comment, error)
 	firstComment := comments[0]
 	lastComment := comments[len(comments)-1]
 
-	s.db.Sql().Model(database.Comment{}).
+	result = s.db.Sql().Model(database.Comment{}).
 		Where("id = ?", lastComment.ID).
 		Update("parent_id", firstComment.ID)
+
+	if result.Error != nil {
+		return nil, fmt.Errorf("error updating for parent comment: %w", result.Error)
+	}
 
 	return comments, nil
 }

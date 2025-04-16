@@ -3,6 +3,7 @@ package seeds
 import (
 	"fmt"
 	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/webkit/gorm"
 	"github.com/google/uuid"
 	"time"
 )
@@ -32,7 +33,7 @@ func MakePostsSeed(db *database.Connection) *PostsSeed {
 	}
 }
 
-func (s PostsSeed) CreatePosts(attrs PostsAttrs, number int) []database.Post {
+func (s PostsSeed) CreatePosts(attrs PostsAttrs, number int) ([]database.Post, error) {
 	var posts []database.Post
 
 	for i := 1; i <= number; i++ {
@@ -55,7 +56,11 @@ func (s PostsSeed) CreatePosts(attrs PostsAttrs, number int) []database.Post {
 		posts = append(posts, post)
 	}
 
-	s.db.Sql().Create(&posts)
+	result := s.db.Sql().Create(&posts)
 
-	return posts
+	if gorm.HasDbIssues(result.Error) {
+		return nil, fmt.Errorf("issue creating posts: %s", result.Error)
+	}
+
+	return posts, nil
 }

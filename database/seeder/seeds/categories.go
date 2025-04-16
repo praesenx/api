@@ -3,6 +3,7 @@ package seeds
 import (
 	"fmt"
 	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/webkit/gorm"
 	"github.com/google/uuid"
 )
 
@@ -21,7 +22,7 @@ func MakeCategoriesSeed(db *database.Connection) *CategoriesSeed {
 	}
 }
 
-func (s CategoriesSeed) Create(attrs CategoriesAttrs) []database.Category {
+func (s CategoriesSeed) Create(attrs CategoriesAttrs) ([]database.Category, error) {
 	var categories []database.Category
 
 	seeds := []string{
@@ -38,7 +39,11 @@ func (s CategoriesSeed) Create(attrs CategoriesAttrs) []database.Category {
 		})
 	}
 
-	s.db.Sql().Create(&categories)
+	result := s.db.Sql().Create(&categories)
 
-	return categories
+	if gorm.HasDbIssues(result.Error) {
+		return nil, fmt.Errorf("error seeding categories: %s", result.Error)
+	}
+
+	return categories, nil
 }

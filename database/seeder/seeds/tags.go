@@ -3,6 +3,7 @@ package seeds
 import (
 	"fmt"
 	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/webkit/gorm"
 	"github.com/google/uuid"
 )
 
@@ -16,7 +17,7 @@ func MakeTagsSeed(db *database.Connection) *TagsSeed {
 	}
 }
 
-func (s TagsSeed) Create() []database.Tag {
+func (s TagsSeed) Create() ([]database.Tag, error) {
 	var tags []database.Tag
 	allowed := []string{
 		"Tech", "AI", "Leadership", "Ethics",
@@ -33,7 +34,11 @@ func (s TagsSeed) Create() []database.Tag {
 		tags = append(tags, tag)
 	}
 
-	s.db.Sql().Create(&tags)
+	result := s.db.Sql().Create(&tags)
 
-	return tags
+	if gorm.HasDbIssues(result.Error) {
+		return nil, fmt.Errorf("issues creating tags: %s", result.Error)
+	}
+
+	return tags, nil
 }

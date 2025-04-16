@@ -1,7 +1,9 @@
 package seeds
 
 import (
+	"fmt"
 	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/webkit/gorm"
 )
 
 type PostTagsSeed struct {
@@ -14,9 +16,15 @@ func MakePostTagsSeed(db *database.Connection) *PostTagsSeed {
 	}
 }
 
-func (s PostTagsSeed) Create(tag database.Tag, post database.Post) {
-	s.db.Sql().Create(&database.PostTag{
+func (s PostTagsSeed) Create(tag database.Tag, post database.Post) error {
+	result := s.db.Sql().Create(&database.PostTag{
 		PostID: post.ID,
 		TagID:  tag.ID,
 	})
+
+	if gorm.HasDbIssues(result.Error) {
+		return fmt.Errorf("error seeding tags: %s", result.Error)
+	}
+
+	return nil
 }

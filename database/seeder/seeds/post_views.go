@@ -1,7 +1,9 @@
 package seeds
 
 import (
+    "fmt"
     "github.com/gocanto/blog/database"
+    "github.com/gocanto/blog/webkit/gorm"
 )
 
 type PostViewsSeed struct {
@@ -21,13 +23,19 @@ func MakePostViewsSeed(db *database.Connection) *PostViewsSeed {
     }
 }
 
-func (s PostViewsSeed) Create(attrs []PostViewsAttr) {
+func (s PostViewsSeed) Create(attrs []PostViewsAttr) error {
     for _, attr := range attrs {
-        s.db.Sql().Create(&database.PostView{
+        result := s.db.Sql().Create(&database.PostView{
             PostID:    attr.Post.ID,
             UserID:    &attr.User.ID,
             IPAddress: attr.IPAddress,
             UserAgent: attr.UserAgent,
         })
+
+        if gorm.HasDbIssues(result.Error) {
+            return fmt.Errorf("issue creating post views for post: %s", result.Error)
+        }
     }
+
+    return nil
 }

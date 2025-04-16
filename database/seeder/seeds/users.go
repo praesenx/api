@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/users"
+	"github.com/gocanto/blog/webkit/gorm"
 	"github.com/google/uuid"
 	"strings"
 	"time"
@@ -25,7 +26,7 @@ func MakeUsersSeed(db *database.Connection) *UsersSeed {
 	}
 }
 
-func (s UsersSeed) Create(attrs UsersAttrs) database.User {
+func (s UsersSeed) Create(attrs UsersAttrs) (database.User, error) {
 	pass, _ := users.MakePassword("password")
 
 	user := database.User{
@@ -42,8 +43,11 @@ func (s UsersSeed) Create(attrs UsersAttrs) database.User {
 		VerifiedAt:   time.Now(),
 	}
 
-	s.db.Sql().Create(&user)
-	fmt.Println("Created: ", attrs.Name)
+	result := s.db.Sql().Create(&user)
 
-	return user
+	if gorm.HasDbIssues(result.Error) {
+		return database.User{}, fmt.Errorf("issues creating users: %s", result.Error)
+	}
+
+	return user, nil
 }
