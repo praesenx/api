@@ -44,10 +44,10 @@ DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 .PHONY: fresh audit watch format
 .PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
 .PHONY: env\:init
+.PHONY: logs\:fresh logs\:bin\:fresh
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
 .PHONY: db\:delete db\:secure db\:secure\:show db\:chmod db\:seed
-.PHONY: migrate\:up migrate\:down migrate\:create db\:migrate\:force
-.PHONY: logs\:fresh logs\:bin\:fresh
+.PHONY: db\:migrate db\:withdraw db\:migrate\:create db\:migrate\:force
 
 format:
 	gofmt -w -s .
@@ -141,20 +141,20 @@ db\:secure\:show:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/private/server.key && \
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
 
-migrate\:up:
+db\:migrate:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
 	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
 
-migrate\:down:
+db\:withdraw:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
 	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
 
-migrate\:create:
+db\:migrate\:create:
 	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate create -ext sql -dir $(DB_MIGRATE_PATH) -seq $(name)
 
-migrate\:up\:force:
+db\:migrate\:force:
 	#migrate -path PATH_TO_YOUR_MIGRATIONS -database YOUR_DATABASE_URL force VERSION
 	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
 
