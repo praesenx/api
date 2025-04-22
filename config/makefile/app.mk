@@ -1,3 +1,5 @@
+.PHONY: fresh audit watch format
+
 format:
 	gofmt -w -s .
 

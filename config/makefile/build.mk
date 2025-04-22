@@ -1,3 +1,5 @@
+.PHONY: build\:app build\:app\:linux build\:release build\:run build\:fresh
+
 build\:fresh:
 	make build:app && make build:run
 
