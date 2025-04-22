@@ -60,7 +60,8 @@ help:
 	@printf "  $(BOLD)$(GREEN)build:app:linux$(NC) : Build the application specifically for Linux.\n"
 	@printf "  $(BOLD)$(GREEN)build:release$(NC) : Build a release version of the application.\n"
 	@printf "  $(BOLD)$(GREEN)build:run$(NC)     : Build and run the application.\n"
-	@printf "  $(BOLD)$(GREEN)build:fresh$(NC)   : Clean build artifacts and then build the application.\n\n"
+	@printf "  $(BOLD)$(GREEN)build:fresh$(NC)   : Build and run a freshly instance of the application.\n"
+	@printf "  $(BOLD)$(GREEN)build:flush$(NC)   : Clean build artifacts and then build the application.\n\n"
 
 	@printf "$(BOLD)$(BLUE)Database Commands:$(NC)\n"
 	@printf "  $(BOLD)$(GREEN)db:local$(NC)      : Set up or manage the local database environment.\n"
@@ -87,6 +88,5 @@ help:
 
 	@printf "$(BOLD)$(BLUE)Log Commands:$(NC)\n"
 	@printf "  $(BOLD)$(GREEN)logs:fresh$(NC)    : Clear application logs.\n"
-	@printf "  $(BOLD)$(GREEN)logs:bin:fresh$(NC): Clear binary or system logs.\n\n"
 
 	@printf "$(NC)"
