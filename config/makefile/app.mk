@@ -23,8 +23,3 @@ watch:
 	# --- Works with (air).
 	# https://github.com/air-verse/air
 	cd $(APP_PATH) && air
-
-
-define external_deps
-	@echo '-- $(1)';  go list -f '{{join .Deps "\n"}}' $(1) | grep -v github.com/$(REPO_OWNER)/blog | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
-endef

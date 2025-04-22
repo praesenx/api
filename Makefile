@@ -33,6 +33,7 @@ VERSION               := $(shell git describe --tags 2>/dev/null | cut -c 2-)
 # -------------------------------------------------------------------------------------------------------------------- #
 # -------------------------------------------------------------------------------------------------------------------- #
 
+include ./config/makefile/helpers.mk
 include ./config/makefile/env.mk
 
 include ./config/makefile/db.mk
@@ -73,7 +74,7 @@ help:
 	@printf "  $(BOLD)$(GREEN)db:chmod$(NC)      : Adjust database file or directory permissions.\n"
 	@printf "  $(BOLD)$(GREEN)db:seed$(NC)       : Run database seeders to populate data.\n"
 	@printf "  $(BOLD)$(GREEN)db:migrate$(NC)    : Run database migrations.\n"
-	@printf "  $(BOLD)$(GREEN)db:withdraw$(NC)   : Rollback database migrations (usually the last batch).\n"
+	@printf "  $(BOLD)$(GREEN)db:rollback$(NC)   : Rollback database migrations (usually the last batch).\n"
 	@printf "  $(BOLD)$(GREEN)db:migrate:create$(NC): Create a new database migration file.\n"
 	@printf "  $(BOLD)$(GREEN)db:migrate:force$(NC): Force database migrations to run.\n\n"
 

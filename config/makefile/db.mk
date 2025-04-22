@@ -1,6 +1,7 @@
+# --- Metadata
 .PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
 .PHONY: db\:delete db\:secure db\:secure\:show db\:chmod db\:seed
-.PHONY: db\:migrate db\:withdraw db\:migrate\:create db\:migrate\:force
+.PHONY: db\:migrate db\:rollback db\:migrate\:create db\:migrate\:force
 
 # --- Docker
 DB_DOCKER_SERVICE_NAME := postgres
@@ -66,20 +67,17 @@ db\:secure\:show:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
 
 db\:migrate:
-	@#printf "\n$(BLUE)Running DB Migrations.$(NC)\n"
-	@printf "\n$(DB_MIGRATE_VOL_MAP), $(ROOT_NETWORK), $(DB_MIGRATE_PATH) > $(ENV_DB_URL). |||| \n"
-	@#echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
-	@#docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
-	@#echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+	@printf "\n$(BLUE)[DB]$(NC) Migration has started.\n"
+	@docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
+	@printf "$(GREEN)[DB]$(NC) Migration has finished.\n\n"
 
-db\:withdraw:
-	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
-	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
-	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+db\:rollback:
+	@printf "\n$(RED)[DB]$(NC) Migration rollback has started.\n"
+	@docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
+	@printf "$(GREEN)[DB]$(NC) Migration rollback has finished.\n\n"
 
 db\:migrate\:create:
-	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate create -ext sql -dir $(DB_MIGRATE_PATH) -seq $(name)
+	docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate create -ext sql -dir $(DB_MIGRATE_PATH) -seq $(name)
 
 db\:migrate\:force:
-	#migrate -path PATH_TO_YOUR_MIGRATIONS -database YOUR_DATABASE_URL force VERSION
-	docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
+	docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate migrate -path $(DB_MIGRATE_PATH) -database $(ENV_DB_URL) force $(version)
