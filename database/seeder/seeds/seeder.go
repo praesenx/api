@@ -3,19 +3,36 @@ package seeds
 import (
 	"fmt"
 	"github.com/gocanto/blog/database"
+	"github.com/gocanto/blog/env"
 	"github.com/google/uuid"
 	"math/rand"
 	"time"
 )
 
 type Seeder struct {
-	dbConn *database.Connection
+	dbConn      *database.Connection
+	environment *env.Environment
 }
 
-func MakeSeeder(dbConnection *database.Connection) *Seeder {
+func MakeSeeder(dbConnection *database.Connection, environment *env.Environment) *Seeder {
 	return &Seeder{
-		dbConn: dbConnection,
+		dbConn:      dbConnection,
+		environment: environment,
 	}
+}
+
+func (s *Seeder) TruncateDB() error {
+	if s.environment.App.IsProduction() {
+		return fmt.Errorf("cannot truncate DB at the seeder level")
+	}
+
+	truncate := database.MakeTruncate(s.dbConn, s.environment)
+
+	if err := truncate.Execute(); err != nil {
+		panic(err)
+	}
+
+	return nil
 }
 
 func (s *Seeder) SeedUsers() (database.User, database.User) {

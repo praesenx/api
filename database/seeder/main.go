@@ -26,13 +26,16 @@ func main() {
 	defer (*logs).Close()
 	defer (*dbConnection).Close()
 
-	// [1] --- Truncate the DB.
-	truncateDB(dbConnection, environment)
-	cli.MakeTextColour("DB Truncated successfully ...", cli.Green).Println()
-	time.Sleep(2 * time.Second)
+	// [1] --- Create the Seeder Runner.
+	seeder := seeds.MakeSeeder(dbConnection, environment)
 
-	// [2] --- Create the Seeder Runner.
-	seeder := seeds.MakeSeeder(dbConnection)
+	// [2] --- Truncate the DB.
+	if err := seeder.TruncateDB(); err != nil {
+		panic(err)
+	} else {
+		cli.MakeTextColour("DB Truncated successfully ...", cli.Green).Println()
+		time.Sleep(2 * time.Second)
+	}
 
 	// [3] --- Seed users and posts sequentially because the below seeders depend on them.
 	UserA, UserB := seeder.SeedUsers()
