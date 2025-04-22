@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS posts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL,
+
     CONSTRAINT fk_user FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -65,7 +66,10 @@ CREATE TABLE IF NOT EXISTS post_categories (
     category_id BIGINT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (post_id, category_id)
+    PRIMARY KEY (post_id, category_id),
+
+    CONSTRAINT fk_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_category_post ON post_categories (category_id, post_id);
@@ -87,7 +91,10 @@ CREATE TABLE IF NOT EXISTS post_tags (
     tag_id BIGINT NOT NULL REFERENCES tags(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (post_id, tag_id)
+    PRIMARY KEY (post_id, tag_id),
+
+    CONSTRAINT fk_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_tag FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS post_views (
@@ -97,7 +104,10 @@ CREATE TABLE IF NOT EXISTS post_views (
     ip_address INET,
     user_agent TEXT,
     viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(post_id, user_id, ip_address, user_agent) -- Prevents duplicate counting
+    UNIQUE(post_id, user_id, ip_address, user_agent), -- Prevents duplicate counting
+
+    CONSTRAINT fk_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_post_tags_tag_post ON post_tags (tag_id, post_id);
@@ -114,7 +124,11 @@ CREATE TABLE IF NOT EXISTS comments (
     approved_at TIMESTAMP DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP DEFAULT NULL
+    deleted_at TIMESTAMP DEFAULT NULL,
+
+    CONSTRAINT fk_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_user FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_comment FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_comments_post_id ON comments (post_id);
@@ -130,7 +144,27 @@ CREATE TABLE likes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL,
-    UNIQUE (post_id, user_id) -- Prevent duplicate likes
+    UNIQUE (post_id, user_id), -- Prevent duplicate likes
+
+    CONSTRAINT fk_post FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_likes_user_post ON likes (user_id, post_id);
+
+--------------------------------------------------- NEWSLETTERS ---------------------------------------------------------
+CREATE TABLE newsletters (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    subscribed_at TIMESTAMP DEFAULT NULL,
+    unsubscribed_at TIMESTAMP DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE (email, name)
+);
+
+CREATE INDEX idx_newsletters_created_at ON newsletters(created_at);
+CREATE INDEX idx_newsletters_subscribed_at ON newsletters(subscribed_at);
+CREATE INDEX idx_newsletters_unsubscribed_at ON newsletters(unsubscribed_at);

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/getsentry/sentry-go"
 	"github.com/gocanto/blog/bootstrap"
 	"github.com/gocanto/blog/env"
 	"github.com/gocanto/blog/webkit"
@@ -21,8 +20,6 @@ func init() {
 }
 
 func main() {
-	defer sentry.Recover()
-
 	dbConnection := bootstrap.MakeDbConnection(environment)
 	logs := bootstrap.MakeLogs(environment)
 	adminUser := bootstrap.MakeAdminUser(environment)
