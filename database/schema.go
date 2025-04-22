@@ -151,3 +151,14 @@ type Like struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt gorm.DeletedAt
 }
+
+type Newsletter struct {
+	ID             uint64     `gorm:"primaryKey;autoIncrement"`
+	FirstName      string     `gorm:"type:varchar(250);not null"`
+	LastName       string     `gorm:"type:varchar(250);not null"`
+	Email          string     `gorm:"type:varchar(250);unique;not null"`
+	SubscribedAt   *time.Time `gorm:"index:idx_newsletters_subscribed_at;type:datetime"`
+	UnsubscribedAt *time.Time `gorm:"index:idx_newsletters_unsubscribed_at;type:datetime"`
+	CreatedAt      time.Time  `gorm:"default:CURRENT_TIMESTAMP;index:idx_newsletters_created_at"`
+	UpdatedAt      time.Time  `gorm:"default:CURRENT_TIMESTAMP"`
+}

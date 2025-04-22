@@ -11,7 +11,6 @@ import (
 )
 
 var environment *env.Environment
-var textColour *cli.TextColour
 
 func init() {
 	secrets, _ := bootstrap.Spark("./.env")
@@ -64,7 +63,7 @@ func main() {
 
 	// [5] Use a WaitGroup to run independent seeding tasks concurrently.
 	var wg sync.WaitGroup
-	wg.Add(5)
+	wg.Add(6)
 
 	go func() {
 		defer wg.Done()
@@ -99,6 +98,15 @@ func main() {
 
 		cli.MakeTextColour("Seeding views ...", cli.Yellow).Println()
 		seeder.SeedPostViews(posts, UserA, UserB)
+	}()
+
+	go func() {
+		defer wg.Done()
+
+		cli.MakeTextColour("Seeding Newsletters ...", cli.Green).Println()
+		if err := seeder.SeedNewsLetters(); err != nil {
+			cli.MakeTextColour(err.Error(), cli.Red).Println()
+		}
 	}()
 
 	wg.Wait()

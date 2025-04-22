@@ -156,13 +156,14 @@ CREATE INDEX idx_likes_user_post ON likes (user_id, post_id);
 CREATE TABLE newsletters (
     id BIGSERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    first_name varchar(250) NOT NULL,
+    last_name varchar(250) NOT NULL,
     subscribed_at TIMESTAMP DEFAULT NULL,
     unsubscribed_at TIMESTAMP DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    UNIQUE (email, name)
+    UNIQUE (email, first_name, last_name)
 );
 
 CREATE INDEX idx_newsletters_created_at ON newsletters(created_at);

@@ -240,3 +240,34 @@ func (s *Seeder) SeedPostViews(posts []database.Post, users ...database.User) {
 		panic(err)
 	}
 }
+
+func (s *Seeder) SeedNewsLetters() error {
+	var newsletters []NewsletterAttrs
+
+	a := NewsletterAttrs{
+		FirstName:      "John",
+		LastName:       "Smith",
+		Email:          "john.smith@gmail.com",
+		SubscribedAt:   nil,
+		UnsubscribedAt: nil,
+	}
+
+	currentTime := time.Now()
+	last3Month := currentTime.AddDate(0, -3, 0)
+	b := NewsletterAttrs{
+		FirstName:      "Don",
+		LastName:       "Smith",
+		Email:          "Don.smith@gmail.com",
+		SubscribedAt:   &last3Month,
+		UnsubscribedAt: &currentTime,
+	}
+
+	seed := MakeNewslettersSeed(s.dbConn)
+	newsletters = append(newsletters, a, b)
+
+	if err := seed.Create(newsletters); err != nil {
+		panic(err)
+	}
+
+	return nil
+}
