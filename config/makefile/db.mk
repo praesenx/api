@@ -1,21 +1,25 @@
+.PHONY: db\:local db\:up db\:ping db\:bash db\:fresh db\:logs
+.PHONY: db\:delete db\:secure db\:secure\:show db\:chmod db\:seed
+.PHONY: db\:migrate db\:withdraw db\:migrate\:create db\:migrate\:force
+
 # --- Docker
-DB_DOCKER_SERVICE_NAME ?= postgres
-DB_DOCKER_CONTAINER_NAME ?= gocanto-db
+DB_DOCKER_SERVICE_NAME := postgres
+DB_DOCKER_CONTAINER_NAME := gocanto-db
 
 # --- Paths
-DB_SEEDER_ROOT_PATH ?= $(ROOT_PATH)/database/seeder
-DB_INFRA_ROOT_PATH ?= $(ROOT_PATH)/database/infra
-DB_INFRA_SSL_PATH ?= $(DB_INFRA_ROOT_PATH)/ssl
-DB_INFRA_DATA_PATH ?= $(DB_INFRA_ROOT_PATH)/data
+DB_SEEDER_ROOT_PATH := $(ROOT_PATH)/database/seeder
+DB_INFRA_ROOT_PATH := $(ROOT_PATH)/database/infra
+DB_INFRA_SSL_PATH := $(DB_INFRA_ROOT_PATH)/ssl
+DB_INFRA_DATA_PATH := $(DB_INFRA_ROOT_PATH)/data
 
 # --- SSL
-DB_INFRA_SERVER_CRT ?= $(DB_INFRA_SSL_PATH)/server.crt
-DB_INFRA_SERVER_CSR ?= $(DB_INFRA_SSL_PATH)/server.csr
-DB_INFRA_SERVER_KEY ?= $(DB_INFRA_SSL_PATH)/server.key
+DB_INFRA_SERVER_CRT := $(DB_INFRA_SSL_PATH)/server.crt
+DB_INFRA_SERVER_CSR := $(DB_INFRA_SSL_PATH)/server.csr
+DB_INFRA_SERVER_KEY := $(DB_INFRA_SSL_PATH)/server.key
 
 # --- Migrations
-DB_MIGRATE_PATH ?= $(DB_INFRA_ROOT_PATH)/migrations
-DB_MIGRATE_VOL_MAP ?= $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
+DB_MIGRATE_PATH := $(DB_INFRA_ROOT_PATH)/migrations
+DB_MIGRATE_VOL_MAP := $(DB_MIGRATE_PATH):$(DB_MIGRATE_PATH)
 
 db\:local:
 	# --- Works with your local PG installation.
@@ -62,9 +66,11 @@ db\:secure\:show:
 	docker exec -it $(DB_DOCKER_CONTAINER_NAME) ls -l /etc/ssl/certs/server.crt
 
 db\:migrate:
-	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
-	@docker run -v $(DB_MIGRATE_VOL_MAP) --network ${ROOT_NETWORK} migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
-	@echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
+	@#printf "\n$(BLUE)Running DB Migrations.$(NC)\n"
+	@printf "\n$(DB_MIGRATE_VOL_MAP), $(ROOT_NETWORK), $(DB_MIGRATE_PATH) > $(ENV_DB_URL). |||| \n"
+	@#echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
+	@#docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) up
+	@#echo "\n${GREEN}${PADDING}--- Done Running DB Migrations ---\n${NC}"
 
 db\:withdraw:
 	@echo "\n${BLUE}${PADDING}--- Running DB Migrations ---\n${NC}"
