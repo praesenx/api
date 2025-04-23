@@ -13,7 +13,7 @@
 				<nav class="w-full">
 					<ul class="space-y-4">
 						<li class="py-2">
-							<router-link to="/" custom v-slot="{ href, navigate, isExactActive }">
+							<router-link v-slot="{ href, navigate, isExactActive }" to="/" custom>
 								<a
 									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
 									:class="
@@ -33,7 +33,7 @@
 							</router-link>
 						</li>
 						<li class="py-2">
-							<router-link to="/about" custom v-slot="{ href, navigate, isExactActive }">
+							<router-link v-slot="{ href, navigate, isExactActive }" to="/about" custom>
 								<a
 									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
 									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
@@ -49,7 +49,7 @@
 							</router-link>
 						</li>
 						<li class="py-2">
-							<router-link to="/projects" custom v-slot="{ href, navigate, isExactActive }">
+							<router-link v-slot="{ href, navigate, isExactActive }" to="/projects" custom>
 								<a
 									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
 									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
@@ -65,7 +65,7 @@
 							</router-link>
 						</li>
 						<li class="py-2">
-							<router-link to="/resume" custom v-slot="{ href, navigate, isExactActive }">
+							<router-link v-slot="{ href, navigate, isExactActive }" to="/resume" custom>
 								<a
 									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
 									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
@@ -81,7 +81,7 @@
 							</router-link>
 						</li>
 						<li class="py-2">
-							<router-link to="/subscribe" custom v-slot="{ href, navigate, isExactActive }">
+							<router-link v-slot="{ href, navigate, isExactActive }" to="/subscribe" custom>
 								<a
 									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
 									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
@@ -107,7 +107,7 @@
 import { useRouter } from 'vue-router';
 
 export default {
-	name: 'SideNavigation',
+	name: 'SideNavPartial',
 	setup() {
 		const currentRoute = useRouter().currentRoute.value;
 

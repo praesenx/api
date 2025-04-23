@@ -24,7 +24,7 @@
 
 				<!-- Light switch -->
 				<div class="flex flex-col justify-center">
-					<input type="checkbox" name="light-switch" id="light-switch" v-model="darkMode" class="light-switch sr-only" />
+					<input id="light-switch" v-model="darkMode" type="checkbox" name="light-switch" class="light-switch sr-only" />
 					<label class="relative cursor-pointer p-2" for="light-switch">
 						<svg class="dark:hidden" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
 							<path
@@ -57,7 +57,7 @@
 import { ref, watch } from 'vue';
 
 export default {
-	name: 'Header',
+	name: 'HeaderPartial',
 	setup() {
 		const darkMode = ref(localStorage.getItem('dark-mode'));
 

@@ -25,7 +25,12 @@
 
 <script>
 export default {
-	name: 'ProjectCard',
-	props: ['item'],
+	name: 'ProjectCardPartial',
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
 };
 </script>

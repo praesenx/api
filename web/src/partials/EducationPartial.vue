@@ -48,6 +48,6 @@
 
 <script>
 export default {
-	name: 'Education',
+	name: 'EducationPartial',
 };
 </script>

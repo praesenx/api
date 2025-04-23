@@ -40,6 +40,6 @@
 
 <script>
 export default {
-	name: 'Talks',
+	name: 'TalksPartial',
 };
 </script>

@@ -17,6 +17,6 @@
 
 <script>
 export default {
-	name: 'WidgetSponsor',
+	name: 'WidgetSponsorPartial',
 };
 </script>

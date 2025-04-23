@@ -1,0 +1,74 @@
+<template>
+	<div class="max-w-7xl mx-auto">
+		<div class="min-h-screen flex">
+			<SideNavPartial />
+
+			<!-- Main content -->
+			<main class="grow overflow-hidden px-6">
+				<div class="w-full h-full max-w-[1072px] mx-auto flex flex-col">
+					<HeaderPartial />
+
+					<!-- Content -->
+					<div class="grow md:flex space-y-8 md:space-y-0 md:space-x-8 pt-12 md:pt-16 pb-16 md:pb-20">
+						<!-- Middle area -->
+						<div class="grow">
+							<div class="max-w-[700px]">
+								<section>
+									<!-- Page title -->
+									<h1 class="h1 font-aspekta mb-12">My resume</h1>
+									<!-- Page content -->
+									<div class="text-slate-500 dark:text-slate-400 space-y-12">
+										<EducationPartial />
+										<ExperienceSection />
+										<AwardsPartial />
+										<RecommPartial />
+									</div>
+								</section>
+							</div>
+						</div>
+
+						<!-- Right sidebar -->
+						<aside class="md:w-[240px] lg:w-[300px] shrink-0">
+							<div class="space-y-6">
+								<WidgetSkillsPartial />
+								<WidgetLangPartial />
+								<WidgetReferencesPartial />
+							</div>
+						</aside>
+					</div>
+
+					<FooterPartial />
+				</div>
+			</main>
+		</div>
+	</div>
+</template>
+
+<script>
+import SideNavPartial from '../partials/SideNavPartial.vue';
+import HeaderPartial from '../partials/HeaderPartial.vue';
+import EducationPartial from '../partials/EducationPartial.vue';
+import ExperienceSection from '../partials/ExperienceSection.vue';
+import AwardsPartial from '../partials/AwardsPartial.vue';
+import RecommPartial from '../partials/RecommPartial.vue';
+import WidgetSkillsPartial from '../partials/WidgetSkillsPartial.vue';
+import WidgetLangPartial from '../partials/WidgetLangPartial.vue';
+import WidgetReferencesPartial from '../partials/WidgetReferencesPartial.vue';
+import FooterPartial from '../partials/FooterPartial.vue';
+
+export default {
+	name: 'ResumePage',
+	components: {
+		SideNavPartial,
+		HeaderPartial,
+		EducationPartial,
+		ExperienceSection,
+		AwardsPartial,
+		RecommPartial,
+		WidgetSkillsPartial,
+		WidgetLangPartial,
+		WidgetReferencesPartial,
+		FooterPartial,
+	},
+};
+</script>

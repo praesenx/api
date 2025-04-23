@@ -52,6 +52,6 @@
 
 <script>
 export default {
-	name: 'Awards',
+	name: 'AwardsPartial',
 };
 </script>

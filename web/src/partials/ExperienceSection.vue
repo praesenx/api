@@ -100,6 +100,6 @@
 
 <script>
 export default {
-	name: 'Experience',
+	name: 'ExperienceSection',
 };
 </script>

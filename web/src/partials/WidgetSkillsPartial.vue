@@ -58,6 +58,6 @@
 
 <script>
 export default {
-	name: 'WidgetSkills',
+	name: 'WidgetSkillsPartial',
 };
 </script>

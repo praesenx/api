@@ -6,7 +6,7 @@
 			<!-- Main content -->
 			<main class="grow overflow-hidden px-6">
 				<div class="rounded-lg w-full h-full max-w-[1072px] mx-auto flex flex-col">
-					<Header />
+					<HeaderPartial />
 
 					<!-- Content -->
 					<div class="grow md:flex space-y-8 md:space-y-0 md:space-x-8 pt-12 md:pt-16 pb-16 md:pb-20">
@@ -80,12 +80,12 @@
 							<div class="space-y-6">
 								<WidgetNewsletter />
 
-								<WidgetSponsor />
+								<WidgetSponsorPartial />
 							</div>
 						</aside>
 					</div>
 
-					<Footer />
+					<FooterPartial />
 				</div>
 			</main>
 		</div>
@@ -93,22 +93,22 @@
 </template>
 
 <script>
-import SideNavigation from '../partials/SideNavigation.vue';
-import Header from '../partials/Header.vue';
-import Experience from '../partials/Experience.vue';
-import WidgetNewsletter from '../partials/WidgetNewsletter.vue';
-import WidgetSponsor from '../partials/WidgetSponsor.vue';
-import Footer from '../partials/Footer.vue';
+import SideNavPartial from '../partials/SideNavPartial.vue';
+import HeaderPartial from '../partials/HeaderPartial.vue';
+import ExperienceSection from '../partials/ExperienceSection.vue';
+import WidgetNewsletterPartial from '../partials/WidgetNewsletterPartial.vue';
+import WidgetSponsorPartial from '../partials/WidgetSponsorPartial.vue';
+import FooterPartial from '../partials/FooterPartial.vue';
 
 export default {
-	name: 'About',
+	name: 'AboutPage',
 	components: {
-		SideNavigation,
-		Header,
-		Experience,
-		WidgetNewsletter,
-		WidgetSponsor,
-		Footer,
+		SideNavigation: SideNavPartial,
+		HeaderPartial,
+		Experience: ExperienceSection,
+		WidgetNewsletter: WidgetNewsletterPartial,
+		WidgetSponsorPartial,
+		FooterPartial,
 	},
 };
 </script>

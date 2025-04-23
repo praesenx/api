@@ -28,7 +28,7 @@
 <script>
 import { ref } from 'vue';
 
-import ArticleItem from '../partials/ArticleItem.vue';
+import ArticleItemPartial from './ArticleItemPartial.vue';
 
 import Post01 from '../images/post-thumb-01.jpg';
 import Post02 from '../images/post-thumb-02.jpg';
@@ -40,9 +40,9 @@ import Post07 from '../images/post-thumb-07.jpg';
 import Post08 from '../images/post-thumb-08.jpg';
 
 export default {
-	name: 'ArticlesList',
+	name: 'ArticlesListPartial',
 	components: {
-		ArticleItem,
+		ArticleItem: ArticleItemPartial,
 	},
 	setup() {
 		const items = ref([

@@ -60,6 +60,6 @@
 
 <script>
 export default {
-	name: 'FeaturedProjects',
+	name: 'FeaturedProjectsPartial',
 };
 </script>

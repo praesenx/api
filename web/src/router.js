@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from './pages/Home.vue';
-import Post from './pages/Post.vue';
-import About from './pages/About.vue';
-import Projects from './pages/Projects.vue';
-import Resume from './pages/Resume.vue';
-import Subscribe from './pages/Subscribe.vue';
+import HomePage from './pages/HomePage.vue';
+import PostPage from './pages/PostPage.vue';
+import AboutPage from './pages/AboutPage.vue';
+import ProjectsPage from './pages/ProjectsPage.vue';
+import ResumePage from './pages/ResumePage.vue';
+import SubscribePage from './pages/SubscribePage.vue';
 
 const routerHistory = createWebHistory();
 
@@ -22,27 +22,27 @@ const router = createRouter({
 	routes: [
 		{
 			path: '/',
-			component: Home,
+			component: HomePage,
 		},
 		{
 			path: '/post',
-			component: Post,
+			component: PostPage,
 		},
 		{
 			path: '/about',
-			component: About,
+			component: AboutPage,
 		},
 		{
 			path: '/projects',
-			component: Projects,
+			component: ProjectsPage,
 		},
 		{
 			path: '/resume',
-			component: Resume,
+			component: ResumePage,
 		},
 		{
 			path: '/subscribe',
-			component: Subscribe,
+			component: SubscribePage,
 		},
 	],
 });

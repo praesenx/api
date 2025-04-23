@@ -38,6 +38,6 @@
 
 <script>
 export default {
-	name: 'WidgetLanguages',
+	name: 'WidgetLangPartial',
 };
 </script>

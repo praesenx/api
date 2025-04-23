@@ -48,6 +48,6 @@
 
 <script>
 export default {
-	name: 'WidgetPosts',
+	name: 'WidgetPostsPartial',
 };
 </script>

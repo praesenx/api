@@ -1,12 +1,12 @@
 <template>
 	<div class="max-w-7xl mx-auto">
 		<div class="min-h-screen flex">
-			<SideNavigation />
+			<SideNavPartial />
 
 			<!-- Main content -->
 			<main class="grow overflow-hidden px-6">
 				<div class="w-full h-full max-w-[1072px] mx-auto flex flex-col">
-					<Header />
+					<HeaderPartial />
 
 					<!-- Content -->
 					<div class="grow md:flex space-y-8 md:space-y-0 md:space-x-8 pt-12 md:pt-16 pb-16 md:pb-20">
@@ -178,14 +178,14 @@
 						<!-- Right sidebar -->
 						<aside class="md:w-[240px] lg:w-[300px] shrink-0">
 							<div class="space-y-6">
-								<WidgetNewsletter />
-								<WidgetSponsor />
-								<WidgetPosts />
+								<WidgetNewsletterPartial />
+								<WidgetSponsorPartial />
+								<WidgetPostsPartial />
 							</div>
 						</aside>
 					</div>
 
-					<Footer />
+					<FooterPartial />
 				</div>
 			</main>
 		</div>
@@ -193,22 +193,22 @@
 </template>
 
 <script>
-import SideNavigation from '../partials/SideNavigation.vue';
-import Header from '../partials/Header.vue';
-import WidgetNewsletter from '../partials/WidgetNewsletter.vue';
-import WidgetSponsor from '../partials/WidgetSponsor.vue';
-import WidgetPosts from '../partials/WidgetPosts.vue';
-import Footer from '../partials/Footer.vue';
+import SideNavPartial from '../partials/SideNavPartial.vue';
+import HeaderPartial from '../partials/HeaderPartial.vue';
+import WidgetNewsletterPartial from '../partials/WidgetNewsletterPartial.vue';
+import WidgetSponsorPartial from '../partials/WidgetSponsorPartial.vue';
+import WidgetPostsPartial from '../partials/WidgetPostsPartial.vue';
+import FooterPartial from '../partials/FooterPartial.vue';
 
 export default {
-	name: 'Post',
+	name: 'PostPage',
 	components: {
-		SideNavigation,
-		Header,
-		WidgetNewsletter,
-		WidgetSponsor,
-		WidgetPosts,
-		Footer,
+		SideNavPartial,
+		HeaderPartial,
+		WidgetNewsletterPartial,
+		WidgetSponsorPartial,
+		WidgetPostsPartial,
+		FooterPartial,
 	},
 };
 </script>

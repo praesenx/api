@@ -9,6 +9,6 @@
 
 <script>
 export default {
-	name: 'WidgetBook',
+	name: 'WidgetBookPartial',
 };
 </script>

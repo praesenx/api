@@ -40,6 +40,6 @@
 
 <script>
 export default {
-	name: 'WidgetReferences',
+	name: 'WidgetReferencesPartial',
 };
 </script>

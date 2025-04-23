@@ -29,6 +29,11 @@
 <script>
 export default {
 	name: 'ArticleItem',
-	props: ['item'],
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+	},
 };
 </script>

@@ -40,6 +40,6 @@
 
 <script>
 export default {
-	name: 'Recommendations',
+	name: 'RecommPartial',
 };
 </script>
