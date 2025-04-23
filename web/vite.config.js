@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'; // Import the Tailwind Vite plugin
 // https://vitejs.dev/config/
 export default defineConfig({
     define: {
-        'process.env': process.env
+        'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL)
     },
     plugins: [
         vue(),
