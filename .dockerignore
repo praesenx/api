@@ -2,20 +2,20 @@
 .env.example
 .env.production
 
-.git
-.github
 .gitattributes
+.github/
 .gitignore
+.git/
 README.md
 
 .air.toml
 .editorconfig
 
-.idea
-docs
-database/infra
-storage/media
-storage/logs
-tmp
-web
-bin
+.idea/
+docs/
+database/infra/
+storage/media/
+storage/logs/
+tmp/
+web/
+bin/
