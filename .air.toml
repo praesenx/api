@@ -7,7 +7,17 @@ tmp_dir = "tmp"
   bin = "./tmp/main"
   cmd = "go build -o ./tmp/main ."
   delay = 1000
-  exclude_dir = ["./tmp", "docs", "database/infra", "bin"]
+  exclude_dir = [
+      ".github",
+      "tmp",
+      "docs",
+      "database/infra",
+      "bin",
+      "web",
+      "storage/logs",
+      "storage/media",
+      "config/makefile",
+  ]
   exclude_file = []
   exclude_regex = ["_test\\.go"]
   exclude_unchanged = false
