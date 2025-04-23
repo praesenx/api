@@ -2,9 +2,10 @@
   <div class="sticky top-0 w-16 md:w-24 shrink-0 h-screen overflow-y-auto no-scrollbar border-r border-slate-200 dark:border-slate-800">
     <div class="h-full flex flex-col justify-between after:flex-1 after:mt-auto">
       <div class="flex-1">
+        <!-- Sidebar avatar -->
         <div v-if="currentRoute.fullPath !== '/'" class="flex justify-center my-4">
           <router-link to="/">
-            <img class="border-2 border-sky-500 rounded-full" src="../images/profile/me.jpg" alt="Me" />
+            <img class="border-2 border-sky-500 rounded-full" src="../images/profile/me.jpg" alt="gocanto" />
           </router-link>
         </div>
       </div>
