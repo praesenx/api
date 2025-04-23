@@ -18,18 +18,21 @@
               <div class="max-w-[700px]">
 
                 <section>
+
                   <!-- Page title -->
-                  <h1 class="h1 font-aspekta mb-5">
+                  <h2 class="h2 font-aspekta mb-5">
                       Hi. I'm Gus
                       <span class="inline-flex relative text-sky-500 before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2 before:translate-y-1/4">
                           <a href="https://x.com/gocanto" title="follow me on twitter" target="_blank">@gocanto</a>
-                      </span> 🤟
-                  </h1>
-                  <img class="rounded-lg w-full mb-5" src="../images/about.jpg" width="692" height="390" alt="About" />
+                      </span>
+                  </h2>
+
+                  <img class="rounded-lg w-full mb-5" src="../images/profile/about.jpg" alt="About" />
+
                   <!-- Page content -->
                   <div class="text-slate-500 dark:text-slate-400 space-y-8">
                     <div class="space-y-4">
-                      <h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Short Bio</h3>
+                      <h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">About</h3>
                       <p class="block mb-3">
                           I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and open source.
                           With over fifteen years of experience in software development, workplace technology, and infrastructure management, I specialize in Golang, Node.js, and PHP.&nbsp;
@@ -72,7 +75,7 @@
                       </p>
                     </div>
                   </div>
-                </section>
+                </section><!-- content --->
 
               </div>
             </div>
@@ -82,6 +85,7 @@
               <div class="space-y-6">
 
                 <WidgetNewsletter />
+
                 <WidgetSponsor />
 
               </div>

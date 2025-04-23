@@ -4,7 +4,7 @@
       <div class="flex-1">
         <div v-if="currentRoute.fullPath !== '/'" class="flex justify-center my-4">
           <router-link to="/">
-            <img class="border border-2 border-sky-500 rounded-full" src="../images/me.jpg" width="32" alt="Me" />
+            <img class="border-2 border-sky-500 rounded-full" src="../images/profile/me.jpg" alt="Me" />
           </router-link>
         </div>
       </div>
