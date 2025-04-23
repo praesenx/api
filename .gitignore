@@ -4,12 +4,12 @@
 database/infra/data
 tmp
 
-# --- [CLIENT]: Site
-client/.DS_Store
-client/dist
-client/dist-ssr
-client/*.local
-client/node_modules
+# --- [WEB]: Site
+web/.DS_Store
+web/dist
+web/dist-ssr
+web/*.local
+web/node_modules
 
 # --- [API]: Bin
 bin

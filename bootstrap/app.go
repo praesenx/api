@@ -1,9 +1,9 @@
 package bootstrap
 
 import (
+	"github.com/gocanto/blog/api/users"
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/users"
 	"github.com/gocanto/blog/webkit"
 	"github.com/gocanto/blog/webkit/llogs"
 	"github.com/gocanto/blog/webkit/middleware"
