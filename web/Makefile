@@ -9,4 +9,4 @@ fresh:
 	npm run dev
 
 format:
-	prettier --write .
+	npx prettier --write .
