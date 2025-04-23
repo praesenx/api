@@ -3,7 +3,7 @@ SHELL := /bin/bash
 .PHONY: format env\:fresh lint\:check lint\:fix
 
 format:
-	npx prettier --write .
+	npx prettier --write '**/*.{json,js,ts,tsx,jsx,mjs,cjs,vue,html}' --ignore-path .prettierignore
 
 env\:fresh:
 	rm -rf node_modules
