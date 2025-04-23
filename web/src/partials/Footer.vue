@@ -7,9 +7,7 @@
 					<li>
 						<a class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out" href="https://x.com/gocanto" aria-label="X">
 							<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z"
-								></path>
+								<path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z"></path>
 							</svg>
 						</a>
 					</li>
@@ -35,11 +33,7 @@
 					</li>
 
 					<li>
-						<a
-							class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out"
-							href="https://www.linkedin.com/in/gocanto/"
-							aria-label="LinkedIn"
-						>
+						<a class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out" href="https://www.linkedin.com/in/gocanto/" aria-label="LinkedIn">
 							<svg class="w-8 h-10 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
 								<path
 									d="M12.51 8.796v1.697a3.738 3.738 0 0 1 3.288-1.684c3.455 0 4.202 2.16 4.202 4.97V19.5h-3.2v-5.072c0-1.21-.244-2.766-2.128-2.766-1.827 0-2.139 1.317-2.139 2.676V19.5h-3.19V8.796h3.168ZM7.2 6.106a1.61 1.61 0 0 1-.988 1.483 1.595 1.595 0 0 1-1.743-.348A1.607 1.607 0 0 1 5.6 4.5a1.601 1.601 0 0 1 1.6 1.606Z"

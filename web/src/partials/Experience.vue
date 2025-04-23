@@ -21,9 +21,7 @@
 						<div class="text-xs text-slate-500 uppercase">May 2020 <span class="text-slate-400 dark:text-slate-600">·</span> Present</div>
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Senior Front-end Engineer</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Google</div>
-						<div class="text-sm text-slate-500 dark:text-slate-400">
-							In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.
-						</div>
+						<div class="text-sm text-slate-500 dark:text-slate-400">In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.</div>
 					</div>
 				</div>
 			</li>
@@ -46,9 +44,7 @@
 						<div class="text-xs text-slate-500 uppercase">May 2017 <span class="text-slate-400 dark:text-slate-600">·</span> Apr 2020</div>
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Senior Front-end Engineer</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Medium</div>
-						<div class="text-sm text-slate-500 dark:text-slate-400">
-							In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.
-						</div>
+						<div class="text-sm text-slate-500 dark:text-slate-400">In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.</div>
 					</div>
 				</div>
 			</li>
@@ -71,9 +67,7 @@
 						<div class="text-xs text-slate-500 uppercase">Jan 2017 <span class="text-slate-400 dark:text-slate-600">·</span> Apr 2017</div>
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Cloud Software Developer</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Vimeo</div>
-						<div class="text-sm text-slate-500 dark:text-slate-400">
-							In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.
-						</div>
+						<div class="text-sm text-slate-500 dark:text-slate-400">In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.</div>
 					</div>
 				</div>
 			</li>
@@ -96,9 +90,7 @@
 						<div class="text-xs text-slate-500 uppercase">Feb 2016 <span class="text-slate-400 dark:text-slate-600">·</span> Dec 2016</div>
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Cloud Software Engineering Intern</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Qonto</div>
-						<div class="text-sm text-slate-500 dark:text-slate-400">
-							In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.
-						</div>
+						<div class="text-sm text-slate-500 dark:text-slate-400">In my role as a Senior Software Engineer for Google, I am responsible for developing and maintaining the Chrome Web Experience.</div>
 					</div>
 				</div>
 			</li>
