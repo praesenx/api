@@ -50,7 +50,7 @@
 											</p>
 										</div>
 
-										<ExperiencePartial />
+										<ExperiencePartial :experience="user.experience"/>
 
 										<div class="space-y-5">
 											<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Let's Connect</h2>

@@ -101,6 +101,11 @@
 <script>
 export default {
 	name: 'ExperiencePartial',
-
+    props: {
+        experience: {
+            type: Array,
+            required: true,
+        }
+    }
 };
 </script>

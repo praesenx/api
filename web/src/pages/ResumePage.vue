@@ -19,7 +19,7 @@
 									<!-- Page content -->
 									<div class="text-slate-500 dark:text-slate-400 space-y-12">
 										<EducationPartial />
-										<ExperiencePartial />
+										<ExperiencePartial :experience="user.experience"/>
 										<AwardsPartial />
 										<RecommPartial />
 									</div>
@@ -55,6 +55,7 @@ import WidgetSkillsPartial from '@partials/WidgetSkillsPartial.vue';
 import WidgetLangPartial from '@partials/WidgetLangPartial.vue';
 import WidgetReferencesPartial from '@partials/WidgetReferencesPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
+import UserResponse from '@response/user-response.json'
 
 export default {
 	name: 'ResumePage',
@@ -70,5 +71,12 @@ export default {
 		WidgetReferencesPartial,
 		FooterPartial,
 	},
+    setup() {
+        const user = UserResponse
+
+        return {
+            user,
+        };
+    },
 };
 </script>
