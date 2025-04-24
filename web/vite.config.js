@@ -54,7 +54,7 @@ export default defineConfig({
 			{
 				find: '@response',
 				// eslint-disable-next-line no-undef
-				replacement: path.resolve(__dirname, './src/response'),
+				replacement: path.resolve(__dirname, './__fixtures__'),
 			},
 		],
 	},
