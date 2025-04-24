@@ -22,7 +22,11 @@
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">{{ item.position }}</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">{{ item.company }}</div>
 						<div class="text-sm text-slate-500 dark:text-slate-400">{{ item.summary }}</div>
+                        <div class="text-xs mt-3 text-gray-400 dark:text-gray-500">
+                            {{ item.skills }}
+                        </div>
 					</div>
+
 				</div>
 			</li>
 		</ul>

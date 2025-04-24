@@ -45,7 +45,7 @@
             "summary": "Led and integrated cross-functional engineering teams (DevOps, Infrastructure, Data, Frontend, Backend, Support) across time zones, fostering open communication and accountability. Scaled team growth and operations from Singapore, optimized performance (database queries from 3 s to 800 ms; API calls from 2 s to 100 ms), implemented cloud cost savings, and partnered with C-level leaders to expand engineering initiatives.",
             "country": "Singapore",
             "city": "Singapore",
-            "skills": "Product Development, Optimization, Creative Problem Solving, Modernization, AngularJS, Scalability Testing, Organizational Leadership, Coaching, React.js, Executive Leadership, Team Development, Team Leadership, Analytical Skills, Go (Programming Language), Ruby on Rails, Performance Improvement, Technical Solution Design, Technical Design, Strategy Alignment, Software Engineers, Communication, Strategy, Technical Architecture, Leadership, Mentoring, Leading Development Teams, IT Strategy, Computer Engineering, Strategic Planning, Artificial Intelligenc, Application Frameworks, PostgreSQL, Computer Science, Product Delivery, Kubernetes, Engineering Management, B2C, Cross-functional Team Leadership, Software Management, Developer Tools, Product Vision, Complexity Management"
+            "skills": "Executive Leadership, Strategic Planning, Engineering Management, Cross-functional Team Leadership, Technical Architecture."
         },
         {
             "uuid": "99db1ca0-948e-40b1-984f-e3b157a5d336",
@@ -58,7 +58,7 @@
             "summary": "Led a 12-person APAC team overseeing the software development lifecycle, mentorship, technical direction, and system architecture design. Engineered critical financial systems—prioritized payment request queues and automated credit schemas—and spearheaded SEA wallets from architecture through integration, unifying payment workflows and ledger synchronization. Improved debit account balance queries for real-time access and boosted API response times. Resolved data inconsistencies, refactored code for reliability, designed flexible scheduled payment solutions, and directed the transition from a monolithic to microservices architecture, significantly enhancing platform scalability and maintainability.",
             "country": "Singapore",
             "city": "Singapore",
-            "skills": "Business-to-Business (B2B), API Testing, Optimization, API Development, TypeScript, Creative Problem Solving, Modernization, Scalability Testing, Coaching, Web Development, Team Development, Vue.js, Team Leadership, Analytical Skills, Go (Programming Language), Performance Improvement, Technical Solution Design, Technical Design, Team Management, Node.js, Strategy Alignment, PHP, Software Engineers, Communication, Strategy, Technical Architecture, Leadership, Mentoring, IT Strategy, Computer Engineering, Strategic Planning, Software Development, Application Frameworks, Project Management, Computer Science, Product Delivery, Engineering Management, Cross-functional Team Leadership, Microservices, Developer Tools, Complexity Management"
+            "skills": "Leadership, Strategic Planning, Engineering Management, Cross-functional Team Leadership, Technical Architecture."
         },
         {
             "uuid": "01e33400-6957-4d16-8edb-0802a49e445e",
@@ -71,7 +71,7 @@
             "summary": "Developed and maintained inventory systems with availability calculations and time-slot capacity management. Led SaaS platform development for auto-recurring subscription payments and invoicing. Owned integration of Adyen, Stripe, and PayPal gateways for new white-label e-commerce accounts, and implemented third-party booking supplier APIs across B2B, B2C, and white-label channels, supporting mission-critical operations in Southeast Asian markets.",
             "country": "Singapore",
             "city": "Singapore",
-            "skills": "Business-to-Business (B2B), API Testing, Optimization, API Development, TypeScript, Creative Problem Solving, Modernization, Coaching, React.js, Web Development, Team Development, Team Leadership, Analytical Skills, Go (Programming Language), Performance Improvement, Technical Solution Design, Technical Design, Team Management, Node.js, Strategy Alignment, PHP, Software Engineers, Communication, Strategy, Technical Architecture, Leadership, IT Strategy, Computer Engineering, Strategic Planning, Software Development, Application Frameworks, Project Management, Computer Science, Product Delivery, Engineering Management, B2C, Cross-functional Team Leadership, Developer Tools, Product Vision, Complexity Management"
+            "skills": "Leadership, Strategic Planning, Cross-functional Team Leadership, Engineering Management, Technical Architecture."
         },
         {
             "uuid": "1ba5d878-3c48-4d94-aded-4a4294c26e12",
@@ -84,7 +84,7 @@
             "summary": "Built diverse web applications for SMEs—including e-commerce, POS, medical history, and neighborhood feedback platforms—using PHP, Laravel, VueJS, and MySQL. I also designed and delivered a multi-city drop-shipment warehouse management system, enabling real-time inventory control linked to financial reporting and distribution across multiple locations.",
             "country": "United States",
             "city": "Oklahoma City",
-            "skills": "Creative Problem Solving, React.js, Web Development, Vue.js, Analytical Skills, Go (Programming Language), Technical Solution Design, Technical Design, Node.js, Strategy Alignment, PHP, Software Engineers, Communication, Strategy, Leadership, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Cross-functional Team Leadership, Developer Tools, Complexity Management"
+            "skills": "Leadership, Strategic Planning, Strategy Alignment, Cross-functional Team Leadership, Complexity Management"
         },
         {
             "uuid": "8501d986-144d-4f4d-bd3f-7fb066028142",
@@ -97,7 +97,7 @@
             "summary": "Led a team of designers and PHP developers, managing nationwide client projects and overseeing the full app development lifecycle—including iOS/Android social networking apps. I built CMS, shipping-tracking, e-commerce, web portfolio, college enrollment, and university survey systems, plus a City Hall Administrative System covering accounts payable, HR, payroll, treasury, and tax modules. My work leveraged PHP, jQuery (and jQuery Mobile), Cordova-JS, MySQL, HTML5, AngularJS, and Laravel 5, integrating third-party APIs and Facebook/Twitter logins within a SCRUM framework.",
             "country": "Venezuela",
             "city": "Valencia",
-            "skills": "Creative Problem Solving, React.js, Web Development, Team Development, Analytical Skills, Technical Design, Strategy Alignment, Software Engineers, Strategy, Leadership, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Developer Tools, Complexity Management"
+            "skills": "Leadership, Strategic Planning, Strategy Alignment, Team Development, Complexity Management."
         },
         {
             "uuid": "82076e4e-6099-457f-8ed5-b10585125ce5",
@@ -110,7 +110,7 @@
             "summary": "Maintained the company’s AS400 administrative system and spearheaded development of department-specific applications—an e-commerce inventory control for retail, web reporting for production-line quality control, an online appointment system for the medical department, and a visitor registration/management tool. I leveraged PHP, jQuery, MySQL, HTML5, and AS400 within a SCRUM framework.",
             "country": "Venezuela",
             "city": "Valencia",
-            "skills": "Creative Problem Solving, React.js, Web Development, Analytical Skills, Strategy Alignment, Software Engineers, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Developer Tools, Complexity Management"
+            "skills": "Creative Problem Solving, Analytical Skills, Strategy Alignment, Strategic Planning, Complexity Management."
         },
         {
             "uuid": "d8c3957c-99dd-401a-9d95-f2b6b1dc021a",
@@ -123,7 +123,7 @@
             "summary": "Maintained a Visual Basic administrative system and built internal applications to streamline operations—mail management, mechanical design support, sales-report automation, and web-based customer invoicing. I trained staff on these tools and provided technical support for Windows 8 and PC servers using PHP, jQuery, MySQL, HTML, and SQL Server.",
             "country": "Venezuela",
             "city": "Valencia",
-            "skills": "Creative Problem Solving, Web Development, Analytical Skills, Strategy Alignment, Software Engineers, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Developer Tools, Complexity Management"
+            "skills": "Creative Problem Solving, Analytical Skills, Strategy Alignment, Strategic Planning, Complexity Management."
         }
     ]
 }
