@@ -38,7 +38,9 @@
 														aria-label="Twitter"
 													>
 														<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-															<path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z"></path>
+															<path
+																d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z"
+															></path>
 														</svg>
 													</a>
 												</li>
@@ -54,7 +56,11 @@
 													</a>
 												</li>
 												<li>
-													<a class="flex justify-center items-center text-slate-400 dark:text-slate-500 hover:text-sky-500 dark:hover:text-sky-500 transition duration-150 ease-in-out" href="#0" aria-label="Share">
+													<a
+														class="flex justify-center items-center text-slate-400 dark:text-slate-500 hover:text-sky-500 dark:hover:text-sky-500 transition duration-150 ease-in-out"
+														href="#0"
+														aria-label="Share"
+													>
 														<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
 															<path
 																d="M20 14c1.654 0 3-1.346 3-3s-1.346-3-3-3-3 1.346-3 3c0 .223.029.439.075.649l-3.22 2.012A2.97 2.97 0 0 0 12 13c-1.654 0-3 1.346-3 3s1.346 3 3 3a2.97 2.97 0 0 0 1.855-.661l3.22 2.012c-.046.21-.075.426-.075.649 0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3a2.97 2.97 0 0 0-1.855.661l-3.22-2.012c.046-.21.075-.426.075-.649 0-.223-.029-.439-.075-.649l3.22-2.012A2.97 2.97 0 0 0 20 14Z"
@@ -73,12 +79,12 @@
 										<div class="space-y-4">
 											<p>
 												Web designers sometimes believe that animating in CSS is more difficult than animating in JavaScript.
-												<strong class="font-medium text-slate-800 dark:text-slate-100">While CSS animation does have some limitations</strong>, most of the time it's more capable than we give it credit for! Not
-												to mention, typically more performant.
+												<strong class="font-medium text-slate-800 dark:text-slate-100">While CSS animation does have some limitations</strong>, most of the time it's more capable than we give it
+												credit for! Not to mention, typically more performant.
 											</p>
 											<p>
-												Coupled with a touch of JavaScript, CSS animations and transitions are able to accomplish hardware-accelerated animations and interactions more efficiently than most JavaScript libraries.
-												Let's jump straight in!
+												Coupled with a touch of JavaScript, CSS animations and transitions are able to accomplish hardware-accelerated animations and interactions more efficiently than most JavaScript
+												libraries. Let's jump straight in!
 											</p>
 											<p>Let's jump straight in!</p>
 										</div>
@@ -95,27 +101,27 @@
 											<h2 class="h2 font-aspekta text-slate-800 dark:text-slate-100">Using CSS “Callback Functions”</h2>
 											<p>
 												Some of the most useful yet little-known JavaScript tricks for manipulating CSS transitions and animations are the DOM events they fire. Like:
-												<strong class="font-medium text-slate-800 dark:text-slate-100">animationend, animationstart, and animationiteration for animations</strong> and transitionend for transitions. You might
-												guess what they do. These animation events fire when the animation on an element ends, starts, or completes one iteration, respectively.
+												<strong class="font-medium text-slate-800 dark:text-slate-100">animationend, animationstart, and animationiteration for animations</strong> and transitionend for transitions.
+												You might guess what they do. These animation events fire when the animation on an element ends, starts, or completes one iteration, respectively.
 											</p>
 											<p>
-												These events need to be vendor prefixed at this time, so in this demo, we use a function developed by Craig Buckler called PrefixedEvent, which has the parameters element, type, and
-												callback to help make these events cross-browser. Here is his useful article on capturing CSS animations with JavaScript. And
+												These events need to be vendor prefixed at this time, so in this demo, we use a function developed by Craig Buckler called PrefixedEvent, which has the parameters element,
+												type, and callback to help make these events cross-browser. Here is his useful article on capturing CSS animations with JavaScript. And
 												<a class="font-medium text-sky-500 hover:underline" href="#0">here is another one</a> determining which animation (name) the event is firing for.
 											</p>
 										</div>
 										<div class="space-y-4">
 											<h2 class="h2 font-aspekta text-slate-800 dark:text-slate-100">Manipulating CSS Transitions</h2>
 											<p>
-												Like we just learned, we can watch elements and react to animation-related events: animationStart, animationIteration, and animationEnd. But what happens if you want to change the CSS
-												animation mid-animation? This requires a bit of trickery!
+												Like we just learned, we can watch elements and react to animation-related events: animationStart, animationIteration, and animationEnd. But what happens if you want to change
+												the CSS animation mid-animation? This requires a bit of trickery!
 											</p>
 										</div>
 										<div class="space-y-4">
 											<h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">The animation-play-state Property</h3>
 											<p>
-												The animation-play-state property of CSS is incredibly helpful when you simply need to pause an animation and potentially continue it later. You can change that CSS through JavaScript like
-												this (mind your prefixes):
+												The animation-play-state property of CSS is incredibly helpful when you simply need to pause an animation and potentially continue it later. You can change that CSS through
+												JavaScript like this (mind your prefixes):
 											</p>
 										</div>
 										<pre class="overflow-x-auto text-sm text-slate-500 bg-slate-800 p-4 rounded-sm leading-tight">
@@ -127,8 +133,9 @@
 											<h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Obtaining the Current Keyvalue Percentage</h3>
 											<p>
 												Unfortunately, at this time, there is no way to get the exact current “percentage completed” of a CSS keyframe animation.
-												<strong class="font-medium text-slate-800 dark:text-slate-100">The best method to approximate it is using a setInterval function</strong> that iterates 100 times during the animation,
-												which is essentially: the animation duration in ms / 100. For example, if the animation is 4 seconds long, then the setInterval needs to run every 40 milliseconds (4000/100).
+												<strong class="font-medium text-slate-800 dark:text-slate-100">The best method to approximate it is using a setInterval function</strong> that iterates 100 times during the
+												animation, which is essentially: the animation duration in ms / 100. For example, if the animation is 4 seconds long, then the setInterval needs to run every 40 milliseconds
+												(4000/100).
 											</p>
 										</div>
 										<pre class="overflow-x-auto text-sm text-slate-500 bg-slate-800 p-4 rounded-sm leading-tight">
@@ -153,12 +160,12 @@
 										<div class="space-y-4">
 											<h2 class="h2 font-aspekta text-slate-800 dark:text-slate-100">Use Your Head</h2>
 											<p>
-												Before starting to code, thinking about and planning how a transition or animation should run is the best way to minimize your problems and get the effect you desire. Even better than
-												Googling for solutions later! The techniques and tricks overviewed in this article may not always be the best way to create the animation your project calls for.
+												Before starting to code, thinking about and planning how a transition or animation should run is the best way to minimize your problems and get the effect you desire. Even
+												better than Googling for solutions later! The techniques and tricks overviewed in this article may not always be the best way to create the animation your project calls for.
 											</p>
 											<p>
-												Here's a little example of <strong class="font-medium text-slate-800 dark:text-slate-100">where getting clever with HTML and CSS</strong> alone can solve a problem where you might have
-												thought to go to JavaScript.
+												Here's a little example of <strong class="font-medium text-slate-800 dark:text-slate-100">where getting clever with HTML and CSS</strong> alone can solve a problem where you
+												might have thought to go to JavaScript.
 											</p>
 										</div>
 										<div class="space-y-4">

@@ -1,14 +1,14 @@
 <template>
 	<div class="sticky top-0 w-16 md:w-24 shrink-0 h-screen overflow-y-auto no-scrollbar border-r border-slate-200 dark:border-slate-800">
 		<div class="h-full flex flex-col justify-between after:flex-1 after:mt-auto">
-            <!-- Sidebar avatar -->
-            <div v-if="currentRoute.fullPath !== '/'" class="flex justify-center my-4">
-                <router-link to="/">
-                    <AvatarPartial />
-                </router-link>
+			<!-- Sidebar avatar -->
+			<div v-if="currentRoute.fullPath !== '/'" class="flex justify-center my-4">
+				<router-link to="/">
+					<AvatarPartial />
+				</router-link>
 			</div>
 
-            <!-- Sidebar menu-->
+			<!-- Sidebar menu-->
 			<div class="flex-1 grow flex items-center">
 				<nav class="w-full">
 					<ul class="space-y-4">
@@ -105,19 +105,19 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import AvatarPartial from "@partials/AvatarPartial.vue";
+import AvatarPartial from '@partials/AvatarPartial.vue';
 
 export default {
 	name: 'SideNavPartial',
-    components: {
-        AvatarPartial,
-    },
+	components: {
+		AvatarPartial,
+	},
 	setup() {
 		const currentRoute = useRouter().currentRoute.value;
 
 		return {
 			currentRoute,
 		};
-	}
+	},
 };
 </script>

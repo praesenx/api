@@ -3,7 +3,7 @@
 		<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Work Experience</h2>
 		<ul class="space-y-8">
 			<!-- Item -->
-			<li v-for="item in sortedExperience" :key="item.uuid" class="relative group">
+			<li v-for="item in experience" :key="item.uuid" class="relative group">
 				<div
 					class="flex items-start before:absolute before:left-0 before:h-full before:w-px before:bg-slate-200 dark:before:bg-slate-800 before:self-start before:ml-[28px] before:-translate-x-1/2 before:translate-y-8 group-last-of-type:before:hidden"
 				>
@@ -22,11 +22,10 @@
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">{{ item.position }}</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">{{ item.company }}</div>
 						<div class="text-sm text-slate-500 dark:text-slate-400">{{ item.summary }}</div>
-                        <div class="text-xs mt-3 text-gray-400 dark:text-gray-500">
-                            {{ item.skills }}
-                        </div>
+						<div class="text-xs mt-3 text-gray-400 dark:text-gray-500">
+							{{ item.skills }}
+						</div>
 					</div>
-
 				</div>
 			</li>
 		</ul>
@@ -36,17 +35,11 @@
 <script>
 export default {
 	name: 'ExperiencePartial',
-    props: {
-        experience: {
-            type: Array,
-            required: true,
-        }
-    },
-    computed: {
-        sortedExperience () {
-            // eslint-disable-next-line vue/no-mutating-props
-            return this.experience.sort((a, b) => a.start_date - b.start_date)
-        }
-    }
+	props: {
+		experience: {
+			type: Array,
+			required: true,
+		},
+	},
 };
 </script>

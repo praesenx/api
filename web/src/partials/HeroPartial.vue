@@ -21,12 +21,12 @@
 </template>
 
 <script>
-import AvatarPartial from "@partials/AvatarPartial.vue";
+import AvatarPartial from '@partials/AvatarPartial.vue';
 
 export default {
 	name: 'HeroPartial',
-    components: {
-        AvatarPartial,
-    }
+	components: {
+		AvatarPartial,
+	},
 };
 </script>

@@ -31,36 +31,36 @@
 										<div class="space-y-4">
 											<h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">About</h3>
 											<p class="block mb-5">
-                                                <span class="block">
-                                                    I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and <a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>.
-                                                    With over twenty years of&nbsp;
-                                                    <router-link v-slot="{ href, navigate }" to="/resume">
-                                                        <a class="blog-link" :href="href" @click="navigate">experience</a>
-                                                    </router-link>
-                                                    in software development, workplace technology, and infrastructure management.
-                                                </span>
-                                                <span class="block mt-5">
-                                                    I specialize in Golang, Node.js, TypeScript, and PHP. I am also proficient in Laravel, Symfony, and modern web frameworks like Next.Js.
-                                                    Furthermore, I have led teams designing and implementing scalable, high-performance systems, ensuring reliability and efficiency across complex technical environments.
-                                                </span>
+												<span class="block">
+													I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and
+													<a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>. With over twenty years of&nbsp;
+													<router-link v-slot="{ href, navigate }" to="/resume">
+														<a class="blog-link" :href="href" @click="navigate">experience</a>
+													</router-link>
+													in software development, workplace technology, and infrastructure management.
+												</span>
+												<span class="block mt-5">
+													I specialize in Golang, Node.js, TypeScript, and PHP. I am also proficient in Laravel, Symfony, and modern web frameworks like Next.Js. Furthermore, I have led teams
+													designing and implementing scalable, high-performance systems, ensuring reliability and efficiency across complex technical environments.
+												</span>
 											</p>
 											<p class="block mb-3">
-                                                Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and
-												innovation. I thrive in fast-paced environments that demand strategic thinking, problem-solving, and a commitment to delivering high-quality results.
+												Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing cross-functional teams,
+												optimizing workflows, and implementing best practices that drive productivity and innovation. I thrive in fast-paced environments that demand strategic thinking,
+												problem-solving, and a commitment to delivering high-quality results.
 											</p>
 										</div>
 
-										<ExperiencePartial :experience="user.experience"/>
+										<ExperiencePartial :experience="user.experience" />
 
 										<div class="space-y-5">
 											<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Let's Connect</h2>
-                                            <p>
-                                                I’m excited to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.profile.email}`">email</a> or <a class="blog-link" target="_blank" :href="user.social.x">X</a> to chat about projects and ideas.
-                                                I’m always open to freelance or long-term projects, so please feel free to reach out.
-                                            </p>
-                                            <p>
-                                                Tell me about your vision, and if it seems like a good fit, we can explore collaborating down the road.
-                                            </p>
+											<p>
+												I’m excited to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.profile.email}`">email</a> or
+												<a class="blog-link" target="_blank" :href="user.social.x">X</a> to chat about projects and ideas. I’m always open to freelance or long-term projects, so please feel free to
+												reach out.
+											</p>
+											<p>Tell me about your vision, and if it seems like a good fit, we can explore collaborating down the road.</p>
 										</div>
 									</div>
 								</section>
@@ -94,7 +94,7 @@ import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
 
 import AboutPicture from '@images/profile/about.png';
-import UserResponse from '@response/user-response.json'
+import UserResponse from '@response/user-response.json';
 
 import { useRouter } from 'vue-router';
 
@@ -108,20 +108,20 @@ export default {
 		WidgetSponsorPartial,
 		FooterPartial,
 	},
-    setup() {
-        const currentRoute = useRouter().currentRoute.value;
-        const user = UserResponse
+	setup() {
+		const currentRoute = useRouter().currentRoute.value;
+		const user = UserResponse;
 
-        return {
-            currentRoute,
-            user,
-        };
-    },
+		return {
+			currentRoute,
+			user,
+		};
+	},
 
-    computed: {
-        aboutPicture () {
-            return AboutPicture;
-        },
-    }
+	computed: {
+		aboutPicture() {
+			return AboutPicture;
+		},
+	},
 };
 </script>
