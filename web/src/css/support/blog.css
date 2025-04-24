@@ -1,3 +1,5 @@
-.profile-avatar {
-    @apply border-2 border-sky-500 rounded-full w-16;
+.blog-link {
+    @apply text-sky-400 font-medium;
+    @apply hover:text-sky-500 hover:cursor-pointer hover:underline;
+    @apply dark:text-slate-500 dark:hover:text-slate-400;
 }

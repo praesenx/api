@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-7xl mx-auto">
 		<div class="min-h-screen flex">
-			<SideNavigation />
+			<SideNavPartial />
 
 			<!-- Main content -->
 			<main class="grow overflow-hidden px-6">
@@ -20,54 +20,47 @@
 										<span
 											class="inline-flex relative text-sky-500 before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2 before:translate-y-1/4"
 										>
-											<a href="https://x.com/gocanto" title="follow me on twitter" target="_blank">@gocanto</a>
+											<a href="https://x.com/gocanto" title="follow me on x" target="_blank">@gocanto</a>
 										</span>
 									</h2>
 
-									<img class="rounded-lg w-full mb-5" src="../images/profile/about.jpg" alt="About" />
+									<img class="rounded-lg w-full mb-5" src="../images/profile/about.png" alt="About" />
 
 									<!-- Page content -->
 									<div class="text-slate-500 dark:text-slate-400 space-y-8">
 										<div class="space-y-4">
 											<h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">About</h3>
-											<p class="block mb-3">
-												I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and open source. With over fifteen years of experience in software
-												development, workplace technology, and infrastructure management, I specialize in Golang, Node.js, and PHP.&nbsp; I am proficient in Laravel, Symfony, and modern web frameworks like
-												Next.Js. I have led teams designing and implementing scalable, high-performance systems, ensuring reliability and efficiency across complex technical environments.
+											<p class="block mb-5">
+                                                <span class="block">
+                                                    I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and <a class="blog-link" target="_blank" href="https://github.com/gocanto">open source</a>.
+                                                    With over twenty years of&nbsp;
+                                                    <router-link v-slot="{ href, navigate }" to="/resume">
+                                                        <a class="blog-link" :href="href" @click="navigate">experience</a>
+                                                    </router-link>
+                                                    in software development, workplace technology, and infrastructure management.
+                                                </span>
+                                                <span class="block mt-5">
+                                                    I specialize in Golang, Node.js, TypeScript, and PHP. I am also proficient in Laravel, Symfony, and modern web frameworks like Next.Js.
+                                                    Furthermore, I have led teams designing and implementing scalable, high-performance systems, ensuring reliability and efficiency across complex technical environments.
+                                                </span>
 											</p>
 											<p class="block mb-3">
-												Beyond technical expertise, I have a strong leadership background in managing cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and
+                                                Beyond technical expertise, I have a strong <a class="blog-link" href="https://www.linkedin.com/in/gocanto/" target="_blank">leadership background</a> in managing cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and
 												innovation. I thrive in fast-paced environments that demand strategic thinking, problem-solving, and a commitment to delivering high-quality results.
 											</p>
-											<p class="block">I constantly seek opportunities to enhance technology-driven processes, improve operational efficiency, and empower teams with the tools and strategies to succeed.</p>
-										</div>
-										<div class="space-y-4">
-											<h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Career</h3>
-											<span class="block mb-3">
-												I have worked closely with financial services companies, delivering secure and compliant solutions that align with industry regulations. I understand financial institutions' technical and
-												operational demands and have implemented robust architectures that support high-availability systems, data security, and transactional integrity.
-											</span>
-											<span class="block mb-3">
-												In addition to my software engineering and leadership experience, I have extensive workplace technology and IT infrastructure management expertise. I have overseen cloud infrastructure,
-												on-premises network administration, and enterprise IT solutions, ensuring secure, scalable, and efficient operations. My knowledge extends to user management, security policies, and system
-												integration, making me well-versed in enterprise collaboration tools.
-											</span>
-											<span class="block">
-												I am well-versed in network protocols, including DHCP, TCP/IP, and VPN configurations, ensuring seamless connectivity and system security across distributed teams and cloud-based
-												infrastructures. My expertise in managing networking challenges and experience in cloud services and workplace technology allows me to contribute effectively to IT operations and digital
-												transformation initiatives.
-											</span>
 										</div>
 
-										<Experience />
+										<ExperienceSection />
 
-										<div class="space-y-8">
+										<div class="space-y-5">
 											<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Let's Connect</h2>
-											<p>
-												I'm excited to connect with others via <a class="font-medium text-sky-500 hover:underline" href="#0">email</a> and
-												<a class="font-medium text-sky-500 hover:underline" href="#0">Twitter</a> to chat about projects and ideas. Currently, I'm not taking on freelance projects, but I am open to hearing about
-												potential opportunities, discussing them with you and then potentially collaborating if it's a good fit.
-											</p>
+                                            <p>
+                                                I’m excited to connect by <a class="blog-link" title="follow me on x" href="mailto:otnacog@gmail.com">email</a> or <a class="blog-link" target="_blank" href="https://x.com/gocanto">X</a> to chat about projects and ideas.
+                                                I’m always open to freelance or long-term projects, so please feel free to reach out.
+                                            </p>
+                                            <p>
+                                                Tell me about your vision, and if it seems like a good fit, we can explore collaborating down the road.
+                                            </p>
 										</div>
 									</div>
 								</section>
@@ -78,7 +71,7 @@
 						<!-- Right sidebar -->
 						<aside class="md:w-[240px] lg:w-[300px] shrink-0">
 							<div class="space-y-6">
-								<WidgetNewsletter />
+								<WidgetNewsletterPartial />
 
 								<WidgetSponsorPartial />
 							</div>
@@ -100,15 +93,24 @@ import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
 
+import { useRouter } from 'vue-router';
+
 export default {
 	name: 'AboutPage',
 	components: {
-		SideNavigation: SideNavPartial,
+		SideNavPartial,
 		HeaderPartial,
-		Experience: ExperienceSection,
-		WidgetNewsletter: WidgetNewsletterPartial,
+		ExperienceSection,
+		WidgetNewsletterPartial,
 		WidgetSponsorPartial,
 		FooterPartial,
 	},
+    setup() {
+        const currentRoute = useRouter().currentRoute.value;
+
+        return {
+            currentRoute,
+        };
+    }
 };
 </script>
