@@ -1,0 +1,122 @@
+{
+    "profile": {
+        "nickname": "Gus",
+        "handle": "gocanto",
+        "name": "Gustavo Ocanto",
+        "email": "otnacog@gmail.com",
+        "profession": "Software Engineer"
+    },
+    "social": {
+        "x": {
+            "handle": "@gocanto",
+            "url": "https://x.com/gocanto",
+            "title": "Follow me in X."
+        },
+        "youtube": {
+            "handle": "gocanto",
+            "url": "https://www.youtube.com/@gocanto",
+            "title": "Subscribe to my YouTube channel."
+        },
+        "instagram": {
+            "handle": "gocanto",
+            "url": "https://www.instagram.com/gocanto",
+            "title": "Follow me in Instagram."
+        },
+        "linkedin": {
+            "handle": "gocanto",
+            "url": "https://www.linkedin.com/in/gocanto/",
+            "title": "Follow me in LinkedIn."
+        },
+        "github": {
+            "handle": "gocanto",
+            "url": "https://github.com/gocanto",
+            "title": "Follow me in GitHub."
+        }
+    },
+    "experience": [
+        {
+            "company": "Forjacentro",
+            "employment_type": "Full-Time",
+            "location_type": "On-Site",
+            "position": "Web Developer",
+            "start_date": "March, 2008",
+            "end_date": "April, 2009",
+            "summary": "Responsible for maintaining the company’s Administrative System built in Visual Basic, I also developed a variety of internal applications designed to streamline operations, including systems for managing company mail, supporting mechanical engineering design, automating sales reporting, and controlling web-based customer invoices; concurrently, I contributed by conducting employee training on these systems and providing essential technical support for servers running on Windows 8 and Windows PC environments, utilizing technologies such as PHP, jQuery, MySQL, HTML, and SQL Server.",
+            "country": "Venezuela",
+            "city": "Valencia",
+            "skills": "Creative Problem Solving, Web Development, Analytical Skills, Strategy Alignment, Software Engineers, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Developer Tools, Complexity Management"
+        },
+        {
+            "company": "Encava",
+            "employment_type": "Full-Time",
+            "location_type": "On-Site",
+            "position": "Web Developer",
+            "start_date": "May, 2009",
+            "end_date": "February, 2011",
+            "summary": "Responsible for maintaining the company’s Administrative System built on AS400, I also spearheaded the development of several key applications tailored to specific departmental needs, including an e-commerce inventory control system for retail, web reporting systems for quality control to manage production line data, a web application for the medical department to handle online appointments, and an application for visitor registration and management; my work in these areas leveraged technologies such as PHP, jQuery, MySQL, HTML5, and AS400, often operating within a SCRUM framework.",
+            "country": "Venezuela",
+            "city": "Valencia",
+            "skills": "Creative Problem Solving, React.js, Web Development, Analytical Skills, Strategy Alignment, Software Engineers, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Developer Tools, Complexity Management"
+        },
+        {
+            "company": "Websarrollo",
+            "employment_type": "Full-Time",
+            "location_type": "On-Site",
+            "position": "Founder & Software Engineer",
+            "start_date": "February, 2011",
+            "end_date": "May, 2014",
+            "summary": "Leading a team of designers and PHP developers, I managed projects for clients across the country, overseeing the development lifecycle for various applications, including social network apps for both iOS and Android platforms. My extensive development work encompassed programs for numerous systems such as CMS, Shipping Tracking, E-commerce, Web Portfolios, College Enrollment, University Surveys, and a comprehensive City Hall Administrative System covering modules like Accounts Payable, Human Resources, Payroll, Treasury, and tax functions. This broad experience utilized technologies including PHP, jQuery, jQuery Mobile, Cordova-JS for hybrid apps, MySQL, HTML5, Angular JS, and Laravel 5, involving significant third-party API, Facebook, and Twitter login integrations, often within a SCRUM framework.",
+            "country": "Venezuela",
+            "city": "Valencia",
+            "skills": "Creative Problem Solving, React.js, Web Development, Team Development, Analytical Skills, Technical Design, Strategy Alignment, Software Engineers, Strategy, Leadership, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Developer Tools, Complexity Management"
+        },
+        {
+            "company": "Freelance",
+            "employment_type": "Contractor",
+            "location_type": "Remote",
+            "position": "Web Developer",
+            "start_date": "June, 2014",
+            "end_date": "September, 2017",
+            "summary": "I built diverse web applications for Small and Medium-sized Enterprises (SMEs), including e-commerce solutions, POS systems, medical history apps, and neighborhood feedback platforms, primarily utilizing PHP, Laravel, VueJS, and MySQL. A significant project involved designing and delivering a comprehensive inventory, finance, reporting, and distribution platform for a multi-city drop shipment client's warehouse management, enabling real-time inventory control linked to financial reporting across multiple locations",
+            "country": "United States",
+            "city": "Oklahoma City",
+            "skills": "Creative Problem Solving, React.js, Web Development, Vue.js, Analytical Skills, Go (Programming Language), Technical Solution Design, Technical Design, Node.js, Strategy Alignment, PHP, Software Engineers, Communication, Strategy, Leadership, IT Strategy, Computer Engineering, Strategic Planning, Application Frameworks, Cross-functional Team Leadership, Developer Tools, Complexity Management"
+        },
+        {
+            "company": "BeMyGuest - Tours & Activities",
+            "employment_type": "Full-Time",
+            "location_type": "On-Site",
+            "position": "Engineering Lead",
+            "start_date": "September, 2017",
+            "end_date": "November, 2021",
+            "summary": "I was responsible for developing and maintaining diverse inventory systems, including availability calculations and capacity management with time slots, alongside spearheading ongoing SAAS platform development focusing on auto-recurring payments for the entire subscription and invoicing system. Taking ownership of integrating payment gateways like Adyen, Stripe, and PayPal across new white-label e-commerce accounts tied to the in-house platform was crucial, as was successfully integrating 3rd party booking supplier APIs across all sales channels (B2B, B2C, white-label) to facilitate business objectives in mission-critical South East Asian markets",
+            "country": "Singapore",
+            "city": "Singapore",
+            "skills": "Business-to-Business (B2B), API Testing, Optimization, API Development, TypeScript, Creative Problem Solving, Modernization, Coaching, React.js, Web Development, Team Development, Team Leadership, Analytical Skills, Go (Programming Language), Performance Improvement, Technical Solution Design, Technical Design, Team Management, Node.js, Strategy Alignment, PHP, Software Engineers, Communication, Strategy, Technical Architecture, Leadership, IT Strategy, Computer Engineering, Strategic Planning, Software Development, Application Frameworks, Project Management, Computer Science, Product Delivery, Engineering Management, B2C, Cross-functional Team Leadership, Developer Tools, Product Vision, Complexity Management"
+        },
+        {
+            "company": "Aspire",
+            "employment_type": "Full-Time",
+            "location_type": "On-Site",
+            "position": "Senior Software Engineer & Manager",
+            "start_date": "January, 2022",
+            "end_date": "April, 2024",
+            "summary": "Leading a 12-person team across APAC, I oversaw the software development lifecycle, providing mentorship and technical direction, including system architecture design. I engineered and implemented critical financial systems, such as a payment request queue prioritization system boosting operational efficiency and automated credit schema functions enhancing security. I spearheaded the development of SEA wallets and products from architecture to integration, unified payment workflows, orchestrated ledger synchronization, and directed updates to scheduled payments. Key technical achievements included significantly improving debit account balance query performance for real-time data access and achieving notable API query performance enhancements, reducing response times. I also resolved data inconsistencies, refactored code for reliability, architected flexible scheduled payment solutions, and led the transition from a monolithic to a microservices architecture, enhancing scalability and maintainability across platforms.",
+            "country": "Singapore",
+            "city": "Singapore",
+            "skills": "Business-to-Business (B2B), API Testing, Optimization, API Development, TypeScript, Creative Problem Solving, Modernization, Scalability Testing, Coaching, Web Development, Team Development, Vue.js, Team Leadership, Analytical Skills, Go (Programming Language), Performance Improvement, Technical Solution Design, Technical Design, Team Management, Node.js, Strategy Alignment, PHP, Software Engineers, Communication, Strategy, Technical Architecture, Leadership, Mentoring, IT Strategy, Computer Engineering, Strategic Planning, Software Development, Application Frameworks, Project Management, Computer Science, Product Delivery, Engineering Management, Cross-functional Team Leadership, Microservices, Developer Tools, Complexity Management"
+        },
+        {
+            "company": "Perx Technologies",
+            "employment_type": "Full-Time",
+            "location_type": "On-Site",
+            "position": "Head of Engineering",
+            "start_date": "June, 2024",
+            "end_date": "April, 2025",
+            "summary": "Exercising top-down leadership aligned with company objectives, I effectively led and integrated diverse cross-functional engineering teams—DevOps, Infrastructure, Data, Frontend, Backend, and Support—fostering a culture of open communication, dependability, and accountability. I successfully grew the team significantly, managing operations efficiently across multiple time zones, primarily from Singapore. My focus on excellence in details drove critical performance optimization initiatives, dramatically reducing database query execution times from 3 seconds to 800 milliseconds and API calls from 2 seconds to 100 milliseconds, alongside implementing cloud cost optimization strategies. I collaborated directly with C-level executives to drive expansion and scale engineering efforts, ensuring seamless execution and high-quality results across all initiatives.",
+            "country": "Singapore",
+            "city": "Singapore",
+            "skills": "Product Development, Optimization, Creative Problem Solving, Modernization, AngularJS, Scalability Testing, Organizational Leadership, Coaching, React.js, Executive Leadership, Team Development, Team Leadership, Analytical Skills, Go (Programming Language), Ruby on Rails, Performance Improvement, Technical Solution Design, Technical Design, Strategy Alignment, Software Engineers, Communication, Strategy, Technical Architecture, Leadership, Mentoring, Leading Development Teams, IT Strategy, Computer Engineering, Strategic Planning, Artificial Intelligenc, Application Frameworks, PostgreSQL, Computer Science, Product Delivery, Kubernetes, Engineering Management, B2C, Cross-functional Team Leadership, Software Management, Developer Tools, Product Vision, Complexity Management"
+        }
+    ]
+}

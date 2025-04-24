@@ -19,7 +19,7 @@
 									<!-- Page content -->
 									<div class="text-slate-500 dark:text-slate-400 space-y-12">
 										<EducationPartial />
-										<ExperienceSection />
+										<ExperiencePartial />
 										<AwardsPartial />
 										<RecommPartial />
 									</div>
@@ -48,7 +48,7 @@
 import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
 import EducationPartial from '@partials/EducationPartial.vue';
-import ExperienceSection from '@partials/ExperienceSection.vue';
+import ExperiencePartial from '@partials/ExperiencePartial.vue';
 import AwardsPartial from '@partials/AwardsPartial.vue';
 import RecommPartial from '@partials/RecommPartial.vue';
 import WidgetSkillsPartial from '@partials/WidgetSkillsPartial.vue';
@@ -62,7 +62,7 @@ export default {
 		SideNavPartial,
 		HeaderPartial,
 		EducationPartial,
-		ExperienceSection,
+		ExperiencePartial,
 		AwardsPartial,
 		RecommPartial,
 		WidgetSkillsPartial,

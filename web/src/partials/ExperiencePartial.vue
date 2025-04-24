@@ -1,6 +1,6 @@
 <template>
 	<div class="space-y-8">
-		<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Work Experience</h2>
+		<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">(Partial) Work Experience</h2>
 		<ul class="space-y-8">
 			<!-- Item -->
 			<li class="relative group">
@@ -100,6 +100,7 @@
 
 <script>
 export default {
-	name: 'ExperienceSection',
+	name: 'ExperiencePartial',
+
 };
 </script>

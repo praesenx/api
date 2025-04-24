@@ -16,15 +16,15 @@
 								<section>
 									<!-- Page title -->
 									<h2 class="h2 font-aspekta mb-5">
-										Hi. I'm Gus
+										Hi. I'm {{ user.profile.nickname }}
 										<span
 											class="inline-flex relative text-sky-500 before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2 before:translate-y-1/4"
 										>
-											<a href="https://x.com/gocanto" title="follow me on x" target="_blank">@gocanto</a>
+											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>
 										</span>
 									</h2>
 
-									<img class="rounded-lg w-full mb-5" src="../images/profile/about.png" alt="About" />
+									<img class="rounded-lg w-full mb-5" :src="aboutPicture" alt="About" />
 
 									<!-- Page content -->
 									<div class="text-slate-500 dark:text-slate-400 space-y-8">
@@ -32,7 +32,7 @@
 											<h3 class="h3 font-aspekta text-slate-800 dark:text-slate-100">About</h3>
 											<p class="block mb-5">
                                                 <span class="block">
-                                                    I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and <a class="blog-link" target="_blank" href="https://github.com/gocanto">open source</a>.
+                                                    I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and <a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>.
                                                     With over twenty years of&nbsp;
                                                     <router-link v-slot="{ href, navigate }" to="/resume">
                                                         <a class="blog-link" :href="href" @click="navigate">experience</a>
@@ -45,17 +45,17 @@
                                                 </span>
 											</p>
 											<p class="block mb-3">
-                                                Beyond technical expertise, I have a strong <a class="blog-link" href="https://www.linkedin.com/in/gocanto/" target="_blank">leadership background</a> in managing cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and
+                                                Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and
 												innovation. I thrive in fast-paced environments that demand strategic thinking, problem-solving, and a commitment to delivering high-quality results.
 											</p>
 										</div>
 
-										<ExperienceSection />
+										<ExperiencePartial />
 
 										<div class="space-y-5">
 											<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Let's Connect</h2>
                                             <p>
-                                                I’m excited to connect by <a class="blog-link" title="follow me on x" href="mailto:otnacog@gmail.com">email</a> or <a class="blog-link" target="_blank" href="https://x.com/gocanto">X</a> to chat about projects and ideas.
+                                                I’m excited to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.profile.email}`">email</a> or <a class="blog-link" target="_blank" :href="user.social.x">X</a> to chat about projects and ideas.
                                                 I’m always open to freelance or long-term projects, so please feel free to reach out.
                                             </p>
                                             <p>
@@ -88,10 +88,13 @@
 <script>
 import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
-import ExperienceSection from '@partials/ExperienceSection.vue';
+import ExperiencePartial from '@partials/ExperiencePartial.vue';
 import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
+
+import AboutPicture from '@images/profile/about.png';
+import UserResponse from '@response/user-response.json'
 
 import { useRouter } from 'vue-router';
 
@@ -100,17 +103,25 @@ export default {
 	components: {
 		SideNavPartial,
 		HeaderPartial,
-		ExperienceSection,
+		ExperiencePartial,
 		WidgetNewsletterPartial,
 		WidgetSponsorPartial,
 		FooterPartial,
 	},
     setup() {
         const currentRoute = useRouter().currentRoute.value;
+        const user = UserResponse
 
         return {
             currentRoute,
+            user,
         };
+    },
+
+    computed: {
+        aboutPicture () {
+            return AboutPicture;
+        },
     }
 };
 </script>
