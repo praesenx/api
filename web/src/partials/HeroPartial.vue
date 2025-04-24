@@ -2,7 +2,7 @@
 	<section>
 		<div class="max-w-[700px]">
 			<div class="pt-8 pb-10">
-				<img class="profile-avatar" src="../images/profile/me.jpg" alt="gocanto" />
+				<AvatarPartial width="w-14" />
 				<h1 class="h1 font-aspekta mb-5 mt-5">
 					I write about coding, engineering, and
 					<span class="inline-flex relative text-sky-500 before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2 before:translate-y-1/4"
@@ -21,7 +21,12 @@
 </template>
 
 <script>
+import AvatarPartial from "@partials/AvatarPartial.vue";
+
 export default {
 	name: 'HeroPartial',
+    components: {
+        AvatarPartial,
+    }
 };
 </script>

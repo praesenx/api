@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-7xl mx-auto">
 		<div class="min-h-screen flex">
-			<SideNavigation />
+			<SideNavPartial />
 
 			<!-- Main content -->
 			<main class="grow overflow-hidden px-6">
@@ -54,7 +54,7 @@ import FooterPartial from '@partials/FooterPartial.vue';
 export default {
 	name: 'HomePage',
 	components: {
-		SideNavigation: SideNavPartial,
+		SideNavPartial,
 		HeaderPartial,
 		HeroPartial,
 		ArticlesListPartial,
