@@ -46,6 +46,11 @@ export default defineConfig({
 				// eslint-disable-next-line no-undef
 				replacement: path.resolve(__dirname, './src/public'),
 			},
+			{
+				find: '@fonts',
+				// eslint-disable-next-line no-undef
+				replacement: path.resolve(__dirname, './src/fonts'),
+			},
 		],
 	},
 });

@@ -58,21 +58,21 @@
 <script>
 import { ref } from 'vue';
 
-import SideNavPartial from '../partials/SideNavPartial.vue';
-import HeaderPartial from '../partials/HeaderPartial.vue';
-import ProjectCardPartial from '../partials/ProjectCardPartial.vue';
-import WidgetNewsletterPartial from '../partials/WidgetNewsletterPartial.vue';
-import WidgetSponsorPartial from '../partials/WidgetSponsorPartial.vue';
-import FooterPartial from '../partials/FooterPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import ProjectCardPartial from '@partials/ProjectCardPartial.vue';
+import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
+import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
+import FooterPartial from '@partials/FooterPartial.vue';
 
-import Icon01 from '../images/project-icon-01.svg';
-import Icon02 from '../images/project-icon-02.svg';
-import Icon03 from '../images/project-icon-03.svg';
-import Icon04 from '../images/project-icon-04.svg';
-import Icon05 from '../images/project-icon-05.svg';
-import Icon06 from '../images/project-icon-06.svg';
-import Icon07 from '../images/project-icon-07.svg';
-import Icon08 from '../images/project-icon-08.svg';
+import Icon01 from '@images/project-icon-01.svg';
+import Icon02 from '@images/project-icon-02.svg';
+import Icon03 from '@images/project-icon-03.svg';
+import Icon04 from '@images/project-icon-04.svg';
+import Icon05 from '@images/project-icon-05.svg';
+import Icon06 from '@images/project-icon-06.svg';
+import Icon07 from '@images/project-icon-07.svg';
+import Icon08 from '@images/project-icon-08.svg';
 
 export default {
 	name: 'ProjectsPage',

@@ -40,16 +40,16 @@
 </template>
 
 <script>
-import SideNavPartial from '../partials/SideNavPartial.vue';
-import HeaderPartial from '../partials/HeaderPartial.vue';
-import HeroPartial from '../partials/HeroPartial.vue';
-import ArticlesListPartial from '../partials/ArticlesListPartial.vue';
-import TalksPartial from '../partials/TalksPartial.vue';
-import FeaturedProjectsPartial from '../partials/FeaturedProjectsPartial.vue';
-import WidgetNewsletterPartial from '../partials/WidgetNewsletterPartial.vue';
-import WidgetSponsorPartial from '../partials/WidgetSponsorPartial.vue';
-import WidgetBookPartial from '../partials/WidgetBookPartial.vue';
-import FooterPartial from '../partials/FooterPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import HeroPartial from '@partials/HeroPartial.vue';
+import ArticlesListPartial from '@partials/ArticlesListPartial.vue';
+import TalksPartial from '@partials/TalksPartial.vue';
+import FeaturedProjectsPartial from '@partials/FeaturedProjectsPartial.vue';
+import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
+import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
+import WidgetBookPartial from '@partials/WidgetBookPartial.vue';
+import FooterPartial from '@partials/FooterPartial.vue';
 
 export default {
 	name: 'HomePage',

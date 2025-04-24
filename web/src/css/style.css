@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=PT+Mono&display=fallback') layer(base);
+@import '@css/support/custom-fonts.css' layer(base);
 
-@import './additional-styles/custom-fonts.css' layer(base);
 @import 'tailwindcss';
 
 /* Additional styles */
-@import './additional-styles/utility-patterns.css' layer(components);
-@import './additional-styles/range-slider.css' layer(components);
-@import './additional-styles/toggle-switch.css' layer(components);
-@import './additional-styles/theme.css';
+@import '@css/support/utility-patterns.css' layer(components);
+@import '@css/support/range-slider.css' layer(components);
+@import '@css/support/toggle-switch.css' layer(components);
+@import '@css/support/theme.css';
 
 @plugin "@tailwindcss/forms" {
 	strategy: base;

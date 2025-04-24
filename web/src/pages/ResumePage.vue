@@ -45,16 +45,16 @@
 </template>
 
 <script>
-import SideNavPartial from '../partials/SideNavPartial.vue';
-import HeaderPartial from '../partials/HeaderPartial.vue';
-import EducationPartial from '../partials/EducationPartial.vue';
-import ExperienceSection from '../partials/ExperienceSection.vue';
-import AwardsPartial from '../partials/AwardsPartial.vue';
-import RecommPartial from '../partials/RecommPartial.vue';
-import WidgetSkillsPartial from '../partials/WidgetSkillsPartial.vue';
-import WidgetLangPartial from '../partials/WidgetLangPartial.vue';
-import WidgetReferencesPartial from '../partials/WidgetReferencesPartial.vue';
-import FooterPartial from '../partials/FooterPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import EducationPartial from '@partials/EducationPartial.vue';
+import ExperienceSection from '@partials/ExperienceSection.vue';
+import AwardsPartial from '@partials/AwardsPartial.vue';
+import RecommPartial from '@partials/RecommPartial.vue';
+import WidgetSkillsPartial from '@partials/WidgetSkillsPartial.vue';
+import WidgetLangPartial from '@partials/WidgetLangPartial.vue';
+import WidgetReferencesPartial from '@partials/WidgetReferencesPartial.vue';
+import FooterPartial from '@partials/FooterPartial.vue';
 
 export default {
 	name: 'ResumePage',

@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from './pages/HomePage.vue';
-import PostPage from './pages/PostPage.vue';
-import AboutPage from './pages/AboutPage.vue';
-import ProjectsPage from './pages/ProjectsPage.vue';
-import ResumePage from './pages/ResumePage.vue';
-import SubscribePage from './pages/SubscribePage.vue';
+import HomePage from '@pages/HomePage.vue';
+import PostPage from '@pages/PostPage.vue';
+import AboutPage from '@pages/AboutPage.vue';
+import ProjectsPage from '@pages/ProjectsPage.vue';
+import ResumePage from '@pages/ResumePage.vue';
+import SubscribePage from '@pages/SubscribePage.vue';
 
 const routerHistory = createWebHistory();
 

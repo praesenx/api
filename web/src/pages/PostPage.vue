@@ -193,12 +193,12 @@
 </template>
 
 <script>
-import SideNavPartial from '../partials/SideNavPartial.vue';
-import HeaderPartial from '../partials/HeaderPartial.vue';
-import WidgetNewsletterPartial from '../partials/WidgetNewsletterPartial.vue';
-import WidgetSponsorPartial from '../partials/WidgetSponsorPartial.vue';
-import WidgetPostsPartial from '../partials/WidgetPostsPartial.vue';
-import FooterPartial from '../partials/FooterPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
+import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
+import WidgetPostsPartial from '@partials/WidgetPostsPartial.vue';
+import FooterPartial from '@partials/FooterPartial.vue';
 
 export default {
 	name: 'PostPage',

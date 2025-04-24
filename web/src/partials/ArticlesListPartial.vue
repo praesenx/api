@@ -28,16 +28,16 @@
 <script>
 import { ref } from 'vue';
 
-import ArticleItemPartial from './ArticleItemPartial.vue';
+import ArticleItemPartial from '@partials/ArticleItemPartial.vue';
 
-import Post01 from '../images/post-thumb-01.jpg';
-import Post02 from '../images/post-thumb-02.jpg';
-import Post03 from '../images/post-thumb-03.jpg';
-import Post04 from '../images/post-thumb-04.jpg';
-import Post05 from '../images/post-thumb-05.jpg';
-import Post06 from '../images/post-thumb-06.jpg';
-import Post07 from '../images/post-thumb-07.jpg';
-import Post08 from '../images/post-thumb-08.jpg';
+import Post01 from '@images/post-thumb-01.jpg';
+import Post02 from '@images/post-thumb-02.jpg';
+import Post03 from '@images/post-thumb-03.jpg';
+import Post04 from '@images/post-thumb-04.jpg';
+import Post05 from '@images/post-thumb-05.jpg';
+import Post06 from '@images/post-thumb-06.jpg';
+import Post07 from '@images/post-thumb-07.jpg';
+import Post08 from '@images/post-thumb-08.jpg';
 
 export default {
 	name: 'ArticlesListPartial',
