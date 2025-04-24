@@ -5,7 +5,7 @@
 				<!-- Sidebar avatar -->
 				<div v-if="currentRoute.fullPath !== '/'" class="flex justify-center my-4">
 					<router-link to="/">
-						<img class="border-2 border-sky-500 rounded-full" src="../images/profile/me.jpg" alt="gocanto" />
+						<img class="profile-avatar" src="../images/profile/me.jpg" alt="gocanto" />
 					</router-link>
 				</div>
 			</div>

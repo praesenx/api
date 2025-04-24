@@ -1,13 +1,26 @@
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------- customised ----------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=PT+Mono&display=fallback') layer(base);
 @import '@css/support/custom-fonts.css' layer(base);
 
-@import 'tailwindcss';
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------- tailwindcss ---------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 
-/* Additional styles */
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------- customised ----------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
 @import '@css/support/utility-patterns.css' layer(components);
 @import '@css/support/range-slider.css' layer(components);
 @import '@css/support/toggle-switch.css' layer(components);
 @import '@css/support/theme.css';
+@import '@css/support/blog.css';
 
 @plugin "@tailwindcss/forms" {
 	strategy: base;
@@ -60,27 +73,4 @@
 	--tracking-wide: 0.01em;
 	--tracking-wider: 0.02em;
 	--tracking-widest: 0.4em;
-}
-
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-	*,
-	::after,
-	::before,
-	::backdrop,
-	::file-selector-button {
-		border-color: var(--color-gray-200, currentColor);
-	}
-}
-
-/* Additional Tailwind directives: https://tailwindcss.com/docs/functions-and-directives/#responsive */
-@utility rtl {
-	direction: rtl;
 }

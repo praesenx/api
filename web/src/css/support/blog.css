@@ -1,0 +1,3 @@
+.profile-avatar {
+    @apply border-2 border-sky-500 rounded-full w-16;
+}

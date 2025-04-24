@@ -2,8 +2,8 @@
 	<section>
 		<div class="max-w-[700px]">
 			<div class="pt-8 pb-10">
-				<img class="rounded-full mb-5" src="../images/profile/me.jpg" width="56" height="56" alt="gocanto" />
-				<h1 class="h1 font-aspekta mb-5">
+				<img class="profile-avatar" src="../images/profile/me.jpg" alt="gocanto" />
+				<h1 class="h1 font-aspekta mb-5 mt-5">
 					I write about coding, engineering, and
 					<span class="inline-flex relative text-sky-500 before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2 before:translate-y-1/4"
 						>leadership</span
