@@ -5,7 +5,7 @@
 				<AvatarPartial width="w-14" />
 				<h1 class="h1 blog-h1">
 					I write about coding, engineering, and
-					<span class="inline-flex relative text-indigo-500 dark:text-indigo-400 before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2 before:translate-y-1/4"
+					<span class="blog-fun-title-word-highlight"
 						>leadership</span
 					>
 					as a service.

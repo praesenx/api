@@ -1,58 +1,41 @@
 <template>
-	<footer class="border-t border-slate-200 dark:border-slate-800">
-		<div class="py-8">
-			<div class="text-center md:flex md:items-center md:justify-between">
-				<!-- Social links -->
-				<ul class="inline-flex mb-4 md:order-1 md:ml-4 md:mb-0 space-x-2">
-					<li>
-						<a class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out" href="https://x.com/gocanto" aria-label="X">
-							<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-								<path d="m13.063 9 3.495 4.475L20.601 9h2.454l-5.359 5.931L24 23h-4.938l-3.866-4.893L10.771 23H8.316l5.735-6.342L8 9h5.063Zm-.74 1.347h-1.457l8.875 11.232h1.36l-8.778-11.232Z"></path>
-							</svg>
-						</a>
-					</li>
+    <footer class="border-t border-slate-200 dark:border-slate-800">
+        <div class="py-8">
+            <div class="text-center md:flex md:items-center md:justify-between">
+                <ul class="inline-flex mb-4 md:order-1 md:ml-4 md:mb-0 space-x-2">
+                    <li @click="openX()" class="blog-footer-social-li">
+                        <a @click.prevent="openX()" class="text-white" href="#" aria-label="X">
+                            <svg class="fill-current h-5 w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1227">
+                                <path d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z"/>
+                            </svg>
+                        </a>
+                    </li>
 
-					<li>
-						<a class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out" href="https://www.youtube.com/@gocanto" aria-label="YouTube">
-							<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M23.8 12.8c-.2-1.3-.8-2.2-2.2-2.4C19.4 10 16 10 16 10s-3.4 0-5.6.4c-1.4.2-2.1 1.1-2.2 2.4C8 14.1 8 16 8 16s0 1.9.2 3.2c.2 1.3.8 2.2 2.2 2.4 2.2.4 5.6.4 5.6.4s3.4 0 5.6-.4c1.4-.3 2-1.1 2.2-2.4.2-1.3.2-3.2.2-3.2s0-1.9-.2-3.2ZM14 19v-6l5 3-5 3Z"
-								></path>
-							</svg>
-						</a>
-					</li>
+                    <li @click="openGitHub()" class="blog-footer-social-li">
+                        <a @click.prevent="openGitHub" class="text-white" href="#" aria-label="Github">
+                            <svg class="fill-current h-5 w-5" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)"/>
+                            </svg>
+                        </a>
+                    </li>
 
-					<li>
-						<a class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out" href="https://github.com/gocanto" aria-label="Github">
-							<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z"
-								></path>
-							</svg>
-						</a>
-					</li>
+                    <li @click="openLinkedIn()" class="blog-footer-social-li">
+                        <a @click.prevent="openLinkedIn()" class="text-white" href="#" aria-label="LinkedIn">
+                            <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 256"><path d="M218.123 218.127h-37.931v-59.403c0-14.165-.253-32.4-19.728-32.4-19.756 0-22.779 15.434-22.779 31.369v60.43h-37.93V95.967h36.413v16.694h.51a39.907 39.907 0 0 1 35.928-19.733c38.445 0 45.533 25.288 45.533 58.186l-.016 67.013ZM56.955 79.27c-12.157.002-22.014-9.852-22.016-22.009-.002-12.157 9.851-22.014 22.008-22.016 12.157-.003 22.014 9.851 22.016 22.008A22.013 22.013 0 0 1 56.955 79.27m18.966 138.858H37.95V95.967h37.97v122.16ZM237.033.018H18.89C8.58-.098.125 8.161-.001 18.471v219.053c.122 10.315 8.576 18.582 18.89 18.474h218.144c10.336.128 18.823-8.139 18.966-18.474V18.454c-.147-10.33-8.635-18.588-18.966-18.453" fill="currentColor"/></svg>
+                        </a>
+                    </li>
+                </ul>
 
-					<li>
-						<a class="flex justify-center items-center text-sky-500 hover:text-sky-600 transition duration-150 ease-in-out" href="https://www.linkedin.com/in/gocanto/" aria-label="LinkedIn">
-							<svg class="w-8 h-10 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M12.51 8.796v1.697a3.738 3.738 0 0 1 3.288-1.684c3.455 0 4.202 2.16 4.202 4.97V19.5h-3.2v-5.072c0-1.21-.244-2.766-2.128-2.766-1.827 0-2.139 1.317-2.139 2.676V19.5h-3.19V8.796h3.168ZM7.2 6.106a1.61 1.61 0 0 1-.988 1.483 1.595 1.595 0 0 1-1.743-.348A1.607 1.607 0 0 1 5.6 4.5a1.601 1.601 0 0 1 1.6 1.606Z"
-								/>
-								<path d="M7.2 8.809H4V19.5h3.2V8.809Z" />
-							</svg>
-						</a>
-					</li>
-				</ul>
-
-				<!-- Copyright -->
-				<div class="text-sm text-slate-500 dark:text-slate-400">Copyright &copy; gocanto. All rights reserved.</div>
-			</div>
-		</div>
-	</footer>
+                <div class="text-sm text-slate-500 dark:text-slate-400">Copyright &copy; gocanto. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
 </template>
 
-<script>
-export default {
-	name: 'FooterPartial',
-};
+<script setup lang="ts">
+const openSocial = (link: string): Window | null => window.open(link, '_blank');
+
+const openX = (): Window | null => openSocial('https://x.com/gocanto')
+const openGitHub = (): Window | null => openSocial('https://github.com/gocanto')
+const openLinkedIn = (): Window | null => openSocial('https://www.linkedin.com/in/gocanto/');
 </script>

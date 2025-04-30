@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import photo from '@images/profile/me.png';
+import photo from '@images/profile/me.jpg';
 
 export default {
 	name: 'AvatarPartial',
@@ -26,7 +26,7 @@ export default {
 	},
 	computed: {
 		className() {
-			return `border-2 border-indigo-400 rounded-full ${this.width}`;
+			return `border-2 border-fuchsia-400 rounded-full ${this.width}`;
 		},
 	},
 };

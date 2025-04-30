@@ -1,5 +1,5 @@
 <template>
-	<div class="rounded-lg border border-slate-200 dark:border-slate-800 dark:bg-linear-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1 p-5">
+	<div class="rounded-lg border border-slate-200 dark:border-slate-800 dark:bg-linear-to-t dark:from-slate-800 dark:to-slate-800/30 p-5">
 		<div class="text-center mb-1">
 			<div class="inline-flex -space-x-3 -ml-0.5">
 				<img class="rounded-full border-2 border-white dark:border-slate-800 box-content" src="../images/avatar-01.jpg" width="24" height="24" alt="Avatar 01" />

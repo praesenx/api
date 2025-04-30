@@ -18,10 +18,10 @@
 								<a
                                     :class="
 										applyClassIf(['/about', '/subscribe', '/projects', '/resume'])
-											? 'blog-router-link-a-active'
-											: 'blog-router-link-a-resting'
+											? 'blog-side-nav-router-link-a-active'
+											: 'blog-side-nav-router-link-a-resting'
 									"
-                                    class="h6 blog-router-link-a"
+                                    class="h6 blog-side-nav-router-link-a"
 									:href="href"
 									@click="navigate"
 								>
@@ -38,7 +38,7 @@
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/about" custom>
 								<a
-									class="h6 blog-router-link-a"
+									class="h6 blog-side-nav-router-link-a"
 									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
@@ -56,7 +56,7 @@
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/projects" custom>
 								<a
-									class="h6 blog-router-link-a"
+									class="h6 blog-side-nav-router-link-a"
 									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
@@ -74,7 +74,7 @@
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/resume" custom>
 								<a
-									class="h6 blog-router-link-a"
+									class="h6 blog-side-nav-router-link-a"
 									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
@@ -92,7 +92,7 @@
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/subscribe" custom>
 								<a
-									class="h6 blog-router-link-a"
+									class="h6 blog-side-nav-router-link-a"
 									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
@@ -130,7 +130,7 @@ const isHome = computed<boolean>(() => {
 });
 
 function applyClassIf (constraint: string[]): boolean {
-    if (isHome) {
+    if (isHome.value) {
         return true;
     }
 
@@ -141,7 +141,7 @@ function applyClassIf (constraint: string[]): boolean {
 
 function bindIconClassFor (isActive: boolean): string {
     return isActive
-        ? 'blog-router-link-a-active'
-        : 'blog-router-link-a-resting';
+        ? 'blog-side-nav-router-link-a-active'
+        : 'blog-side-nav-router-link-a-resting';
 }
 </script>
