@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<h2 class="mb-5 font-aspekta text-slate-700 dark:text-sky-400 text-xl font-[650]">Latest Articles</h2>
+		<h2 class="mb-5 font-aspekta text-slate-700 dark:text-slate-300 text-xl font-[650]">Latest Articles</h2>
 
 		<!-- Filters -->
 		<ul class="flex flex-wrap text-sm border-b border-slate-100 dark:border-slate-800">

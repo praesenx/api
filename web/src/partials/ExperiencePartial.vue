@@ -1,6 +1,6 @@
 <template>
 	<div class="space-y-8">
-		<h2 class="h3 font-aspekta text-slate-800 dark:text-slate-100">Work Experience</h2>
+		<h2 class="h2 font-aspekta text-slate-700 dark:text-slate-300">Work Experience</h2>
 		<ul class="space-y-8">
 			<!-- Item -->
 			<li v-for="item in experience" :key="item.uuid" class="relative group">
@@ -10,17 +10,18 @@
 					<div
 						class="absolute left-0 h-14 w-14 flex items-center justify-center border border-slate-200 dark:border-slate-800 dark:bg-linear-to-t dark:from-slate-800 dark:to-slate-800/30 bg-white dark:bg-slate-900 rounded-full"
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-							<path
-								fill="#DE4D3B"
-								d="M15.912 6.545h-7.75v3.273h4.393c-.702 2.182-2.437 2.91-4.428 2.91-2.12.002-3.992-1.368-4.601-3.37a4.693 4.693 0 0 1 1.959-5.307 4.854 4.854 0 0 1 5.722.33l2.414-2.265C10.947-.31 6.964-.69 3.867 1.186.771 3.06-.683 6.735.308 10.18c.99 3.445 4.185 5.822 7.819 5.82 4.477 0 8.525-2.91 7.785-9.456Z"
-							/>
-						</svg>
-					</div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="currentColor" class="opacity-30 size-8 dark:opacity-30 fill-none text-fuchsia-500 dark:text-white">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                        </svg>
+
+
+
+                    </div>
 					<div class="pl-20 space-y-1">
 						<div class="text-xs text-slate-500 uppercase">{{ item.start_date }} <span class="text-slate-400 dark:text-slate-600">·</span> {{ item.end_date }}</div>
-						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">{{ item.position }}</div>
-						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">{{ item.company }}</div>
+						<div class="font-aspekta font-[650] text-slate-700 dark:text-slate-100">{{ item.position }}</div>
+						<div class="text-sm font-medium text-slate-700 dark:text-slate-100">{{ item.company }}</div>
 						<div class="text-sm text-slate-500 dark:text-slate-400">{{ item.summary }}</div>
 						<div class="text-xs mt-3 text-gray-400 dark:text-gray-500">
 							{{ item.skills }}

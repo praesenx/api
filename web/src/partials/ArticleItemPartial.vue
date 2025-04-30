@@ -15,7 +15,7 @@
                     </router-link>
 				</h3>
 				<div class="flex">
-					<div class="grow text-sm text-slate-500 dark:text-slate-500">
+					<div class="grow text-sm text-slate-500 dark:text-slate-600">
 						{{ item.excerpt }}
 					</div>
 					<router-link class="hidden lg:flex shrink-0 text-fuchsia-500 dark:text-sky-400 items-center justify-center w-12 group" :to="item.slug" tabindex="-1">

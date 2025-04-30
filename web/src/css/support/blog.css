@@ -1,7 +1,7 @@
 .blog-link {
-    @apply text-indigo-400 font-medium;
-    @apply hover:text-indigo-500 hover:cursor-pointer hover:underline;
-    @apply dark:text-slate-500 dark:hover:text-slate-400;
+    @apply text-fuchsia-500 font-medium;
+    @apply hover:cursor-pointer hover:underline;
+    @apply dark:text-fuchsia-300 dark:hover:text-fuchsia-400;
 }
 
 .blog-h1 {
