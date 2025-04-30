@@ -1,20 +1,20 @@
 <template>
 	<section>
-		<h2 class="font-aspekta text-xl font-[650] mb-3">Latest Articles</h2>
+		<h2 class="mb-5 font-aspekta text-slate-700 dark:text-sky-400 text-xl font-[650]">Latest Articles</h2>
 
 		<!-- Filters -->
 		<ul class="flex flex-wrap text-sm border-b border-slate-100 dark:border-slate-800">
 			<li class="px-3 -mb-px">
-				<a class="block py-3 font-medium text-slate-800 dark:text-slate-100 border-b-2 border-sky-500" href="#0">Coding</a>
+				<a class="block py-3 font-medium text-fuchsia-500 border-b-2 border-fuchsia-500 dark:text-slate-300 dark:border-sky-400" href="#">Coding</a>
 			</li>
 			<li class="px-3 -mb-px">
-				<a class="block py-3 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" href="#0">Startups</a>
+				<a class="block py-3 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" href="#">Startups</a>
 			</li>
 			<li class="px-3 -mb-px">
-				<a class="block py-3 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" href="#0">Tutorials</a>
+				<a class="block py-3 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" href="#">Tutorials</a>
 			</li>
 			<li class="px-3 -mb-px">
-				<a class="block py-3 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" href="#0">Indie Hacking</a>
+				<a class="block py-3 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" href="#">Indie Hacking</a>
 			</li>
 		</ul>
 
