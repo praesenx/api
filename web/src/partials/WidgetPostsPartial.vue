@@ -1,5 +1,5 @@
 <template>
-	<div class="rounded-lg border border-slate-200 dark:border-slate-800 dark:bg-linear-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1 p-5">
+	<div class="rounded-lg border border-slate-200 dark:border-slate-800 dark:bg-linear-to-t dark:from-slate-800 dark:to-slate-800/30 p-5">
 		<div class="font-aspekta font-[650] mb-3">Popular Posts</div>
 		<ul class="space-y-3">
 			<li class="inline-flex">
