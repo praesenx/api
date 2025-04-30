@@ -2,6 +2,10 @@
 import js from '@eslint/js'; // Standard ESLint recommended rules
 import pluginVue from 'eslint-plugin-vue'; // Vue plugin (needed for rule references)
 import parserVue from 'vue-eslint-parser'; // Parser for .vue files
+// Import TypeScript parser and plugin
+import parserTypeScript from '@typescript-eslint/parser';
+import pluginTypeScript from '@typescript-eslint/eslint-plugin';
+// Import Babel parser (still needed for non-TS JS files if applicable)
 import parserBabel from '@babel/eslint-parser'; // Parser for <script> block
 import configPrettier from 'eslint-config-prettier'; // Disables conflicting rules
 
@@ -50,8 +54,9 @@ export default [
 			parserOptions: {
 				ecmaVersion: 'latest',
 				sourceType: 'module',
-				parser: parserBabel,
+				parser: parserTypeScript,
 				requireConfigFile: false,
+                project: './tsconfig.json',
 			},
 			globals: {
 				// inherit standard globals
@@ -70,6 +75,7 @@ export default [
 		},
 		plugins: {
 			vue: pluginVue,
+            '@typescript-eslint': pluginTypeScript,
 		},
 		rules: {
 			// Vue-specific rules

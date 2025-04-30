@@ -2,7 +2,7 @@
 	<div class="sticky top-0 w-16 md:w-24 shrink-0 h-screen overflow-y-auto no-scrollbar border-r border-slate-200 dark:border-slate-800">
 		<div class="h-full flex flex-col justify-between after:flex-1 after:mt-auto">
 			<!-- Sidebar avatar -->
-			<div v-if="currentRoute.fullPath !== '/'" class="flex justify-center my-4">
+			<div v-if="!isHome" class="flex justify-center my-4">
 				<router-link to="/">
 					<AvatarPartial />
 				</router-link>
@@ -13,14 +13,15 @@
 				<nav class="w-full">
 					<ul class="space-y-4">
 						<li class="py-2">
+                            <!-- home -->
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/" custom>
 								<a
-									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
-									:class="
-										currentRoute.fullPath !== '/about' && currentRoute.fullPath !== '/subscribe' && currentRoute.fullPath !== '/projects' && currentRoute.fullPath !== '/resume'
-											? 'text-sky-500 after:bg-sky-500'
-											: 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'
+                                    :class="
+										applyClassIf(['/about', '/subscribe', '/projects', '/resume'])
+											? 'blog-router-link-a-active'
+											: 'blog-router-link-a-resting'
 									"
+                                    class="h6 blog-router-link-a"
 									:href="href"
 									@click="navigate"
 								>
@@ -32,11 +33,13 @@
 								</a>
 							</router-link>
 						</li>
+
+                        <!-- about -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/about" custom>
 								<a
-									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
-									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
+									class="h6 blog-router-link-a"
+									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
 								>
@@ -48,11 +51,13 @@
 								</a>
 							</router-link>
 						</li>
+
+                        <!-- projects -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/projects" custom>
 								<a
-									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
-									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
+									class="h6 blog-router-link-a"
+									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
 								>
@@ -64,11 +69,13 @@
 								</a>
 							</router-link>
 						</li>
+
+                        <!-- resume -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/resume" custom>
 								<a
-									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
-									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
+									class="h6 blog-router-link-a"
+									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
 								>
@@ -80,11 +87,13 @@
 								</a>
 							</router-link>
 						</li>
+
+                        <!-- subscribe -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/subscribe" custom>
 								<a
-									class="w-full h-6 flex items-center justify-center relative after:absolute after:w-0.5 after:right-0 after:top-0 after:bottom-0"
-									:class="isExactActive ? 'text-sky-500 after:bg-sky-500' : 'text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400'"
+									class="h6 blog-router-link-a"
+									:class="bindIconClassFor(isExactActive)"
 									:href="href"
 									@click="navigate"
 								>
@@ -96,6 +105,7 @@
 								</a>
 							</router-link>
 						</li>
+
 					</ul>
 				</nav>
 			</div>
@@ -103,21 +113,35 @@
 	</div>
 </template>
 
-<script>
-import { useRouter } from 'vue-router';
+<script setup lang="ts">
+import {RouteLocationNormalizedLoaded, Router, useRouter} from 'vue-router';
 import AvatarPartial from '@partials/AvatarPartial.vue';
+import {computed} from "vue";
 
-export default {
-	name: 'SideNavPartial',
-	components: {
-		AvatarPartial,
-	},
-	setup() {
-		const currentRoute = useRouter().currentRoute.value;
+const router: Router = useRouter();
+const currentRoute: Ref<RouteLocationNormalizedLoaded> = router.currentRoute;
 
-		return {
-			currentRoute,
-		};
-	},
-};
+const isHome = computed<boolean>(() => {
+    // TypeScript knows currentRoute.value is of type RouteLocationNormalizedLoaded
+    // The 'fullPath' property on RouteLocationNormalizedLoaded is typed as string.
+    // The comparison 'string === string' results in a boolean.
+    // The <boolean> generic on computed explicitly states the return type of the computed ref.
+    return currentRoute.value.fullPath === '/';
+});
+
+function applyClassIf (constraint: string[]): boolean {
+    if (isHome) {
+        return true;
+    }
+
+    const fullPath = currentRoute.value.fullPath
+
+    return Array.of(constraint).includes(fullPath)
+}
+
+function bindIconClassFor (isActive: boolean): string {
+    return isActive
+        ? 'blog-router-link-a-active'
+        : 'blog-router-link-a-resting';
+}
 </script>

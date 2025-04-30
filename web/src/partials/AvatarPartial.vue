@@ -26,7 +26,7 @@ export default {
 	},
 	computed: {
 		className() {
-			return `border-1 border-sky-500 rounded-full ${this.width}`;
+			return `border-2 border-indigo-400 rounded-full ${this.width}`;
 		},
 	},
 };

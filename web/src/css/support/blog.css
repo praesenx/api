@@ -1,5 +1,25 @@
 .blog-link {
-    @apply text-sky-400 font-medium;
-    @apply hover:text-sky-500 hover:cursor-pointer hover:underline;
+    @apply text-indigo-400 font-medium;
+    @apply hover:text-indigo-500 hover:cursor-pointer hover:underline;
     @apply dark:text-slate-500 dark:hover:text-slate-400;
+}
+
+.blog-h1 {
+    @apply font-aspekta mb-5 mt-5;
+    @apply text-slate-700 dark:text-slate-300;
+}
+
+.blog-router-link-a {
+    @apply w-full flex items-center justify-center relative after:absolute after:w-0.5;
+    @apply after:right-0 after:top-0 after:bottom-0;
+}
+
+.blog-router-link-a-resting {
+    @apply text-slate-400 hover:text-indigo-500;
+    @apply dark:text-slate-500 dark:hover:text-indigo-500;
+}
+
+.blog-router-link-a-active {
+    @apply text-indigo-500 after:bg-indigo-500 hover:text-indigo-400 hover:after:bg-indigo-400;
+    @apply dark:hover:text-slate-400;
 }
