@@ -58,11 +58,13 @@ export default {
 
 		watch(darkMode, () => {
 			localStorage.setItem('dark-mode', darkMode.value);
+
 			if (darkMode.value) {
 				document.documentElement.classList.add('dark');
 			} else {
 				document.documentElement.classList.remove('dark');
 			}
+
 		});
 
 		return {

@@ -1,11 +1,11 @@
 {
     "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
+        "target": "ESNext",
+        "module": "ESNext",
         "strict": true,
         "jsx": "preserve",
         "importHelpers": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
@@ -17,14 +17,15 @@
              "vite/client"
         ],
         "paths": {
-            "@/*": ["src/*"],
-            "@css/*": ["src/css/*"],
-            "@pages/*": ["src/pages/*"],
-            "@partials/*": ["src/partials/*"],
-            "@images/*": ["src/images/*"],
-            "@public/*": ["src/public/*"],
-            "@fonts/*": ["src/fonts/*"],
-            "@response/*": ["__fixtures__/*"]
+            "~*": ["*"],
+            "@/*": ["./src/*"],
+            "@css/*": ["./src/css/*"],
+            "@pages/*": ["./src/pages/*"],
+            "@partials/*": ["./src/partials/*"],
+            "@images/*": ["./src/images/*"],
+            "@public/*": ["./src/public/*"],
+            "@fonts/*": ["./src/fonts/*"],
+            "@response/*": ["./__fixtures__/*"]
         },
         "lib": [
             "esnext",
@@ -34,14 +35,16 @@
         ]
     },
     "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.vue",
-        "tests/**/*.ts",
-        "tests/**/*.tsx"
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./src/**/*.vue",
+        "./tests/**/*.ts",
+        "./tests/**/*.tsx",
+        "./vite.config.ts",
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "dist"
     ],
     "references": []
 }

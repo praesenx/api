@@ -29,14 +29,16 @@
 	</article>
 </template>
 
-<script>
-export default {
-	name: 'ArticleItem',
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-	},
-};
+<script setup lang="ts">
+interface Article {
+    title: string;
+    excerpt: string;
+    image: string;
+    slug: string;
+    date: string;
+}
+
+defineProps<{
+    item: Article;
+}>()
 </script>

@@ -2,7 +2,6 @@
 /* ------------------------------------------------------- customised ----------------------------------------------- */
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=PT+Mono&display=fallback') layer(base);
 @import '@css/support/custom-fonts.css' layer(base);
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -23,7 +22,7 @@
 @import '@css/support/blog.css';
 
 @plugin "@tailwindcss/forms" {
-	strategy: base;
+    strategy: base;
 }
 
 @custom-variant dark (&:is(.dark *));

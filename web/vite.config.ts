@@ -12,23 +12,25 @@ export default defineConfig({
 	define: {
 		'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL),
 	},
-	plugins: [vue(), tailwindcss()],
+	plugins: [
+        vue(),
+        tailwindcss(),
+    ],
 	resolve: {
 		alias: [
 			{
 				find: /^~.+/,
-				replacement: (val) => {
-					return val.replace(/^~/, '');
-				},
+                replacement: '$1',
 			},
 			{ find: '@', replacement: path.resolve(__dirname, './src') },
 			{ find: '@css', replacement: path.resolve(__dirname, './src/css') },
 			{ find: '@pages', replacement: path.resolve(__dirname, './src/pages') },
-			{ find: '@partials', replacement: path.resolve(__dirname, './src/partials') },
-			{ find: '@images', replacement: path.resolve(__dirname, './src/images') },
-			{ find: '@public', replacement: path.resolve(__dirname, './src/public') },
-			{ find: '@fonts', replacement: path.resolve(__dirname, './src/fonts') },
-			{ find: '@response', replacement: path.resolve(__dirname, './__fixtures__') },
-		],
+            { find: '@fonts', replacement: path.resolve(__dirname, './src/fonts') },
+            { find: '@images', replacement: path.resolve(__dirname, './src/images') },
+            { find: '@public', replacement: path.resolve(__dirname, './src/public') },
+            { find: '@partials', replacement: path.resolve(__dirname, './src/partials') },
+            { find: '@response', replacement: path.resolve(__dirname, './__fixtures__') },
+        ],
 	},
 });
+

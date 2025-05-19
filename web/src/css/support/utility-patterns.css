@@ -1,18 +1,18 @@
 /* Typography */
 .h1 {
-	@apply text-4xl font-[650];
+	@apply text-4xl font-bold;
 }
 
 .h2 {
-	@apply text-2xl font-[650];
+	@apply text-2xl font-bold;
 }
 
 .h3 {
-	@apply text-xl font-[650];
+	@apply text-xl font-bold;
 }
 
 .h4 {
-	@apply text-lg font-[650];
+	@apply text-lg font-bold;
 }
 
 @screen md {
@@ -41,10 +41,6 @@
 
 .btn-sm {
 	@apply px-3 py-1.5 text-indigo-100 bg-indigo-500 hover:bg-indigo-600;
-}
-
-.btn-sm {
-	@apply px-3 py-1.5;
 }
 
 /* Forms */
