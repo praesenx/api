@@ -10,6 +10,7 @@ web/dist
 web/dist-ssr
 web/*.local
 web/node_modules/
+web/.vite
 
 # --- [API]: Bin
 bin
