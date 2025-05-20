@@ -16,12 +16,12 @@
 
 <script setup lang="ts">
 interface Sponsor {
-    title: string;
-    description: string;
+	title: string;
+	description: string;
 }
 
 const sponsor: Sponsor = {
-    title: 'Build The Site/App You Want!',
-    description: 'Your website should be an asset, not an engineering challenge.',
-}
+	title: 'Build The Site/App You Want!',
+	description: 'Your website should be an asset, not an engineering challenge.',
+};
 </script>

@@ -20,7 +20,9 @@
 						<div class="text-xs text-slate-500 uppercase">2023</div>
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Best Creative Tech Dev</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Business Insider</div>
-						<div class="text-sm text-slate-500 dark:text-slate-400">This recognition not only affirmed my abilities as a web developer but also highlighted my unique approach to problem-solving.</div>
+						<div class="text-sm text-slate-500 dark:text-slate-400">
+							This recognition not only affirmed my abilities as a web developer but also highlighted my unique approach to problem-solving.
+						</div>
 					</div>
 				</div>
 			</li>
@@ -42,7 +44,9 @@
 						<div class="text-xs text-slate-500 uppercase">2022</div>
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Best Creative Product Dev</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Bloomerg Tech</div>
-						<div class="text-sm text-slate-500 dark:text-slate-400">This recognition not only affirmed my abilities as a web developer but also highlighted my unique approach to problem-solving.</div>
+						<div class="text-sm text-slate-500 dark:text-slate-400">
+							This recognition not only affirmed my abilities as a web developer but also highlighted my unique approach to problem-solving.
+						</div>
 					</div>
 				</div>
 			</li>

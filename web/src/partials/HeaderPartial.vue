@@ -64,7 +64,6 @@ export default {
 			} else {
 				document.documentElement.classList.remove('dark');
 			}
-
 		});
 
 		return {

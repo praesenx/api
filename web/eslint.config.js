@@ -56,7 +56,7 @@ export default [
 				sourceType: 'module',
 				parser: parserTypeScript,
 				requireConfigFile: false,
-                project: './tsconfig.json',
+				project: './tsconfig.json',
 			},
 			globals: {
 				// inherit standard globals
@@ -75,7 +75,7 @@ export default [
 		},
 		plugins: {
 			vue: pluginVue,
-            '@typescript-eslint': pluginTypeScript,
+			'@typescript-eslint': pluginTypeScript,
 		},
 		rules: {
 			// Vue-specific rules

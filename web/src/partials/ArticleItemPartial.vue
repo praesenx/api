@@ -3,16 +3,14 @@
 		<div class="flex items-start">
 			<img class="rounded-sm w-16 h-16 sm:w-[88px] sm:h-[88px] object-cover mr-6" :src="item.image" width="88" height="88" :alt="item.title" />
 			<div>
-				<div class="text-xs text-slate-700 uppercase mb-1 dark:text-slate-500">
-                    <span class="dark:text-fuchsia-400 text-fuchsia-500">—</span>&nbsp;{{ item.date }}
-                </div>
+				<div class="text-xs text-slate-700 uppercase mb-1 dark:text-slate-500"><span class="dark:text-fuchsia-400 text-fuchsia-500">—</span>&nbsp;{{ item.date }}</div>
 				<h3 class="text-slate-700 font-aspekta text-lg font-[650] mb-1 dark:text-slate-300">
 					<router-link
 						class="inline-flex relative hover:text-fuchsia-500 duration-150 ease-out before:scale-x-0 before:origin-center before:absolute before:inset-0 before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:translate-y-1/4 before:-rotate-2 hover:before:scale-100 before:duration-150 before:ease-in-out"
 						:to="item.slug"
-						>
-                        {{ item.title }}
-                    </router-link>
+					>
+						{{ item.title }}
+					</router-link>
 				</h3>
 				<div class="flex">
 					<div class="grow text-sm text-slate-500 dark:text-slate-600">
@@ -31,14 +29,14 @@
 
 <script setup lang="ts">
 interface Article {
-    title: string;
-    excerpt: string;
-    image: string;
-    slug: string;
-    date: string;
+	title: string;
+	excerpt: string;
+	image: string;
+	slug: string;
+	date: string;
 }
 
 defineProps<{
-    item: Article;
-}>()
+	item: Article;
+}>();
 </script>

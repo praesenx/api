@@ -13,15 +13,11 @@
 				<nav class="w-full">
 					<ul class="space-y-4">
 						<li class="py-2">
-                            <!-- home -->
+							<!-- home -->
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/" custom>
 								<a
-                                    :class="
-										applyClassIf(['/about', '/subscribe', '/projects', '/resume'])
-											? 'blog-side-nav-router-link-a-active'
-											: 'blog-side-nav-router-link-a-resting'
-									"
-                                    class="h6 blog-side-nav-router-link-a"
+									:class="applyClassIf(['/about', '/subscribe', '/projects', '/resume']) ? 'blog-side-nav-router-link-a-active' : 'blog-side-nav-router-link-a-resting'"
+									class="h6 blog-side-nav-router-link-a"
 									:href="href"
 									@click="navigate"
 								>
@@ -34,33 +30,25 @@
 							</router-link>
 						</li>
 
-                        <!-- about -->
+						<!-- about -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/about" custom>
-								<a
-									class="h6 blog-side-nav-router-link-a"
-									:class="bindIconClassFor(isExactActive)"
-									:href="href"
-									@click="navigate"
-								>
+								<a class="h6 blog-side-nav-router-link-a" :class="bindIconClassFor(isExactActive)" :href="href" @click="navigate">
 									<span class="sr-only">About</span>
 									<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
 										<path fill-opacity=".16" d="M10 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8Z" />
-										<path d="M9 5h2v2H9V5Zm0 4h2v6H9V9Zm1-9C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0Zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8Z" />
+										<path
+											d="M9 5h2v2H9V5Zm0 4h2v6H9V9Zm1-9C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0Zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8Z"
+										/>
 									</svg>
 								</a>
 							</router-link>
 						</li>
 
-                        <!-- projects -->
+						<!-- projects -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/projects" custom>
-								<a
-									class="h6 blog-side-nav-router-link-a"
-									:class="bindIconClassFor(isExactActive)"
-									:href="href"
-									@click="navigate"
-								>
+								<a class="h6 blog-side-nav-router-link-a" :class="bindIconClassFor(isExactActive)" :href="href" @click="navigate">
 									<span class="sr-only">Projects</span>
 									<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
 										<path fill-opacity=".16" d="M1 4h18v10H1z" />
@@ -70,15 +58,10 @@
 							</router-link>
 						</li>
 
-                        <!-- resume -->
+						<!-- resume -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/resume" custom>
-								<a
-									class="h6 blog-side-nav-router-link-a"
-									:class="bindIconClassFor(isExactActive)"
-									:href="href"
-									@click="navigate"
-								>
+								<a class="h6 blog-side-nav-router-link-a" :class="bindIconClassFor(isExactActive)" :href="href" @click="navigate">
 									<span class="sr-only">Resume</span>
 									<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="20">
 										<path fill-opacity=".16" fill-rule="nonzero" d="M1 5h16v14H1z" />
@@ -88,15 +71,10 @@
 							</router-link>
 						</li>
 
-                        <!-- subscribe -->
+						<!-- subscribe -->
 						<li class="py-2">
 							<router-link v-slot="{ href, navigate, isExactActive }" to="/subscribe" custom>
-								<a
-									class="h6 blog-side-nav-router-link-a"
-									:class="bindIconClassFor(isExactActive)"
-									:href="href"
-									@click="navigate"
-								>
+								<a class="h6 blog-side-nav-router-link-a" :class="bindIconClassFor(isExactActive)" :href="href" @click="navigate">
 									<span class="sr-only">Subscribe</span>
 									<svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="21" height="21">
 										<path fill-opacity=".16" d="m13.4 18-3-7.4-7.4-3L19 2z" />
@@ -105,7 +83,6 @@
 								</a>
 							</router-link>
 						</li>
-
 					</ul>
 				</nav>
 			</div>
@@ -114,34 +91,32 @@
 </template>
 
 <script setup lang="ts">
-import {RouteLocationNormalizedLoaded, Router, useRouter} from 'vue-router';
+import { RouteLocationNormalizedLoaded, Router, useRouter } from 'vue-router';
 import AvatarPartial from '@partials/AvatarPartial.vue';
-import {computed} from "vue";
+import { computed } from 'vue';
 
 const router: Router = useRouter();
 const currentRoute: Ref<RouteLocationNormalizedLoaded> = router.currentRoute;
 
 const isHome = computed<boolean>(() => {
-    // TypeScript knows currentRoute.value is of type RouteLocationNormalizedLoaded
-    // The 'fullPath' property on RouteLocationNormalizedLoaded is typed as string.
-    // The comparison 'string === string' results in a boolean.
-    // The <boolean> generic on computed explicitly states the return type of the computed ref.
-    return currentRoute.value.fullPath === '/';
+	// TypeScript knows currentRoute.value is of type RouteLocationNormalizedLoaded
+	// The 'fullPath' property on RouteLocationNormalizedLoaded is typed as string.
+	// The comparison 'string === string' results in a boolean.
+	// The <boolean> generic on computed explicitly states the return type of the computed ref.
+	return currentRoute.value.fullPath === '/';
 });
 
-function applyClassIf (constraint: string[]): boolean {
-    if (isHome.value) {
-        return true;
-    }
+function applyClassIf(constraint: string[]): boolean {
+	if (isHome.value) {
+		return true;
+	}
 
-    const fullPath = currentRoute.value.fullPath
+	const fullPath = currentRoute.value.fullPath;
 
-    return Array.of(constraint).includes(fullPath)
+	return Array.of(constraint).includes(fullPath);
 }
 
-function bindIconClassFor (isActive: boolean): string {
-    return isActive
-        ? 'blog-side-nav-router-link-a-active'
-        : 'blog-side-nav-router-link-a-resting';
+function bindIconClassFor(isActive: boolean): string {
+	return isActive ? 'blog-side-nav-router-link-a-active' : 'blog-side-nav-router-link-a-resting';
 }
 </script>

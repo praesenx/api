@@ -14,8 +14,8 @@
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Mary Christopher</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">Designer Lead at Inventa Inc.</div>
 						<div class="text-sm text-slate-500 dark:text-slate-400">
-							“ Working with James on projects is a breath of fresh air. He is an extremely talented dev, with an outstanding work ethic, eye for detail, and speed. James doesn't just execute and
-							deliver incredible codes but works with you to challenge the product or flow at hand to create the best possible solution. ”
+							“ Working with James on projects is a breath of fresh air. He is an extremely talented dev, with an outstanding work ethic, eye for detail, and speed. James doesn't just
+							execute and deliver incredible codes but works with you to challenge the product or flow at hand to create the best possible solution. ”
 						</div>
 					</div>
 				</div>
@@ -32,8 +32,8 @@
 						<div class="font-aspekta font-[650] text-slate-800 dark:text-slate-100">Harry Kastelli</div>
 						<div class="text-sm font-medium text-slate-800 dark:text-slate-100">CEO & Founder Mark Corp.</div>
 						<div class="text-sm text-slate-500 dark:text-slate-400">
-							“ James is an excellent developer. He is not just quick to evaluate and translate ideas into high-fidelity codes, but he's also well-versed in UX strategy. While working together, James
-							handled our external partnership with Design Agencies, and delivered weekly progress reports with fresh ideas. ”
+							“ James is an excellent developer. He is not just quick to evaluate and translate ideas into high-fidelity codes, but he's also well-versed in UX strategy. While working
+							together, James handled our external partnership with Design Agencies, and delivered weekly progress reports with fresh ideas. ”
 						</div>
 					</div>
 				</div>

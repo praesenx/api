@@ -19,7 +19,9 @@
 										<h1 class="h1 font-aspekta mb-5">Never miss an update ✨</h1>
 										<!-- Page content -->
 										<div class="text-slate-500 dark:text-slate-400 space-y-8">
-											<p class="text-lg">This newsletter is written by Mark Ivings, who previously worked at Google, Medium, Vimeo, and Qonto. Here is what to expect by subscribing:</p>
+											<p class="text-lg">
+												This newsletter is written by Mark Ivings, who previously worked at Google, Medium, Vimeo, and Qonto. Here is what to expect by subscribing:
+											</p>
 											<ul class="space-y-4">
 												<li class="flex items-start">
 													<svg class="w-3 h-3 fill-current text-sky-500 mr-3 mt-1.5 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
@@ -58,11 +60,41 @@
 												</form>
 												<div class="flex items-center mt-5">
 													<div class="inline-flex -space-x-3 -ml-0.5">
-														<img class="rounded-full border-2 border-white dark:border-slate-800 box-content" src="../images/avatar-01.jpg" width="24" height="24" alt="Avatar 01" />
-														<img class="rounded-full border-2 border-white dark:border-slate-800 box-content" src="../images/avatar-02.jpg" width="24" height="24" alt="Avatar 02" />
-														<img class="rounded-full border-2 border-white dark:border-slate-800 box-content" src="../images/avatar-03.jpg" width="24" height="24" alt="Avatar 03" />
-														<img class="rounded-full border-2 border-white dark:border-slate-800 box-content" src="../images/avatar-04.jpg" width="24" height="24" alt="Avatar 04" />
-														<img class="rounded-full border-2 border-white dark:border-slate-800 box-content" src="../images/avatar-05.jpg" width="24" height="24" alt="Avatar 05" />
+														<img
+															class="rounded-full border-2 border-white dark:border-slate-800 box-content"
+															src="../images/avatar-01.jpg"
+															width="24"
+															height="24"
+															alt="Avatar 01"
+														/>
+														<img
+															class="rounded-full border-2 border-white dark:border-slate-800 box-content"
+															src="../images/avatar-02.jpg"
+															width="24"
+															height="24"
+															alt="Avatar 02"
+														/>
+														<img
+															class="rounded-full border-2 border-white dark:border-slate-800 box-content"
+															src="../images/avatar-03.jpg"
+															width="24"
+															height="24"
+															alt="Avatar 03"
+														/>
+														<img
+															class="rounded-full border-2 border-white dark:border-slate-800 box-content"
+															src="../images/avatar-04.jpg"
+															width="24"
+															height="24"
+															alt="Avatar 04"
+														/>
+														<img
+															class="rounded-full border-2 border-white dark:border-slate-800 box-content"
+															src="../images/avatar-05.jpg"
+															width="24"
+															height="24"
+															alt="Avatar 05"
+														/>
 													</div>
 													<div class="text-sm text-slate-500 ml-3">Join 100K+ developers.</div>
 												</div>
@@ -82,7 +114,8 @@
 														<img class="rounded-full mb-2" src="../images/testimonial-01.jpg" width="40" height="40" alt="Testimonial 01" />
 														<div class="text-lg font-aspekta font-[650] mb-1">“ Incredible Value “</div>
 														<p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
-															I was able to quickly master the skills necessary to advance my career. I'm grateful for the resources Mark provided and would recommend him to anyone.
+															I was able to quickly master the skills necessary to advance my career. I'm grateful for the resources Mark provided and would recommend him
+															to anyone.
 														</p>
 													</div>
 													<div class="text-xs font-aspekta font-[650] text-sky-500">— Mary Coyle</div>
@@ -97,7 +130,8 @@
 														<img class="rounded-full mb-2" src="../images/testimonial-02.jpg" width="40" height="40" alt="Testimonial 02" />
 														<div class="text-lg font-aspekta font-[650] mb-1">“ The Best Newsletter “</div>
 														<p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
-															I was able to quickly master the skills necessary to advance my career. I'm grateful for the resources Mark provided and would recommend him to anyone.
+															I was able to quickly master the skills necessary to advance my career. I'm grateful for the resources Mark provided and would recommend him
+															to anyone.
 														</p>
 													</div>
 													<div class="text-xs font-aspekta font-[650] text-sky-500">— Daniel Burka</div>
