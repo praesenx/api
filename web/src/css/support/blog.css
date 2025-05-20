@@ -38,3 +38,12 @@
     @apply dark:bg-linear-to-t dark:bg-slate-900 dark:border-slate-800 dark:from-slate-800 dark:to-slate-800/30;
     @apply dark:hover:bg-linear-to-b;
 }
+
+.blog-widgets-btn-sm {
+    @apply w-full text-slate-100 bg-slate-700 hover:bg-slate-800 cursor-pointer;
+    @apply dark:bg-sky-600 dark:hover:bg-sky-700;
+}
+
+.blog-widgets-subscriber-avatar {
+    @apply rounded-full border-2 border-white dark:border-slate-800 box-content;
+}

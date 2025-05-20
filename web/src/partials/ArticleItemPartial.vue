@@ -4,7 +4,7 @@
 			<img class="rounded-sm w-16 h-16 sm:w-[88px] sm:h-[88px] object-cover mr-6" :src="item.image" width="88" height="88" :alt="item.title" />
 			<div>
 				<div class="text-xs text-slate-700 uppercase mb-1 dark:text-slate-500">
-                    <span class="dark:text-sky-400 text-fuchsia-500">—</span>&nbsp;{{ item.date }}
+                    <span class="dark:text-fuchsia-400 text-fuchsia-500">—</span>&nbsp;{{ item.date }}
                 </div>
 				<h3 class="text-slate-700 font-aspekta text-lg font-[650] mb-1 dark:text-slate-300">
 					<router-link
@@ -18,7 +18,7 @@
 					<div class="grow text-sm text-slate-500 dark:text-slate-600">
 						{{ item.excerpt }}
 					</div>
-					<router-link class="hidden lg:flex shrink-0 text-fuchsia-500 dark:text-sky-400 items-center justify-center w-12 group" :to="item.slug" tabindex="-1">
+					<router-link class="hidden lg:flex shrink-0 text-sky-500 dark:text-fuchsia-400 items-center justify-center w-12 group" :to="item.slug" tabindex="-1">
 						<svg class="fill-current group-hover:translate-x-2 duration-150 ease-in-out" xmlns="http://www.w3.org/2000/svg" width="14" height="12">
 							<path d="M9.586 5 6.293 1.707 7.707.293 13.414 6l-5.707 5.707-1.414-1.414L9.586 7H0V5h9.586Z" />
 						</svg>

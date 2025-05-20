@@ -113,7 +113,6 @@
 						<aside class="md:w-[240px] lg:w-[300px] shrink-0">
 							<div class="space-y-6">
 								<WidgetSponsorPartial />
-								<WidgetBookPartial />
 							</div>
 						</aside>
 					</div>
@@ -129,7 +128,6 @@
 import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
-import WidgetBookPartial from '@partials/WidgetBookPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
 
 export default {
@@ -138,7 +136,6 @@ export default {
 		SideNavPartial,
 		HeaderPartial,
 		WidgetSponsorPartial,
-		WidgetBookPartial,
 		FooterPartial,
 	},
 };

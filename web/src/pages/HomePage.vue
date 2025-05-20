@@ -27,7 +27,6 @@
 							<div class="space-y-6">
 								<WidgetNewsletterPartial />
 								<WidgetSponsorPartial />
-								<WidgetBookPartial />
 							</div>
 						</aside>
 					</div>
@@ -48,7 +47,6 @@ import TalksPartial from '@partials/TalksPartial.vue';
 import FeaturedProjectsPartial from '@partials/FeaturedProjectsPartial.vue';
 import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
-import WidgetBookPartial from '@partials/WidgetBookPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
 
 export default {
@@ -62,7 +60,6 @@ export default {
 		FeaturedProjectsPartial,
 		WidgetNewsletterPartial,
 		WidgetSponsorPartial,
-		WidgetBookPartial,
 		FooterPartial,
 	},
 };
