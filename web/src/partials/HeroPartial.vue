@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<div class="max-w-[700px]">
-			<div class="pt-8 pb-10">
+			<div class="my-4" style="border: 1px solid #000">
 				<AvatarPartial width="w-16" />
 
 				<h1 class="h1 blog-h1">
