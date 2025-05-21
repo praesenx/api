@@ -22,13 +22,13 @@
 }
 
 .blog-side-nav-router-link-a-resting {
-    @apply text-slate-400 hover:text-fuchsia-500;
-    @apply dark:text-slate-500 dark:hover:text-fuchsia-500;
+    @apply text-slate-200 hover:text-slate-400 hover:after:bg-fuchsia-400;
+    @apply dark:text-slate-700 dark:hover:text-fuchsia-700 dark:hover:after:bg-slate-500;
 }
 
 .blog-side-nav-router-link-a-active {
-    @apply text-fuchsia-500 after:bg-fuchsia-500 hover:text-fuchsia-400 hover:after:bg-fuchsia-400;
-    @apply dark:hover:text-slate-400;
+    @apply text-slate-400 after:bg-fuchsia-500 hover:after:bg-fuchsia-400;
+    @apply dark:text-fuchsia-700 dark:after:bg-slate-600 dark:hover:after:bg-slate-500;
 }
 
 /* --- footer --- */
