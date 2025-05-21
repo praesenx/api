@@ -53,9 +53,3 @@
 		</ul>
 	</div>
 </template>
-
-<script>
-export default {
-	name: 'AwardsPartial',
-};
-</script>

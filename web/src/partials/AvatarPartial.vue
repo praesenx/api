@@ -1,33 +1,24 @@
 <template>
-	<img :class="className" :src="avatar" :alt="alt" />
+	<img :class="className" :src="props.avatar" :alt="props.alt" />
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed } from "vue";
 import photo from '@images/profile/me.jpg';
 
-export default {
-	name: 'AvatarPartial',
-	props: {
-		width: {
-			type: String,
-			required: false,
-			default: 'w-12',
-		},
-		avatar: {
-			type: String,
-			required: false,
-			default: photo,
-		},
-		alt: {
-			type: String,
-			required: false,
-			default: 'gocanto',
-		},
-	},
-	computed: {
-		className() {
-			return `border-2 border-fuchsia-400 rounded-full ${this.width}`;
-		},
-	},
-};
+interface Props {
+    avatar?: string;
+    alt?: string;
+    width: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    width: 'w-12',
+    avatar: photo,
+    alt: 'gocanto',
+});
+
+const className = computed<string>(() => {
+    return `border-2 border-fuchsia-400 dark:border-slate-400 rounded-full ${props.width}`;
+})
 </script>

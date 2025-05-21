@@ -10,8 +10,8 @@
 }
 
 .blog-fun-title-word-highlight {
-    @apply inline-flex relative text-fuchsia-500 dark:text-fuchsia-400 before:absolute before:inset-0;
-    @apply before:bg-sky-200 dark:before:bg-sky-500 before:opacity-30 before:-z-10 before:-rotate-2;
+    @apply inline-flex relative text-fuchsia-500 dark:text-fuchsia-700 before:absolute before:inset-0;
+    @apply before:bg-slate-300 dark:before:bg-slate-600 before:opacity-30 before:-z-10 before:-rotate-2;
     @apply before:translate-y-1/4;
 }
 
