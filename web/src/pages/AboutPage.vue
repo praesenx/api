@@ -17,9 +17,9 @@
 									<!-- Page title -->
 									<h1 class="h1 font-aspekta mb-5 mt-5 text-slate-700 dark:text-slate-300">
 										Hi. I'm {{ user.profile.nickname }}
-										<span class="blog-fun-title-word-highlight">
-											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>
-										</span>
+<!--										<span class="blog-fun-title-word-highlight">-->
+<!--											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>-->
+<!--										</span>-->
 									</h1>
 
 									<img class="rounded-lg w-full mb-5" :src="aboutPicture" alt="About" />
@@ -31,7 +31,7 @@
 											<p class="block mb-5 text-slate-500">
 												<span class="block">
 													I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and
-													<a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>. With over twenty years of&nbsp;
+<!--													<a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>. With over twenty years of&nbsp;-->
 													<router-link v-slot="{ href, navigate }" to="/resume">
 														<a class="blog-link" :href="href" @click="navigate">experience</a>
 													</router-link>
@@ -44,7 +44,7 @@
 												</span>
 											</p>
 											<p class="block mb-3 text-slate-500">
-												Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing
+<!--												Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing-->
 												cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and innovation. I thrive in fast-paced
 												environments that demand strategic thinking, problem-solving, and a commitment to delivering high-quality results.
 											</p>
@@ -84,43 +84,22 @@
 	</div>
 </template>
 
-<script>
-import SideNavPartial from '@partials/SideNavPartial.vue';
-import HeaderPartial from '@partials/HeaderPartial.vue';
-import ExperiencePartial from '@partials/ExperiencePartial.vue';
-import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
-import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
-import FooterPartial from '@partials/FooterPartial.vue';
-
+<script setup lang="ts">
 import AboutPicture from '@images/profile/about.png';
-import UserResponse from '@response/user-response.json';
+import FooterPartial from '@partials/FooterPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import ExperiencePartial from '@partials/ExperiencePartial.vue';
+import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
+import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
 
-import { useRouter } from 'vue-router';
+import { computed } from "vue";
+import { useUserStore } from "@stores/users/user.ts";
 
-export default {
-	name: 'AboutPage',
-	components: {
-		SideNavPartial,
-		HeaderPartial,
-		ExperiencePartial,
-		WidgetNewsletterPartial,
-		WidgetSponsorPartial,
-		FooterPartial,
-	},
-	setup() {
-		const currentRoute = useRouter().currentRoute.value;
-		const user = UserResponse;
+const userStore = useUserStore()
+const user = userStore.fresh()
 
-		return {
-			currentRoute,
-			user,
-		};
-	},
-
-	computed: {
-		aboutPicture() {
-			return AboutPicture;
-		},
-	},
-};
+const aboutPicture = computed<string>(() => {
+    return AboutPicture;
+});
 </script>
