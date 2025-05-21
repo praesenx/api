@@ -11,7 +11,6 @@
 		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
 		"useDefineForClassFields": true,
-		"allowImportingTsExtensions": true,
 		"sourceMap": true,
 		"baseUrl": ".",
 		"types": ["vite/client"],
@@ -25,7 +24,6 @@
 			"@public/*": ["./src/public/*"],
 			"@fonts/*": ["./src/fonts/*"],
 			"@stores/*": ["./src/stores/*"],
-			"@response/*": ["./__fixtures__/*"]
 		},
 		"lib": ["esnext", "dom", "dom.iterable", "scripthost"]
 	},
@@ -37,7 +35,6 @@
         "./tests/**/*.tsx",
         "./vite.config.ts",
         "./tests/**/*.json",
-        "./__fixtures__/**/*.json"
     ],
 	"exclude": ["node_modules", "dist"]
 }

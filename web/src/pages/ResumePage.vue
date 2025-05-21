@@ -44,7 +44,7 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
 import EducationPartial from '@partials/EducationPartial.vue';
@@ -55,28 +55,10 @@ import WidgetSkillsPartial from '@partials/WidgetSkillsPartial.vue';
 import WidgetLangPartial from '@partials/WidgetLangPartial.vue';
 import WidgetReferencesPartial from '@partials/WidgetReferencesPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
-import UserResponse from '@response/user-response.json';
 
-export default {
-	name: 'ResumePage',
-	components: {
-		SideNavPartial,
-		HeaderPartial,
-		EducationPartial,
-		ExperiencePartial,
-		AwardsPartial,
-		RecommPartial,
-		WidgetSkillsPartial,
-		WidgetLangPartial,
-		WidgetReferencesPartial,
-		FooterPartial,
-	},
-	setup() {
-		const user = UserResponse;
+import { useUserStore } from "@stores/users/user.ts";
 
-		return {
-			user,
-		};
-	},
-};
+const userStore = useUserStore()
+const user = userStore.fresh()
+
 </script>

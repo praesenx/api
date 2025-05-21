@@ -27,7 +27,6 @@ export default defineConfig({
 			{ find: '@public', replacement: path.resolve(__dirname, './src/public') },
 			{ find: '@partials', replacement: path.resolve(__dirname, './src/partials') },
 			{ find: '@stores', replacement: path.resolve(__dirname, './src/stores') },
-			{ find: '@response', replacement: path.resolve(__dirname, './__fixtures__') },
 		],
 	},
 });

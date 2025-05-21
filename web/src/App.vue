@@ -7,6 +7,6 @@ import { useUserStore } from "@stores/users/user.ts"
 
 const userStore = useUserStore()
 
-console.log(userStore.fresh().profile)
+console.log("App.vue: ", userStore.fresh().profile)
 
 </script>
