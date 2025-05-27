@@ -59,6 +59,6 @@ import FooterPartial from '@partials/FooterPartial.vue';
 import { useUserStore } from "@stores/users/user.ts";
 
 const userStore = useUserStore()
-const user = userStore.fresh()
+const user = userStore.getUser()
 
 </script>

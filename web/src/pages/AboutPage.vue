@@ -97,7 +97,7 @@ import { computed } from "vue";
 import { useUserStore } from "@stores/users/user.ts";
 
 const userStore = useUserStore()
-const user = userStore.fresh()
+const user = userStore.getUser()
 
 const aboutPicture = computed<string>(() => {
     return AboutPicture;
