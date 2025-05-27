@@ -1,52 +1,49 @@
-# --- [API]: Root
-.env
-.env.production
-database/infra/data
-tmp
-
-# --- [WEB]: Site
-web/.DS_Store
-web/dist
-web/dist-ssr
-web/*.local
-web/node_modules/
-web/.vite
-
-# --- [API]: Bin
-bin
-!bin/.env
-!bin/.gitkeep
-bin/storage/logs/*.*
-bin/storage/media/*.*
-bin/storage/media/posts/*.*
-bin/storage/media/users/*.*
-!bin/storage/logs/.gitkeep
-!bin/storage/media/.gitkeep
-!bin/storage/media/posts/.gitkeep
-!bin/storage/media/users/.gitkeep
-
-# --- [API]: Storage
-storage/logs/*.*
-storage/media/*.*
-storage/media/posts/*.*
-storage/media/users/*.*
-!storage/logs/.gitkeep
-!storage/media/.gitkeep
-!storage/media/posts/.gitkeep
-!storage/media/users/.gitkeep
-
-# --- [IDEs]: Files
 .DS_Store
+dist
+dist-ssr
+*.local
+node_modules/
+.vite
 .idea
 
-# --- [GO]: Exceculatables/Source files
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
-go.work
-go.work.sum
+# ----------------------------------------------------- Server ------------------------------------------------------- #
+
+server/.env
+server/.env.production
+server/database/infra/data
+server/tmp
+
+# --- Bin
+server/bin
+!server/bin/.env
+!server/bin/.gitkeep
+server/bin/storage/logs/*.*
+server/bin/storage/media/*.*
+server/bin/storage/media/posts/*.*
+server/bin/storage/media/users/*.*
+!server/bin/storage/logs/.gitkeep
+!server/bin/storage/media/.gitkeep
+!server/bin/storage/media/posts/.gitkeep
+!server/bin/storage/media/users/.gitkeep
+
+# --- Storage
+server/storage/logs/*.*
+server/storage/media/*.*
+server/storage/media/posts/*.*
+server/storage/media/users/*.*
+!server/storage/logs/.gitkeep
+!server/storage/media/.gitkeep
+!server/storage/media/posts/.gitkeep
+!server/storage/media/users/.gitkeep
+
+# --- Go exce/source files
+server/*.exe
+server/*.exe~
+server/*.dll
+server/*.so
+server/*.dylib
+server/*.test
+server/*.out
+server/go.work
+server/go.work.sum
 

@@ -1,0 +1,9 @@
+.env
+.env.example
+.env.production
+.air.toml
+
+docs/
+tmp/
+bin/
+storage/
