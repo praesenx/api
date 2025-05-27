@@ -19,7 +19,7 @@
 									<!-- Page content -->
 									<div class="text-slate-500 dark:text-slate-400 space-y-12">
 										<EducationPartial />
-										<ExperiencePartial :experience="user.experience" />
+										<ExperiencePartial v-if="user" :experience="user.experience" />
 										<AwardsPartial />
 										<RecommPartial />
 									</div>
@@ -58,7 +58,12 @@ import FooterPartial from '@partials/FooterPartial.vue';
 
 import { useUserStore } from '@stores/users/user.ts';
 import { User } from "@stores/users/userType.ts";
+import { ref, onMounted } from "vue";
 
 const userStore = useUserStore();
-const user: User = userStore.getUser();
+const user = ref<User | null>(null);
+
+onMounted(() => {
+    user.value = userStore.getUser();
+})
 </script>

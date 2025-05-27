@@ -16,7 +16,7 @@
 								<section>
 									<!-- Page title -->
 									<h1 class="h1 font-aspekta mb-5 mt-5 text-slate-700 dark:text-slate-300">
-										Hi. I'm {{ user.profile.nickname }}
+										Hi. I'm {{ user !== null ? user.profile.nickname : 'Gus' }}
 										<!--										<span class="blog-fun-title-word-highlight">-->
 										<!--											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>-->
 										<!--										</span>-->
@@ -50,11 +50,11 @@
 											</p>
 										</div>
 
-										<ExperiencePartial :experience="user.experience" />
+										<ExperiencePartial v-if="user" :experience="user.experience" />
 
 										<div class="mt-5 space-y-5">
 											<h2 class="h2 font-aspekta text-slate-700 dark:text-slate-300">Let's Connect</h2>
-											<p>
+											<p v-if="user">
 												I’m excited to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.profile.email}`">email</a> or
 												<a class="blog-link" target="_blank" :href="user.social.x">X</a> to chat about projects and ideas. I’m always open to freelance or long-term projects,
 												so please feel free to reach out.
@@ -92,14 +92,17 @@ import SideNavPartial from '@partials/SideNavPartial.vue';
 import ExperiencePartial from '@partials/ExperiencePartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
-
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useUserStore } from '@stores/users/user.ts';
 
 const userStore = useUserStore();
-const user = userStore.getUser();
+const user: User = ref<User | null>(null);
 
 const aboutPicture = computed<string>(() => {
 	return AboutPicture;
 });
+
+onMounted(() => {
+    user.value = userStore.getUser();
+})
 </script>
