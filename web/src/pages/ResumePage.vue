@@ -44,7 +44,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
 import EducationPartial from '@partials/EducationPartial.vue';
@@ -56,9 +56,9 @@ import WidgetLangPartial from '@partials/WidgetLangPartial.vue';
 import WidgetReferencesPartial from '@partials/WidgetReferencesPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
 
-import { useUserStore } from "@stores/users/user.ts";
+import { useUserStore } from '@stores/users/user.ts';
+import { User } from "@stores/users/userType.ts";
 
-const userStore = useUserStore()
-const user = userStore.getUser()
-
+const userStore = useUserStore();
+const user: User = userStore.getUser();
 </script>

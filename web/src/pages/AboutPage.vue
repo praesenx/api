@@ -17,9 +17,9 @@
 									<!-- Page title -->
 									<h1 class="h1 font-aspekta mb-5 mt-5 text-slate-700 dark:text-slate-300">
 										Hi. I'm {{ user.profile.nickname }}
-<!--										<span class="blog-fun-title-word-highlight">-->
-<!--											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>-->
-<!--										</span>-->
+										<!--										<span class="blog-fun-title-word-highlight">-->
+										<!--											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>-->
+										<!--										</span>-->
 									</h1>
 
 									<img class="rounded-lg w-full mb-5" :src="aboutPicture" alt="About" />
@@ -31,7 +31,7 @@
 											<p class="block mb-5 text-slate-500">
 												<span class="block">
 													I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and
-<!--													<a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>. With over twenty years of&nbsp;-->
+													<!--													<a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>. With over twenty years of&nbsp;-->
 													<router-link v-slot="{ href, navigate }" to="/resume">
 														<a class="blog-link" :href="href" @click="navigate">experience</a>
 													</router-link>
@@ -44,7 +44,7 @@
 												</span>
 											</p>
 											<p class="block mb-3 text-slate-500">
-<!--												Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing-->
+												<!--												Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing-->
 												cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and innovation. I thrive in fast-paced
 												environments that demand strategic thinking, problem-solving, and a commitment to delivering high-quality results.
 											</p>
@@ -93,13 +93,13 @@ import ExperiencePartial from '@partials/ExperiencePartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
 
-import { computed } from "vue";
-import { useUserStore } from "@stores/users/user.ts";
+import { computed } from 'vue';
+import { useUserStore } from '@stores/users/user.ts';
 
-const userStore = useUserStore()
-const user = userStore.getUser()
+const userStore = useUserStore();
+const user = userStore.getUser();
 
 const aboutPicture = computed<string>(() => {
-    return AboutPicture;
+	return AboutPicture;
 });
 </script>

@@ -14,7 +14,6 @@
 					I'm a full-stack Software Engineer leader with over two decades of building complex web systems and products, specialising in areas like e-commerce, banking, cross-payment
 					solutions, cyber security, and customer success.
 				</p>
-
 			</div>
 		</div>
 	</section>
