@@ -4,7 +4,7 @@
 			<!-- Sidebar avatar -->
 			<div v-if="!isHome" class="flex justify-center my-4">
 				<router-link to="/">
-					<AvatarPartial />
+					<AvatarPartial width="w-16" height="h-16" />
 				</router-link>
 			</div>
 

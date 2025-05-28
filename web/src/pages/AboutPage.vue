@@ -15,10 +15,12 @@
 							<div class="max-w-[700px]">
 								<section>
 									<!-- Page title -->
-									<h1 class="h1 font-aspekta mb-5 mt-5 text-slate-700 dark:text-slate-300">
-										Hi. I'm {{ user.profile.nickname }}
-										<span class="blog-fun-title-word-highlight">
-											<a :href="user.social.x.url" :title="user.social.x.title" target="_blank">{{ user.social.x.handle }}</a>
+									<h1
+										class="h1 font-aspekta mb-5 mt-5 text-slate-700 dark:text-slate-300"
+									>
+										Hi. I'm > {{ user ? user.nickname : 'Gus' }}
+										<span v-if="social" class="blog-fun-title-word-highlight">
+											<a :href="social.x.url" :title="social.x.title" target="_blank">{{ social.x.handle }}</a>
 										</span>
 									</h1>
 
@@ -31,7 +33,7 @@
 											<p class="block mb-5 text-slate-500">
 												<span class="block">
 													I am a dedicated engineering leader passionate about building seamless, high-quality experiences for organizations and
-													<a class="blog-link" target="_blank" :href="user.social.github.url">open source</a>. With over twenty years of&nbsp;
+													<a v-if="social" class="blog-link" target="_blank" :href="social.github.url">open source</a>. With over twenty years of&nbsp;
 													<router-link v-slot="{ href, navigate }" to="/resume">
 														<a class="blog-link" :href="href" @click="navigate">experience</a>
 													</router-link>
@@ -44,19 +46,19 @@
 												</span>
 											</p>
 											<p class="block mb-3 text-slate-500">
-												Beyond technical expertise, I have a strong <a class="blog-link" :href="user.social.linkedin.url" target="_blank">leadership background</a> in managing
+												Beyond technical expertise, I have a strong <a v-if="social" class="blog-link" :href="social.linkedin.url" target="_blank">leadership background</a> in managing
 												cross-functional teams, optimizing workflows, and implementing best practices that drive productivity and innovation. I thrive in fast-paced
 												environments that demand strategic thinking, problem-solving, and a commitment to delivering high-quality results.
 											</p>
 										</div>
 
-										<ExperiencePartial :experience="user.experience" />
+										<ExperiencePartial v-if="user" :experience="user.experience" />
 
 										<div class="mt-5 space-y-5">
 											<h2 class="h2 font-aspekta text-slate-700 dark:text-slate-300">Let's Connect</h2>
-											<p>
-												I’m excited to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.profile.email}`">email</a> or
-												<a class="blog-link" target="_blank" :href="user.social.x">X</a> to chat about projects and ideas. I’m always open to freelance or long-term projects,
+											<p v-if="social">
+												I’m excited to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.email}`">email</a> or
+												<a class="blog-link" target="_blank" :href="social.x.url">X</a> to chat about projects and ideas. I’m always open to freelance or long-term projects,
 												so please feel free to reach out.
 											</p>
 											<p>Tell me about your vision, and if it seems like a good fit, we can explore collaborating down the road.</p>
@@ -84,43 +86,30 @@
 	</div>
 </template>
 
-<script>
-import SideNavPartial from '@partials/SideNavPartial.vue';
-import HeaderPartial from '@partials/HeaderPartial.vue';
-import ExperiencePartial from '@partials/ExperiencePartial.vue';
-import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
-import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
-import FooterPartial from '@partials/FooterPartial.vue';
-
+<script setup lang="ts">
 import AboutPicture from '@images/profile/about.png';
-import UserResponse from '@response/user-response.json';
+import FooterPartial from '@partials/FooterPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import ExperiencePartial from '@partials/ExperiencePartial.vue';
+import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
+import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
+import { computed, ref, onMounted } from 'vue';
+import { useUserStore } from '@stores/users/user.ts';
+import type { User, SocialMediaMap } from '@stores/users/userType';
 
-import { useRouter } from 'vue-router';
+const userStore = useUserStore();
+const user = ref<User | null>(null);
+const social = ref<SocialMediaMap | null>(null)
 
-export default {
-	name: 'AboutPage',
-	components: {
-		SideNavPartial,
-		HeaderPartial,
-		ExperiencePartial,
-		WidgetNewsletterPartial,
-		WidgetSponsorPartial,
-		FooterPartial,
-	},
-	setup() {
-		const currentRoute = useRouter().currentRoute.value;
-		const user = UserResponse;
+const aboutPicture = computed<string>(() => {
+	return AboutPicture;
+});
 
-		return {
-			currentRoute,
-			user,
-		};
-	},
-
-	computed: {
-		aboutPicture() {
-			return AboutPicture;
-		},
-	},
-};
+onMounted(() => {
+	userStore.onBoot((profile: User) => {
+		user.value = profile;
+		social.value = userStore.getSocialMedia();
+	})
+})
 </script>

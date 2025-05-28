@@ -1,21 +1,27 @@
-import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@pages/HomePage.vue';
 import PostPage from '@pages/PostPage.vue';
 import AboutPage from '@pages/AboutPage.vue';
-import ProjectsPage from '@pages/ProjectsPage.vue';
 import ResumePage from '@pages/ResumePage.vue';
+import ProjectsPage from '@pages/ProjectsPage.vue';
 import SubscribePage from '@pages/SubscribePage.vue';
+import { createRouter, createWebHistory, Router } from 'vue-router';
 
 const routerHistory = createWebHistory();
 
-const router = createRouter({
-	scrollBehavior(to) {
+const router: Router = createRouter({
+	scrollBehavior(to): void {
 		if (to.hash) {
 			window.scroll({ top: 0 });
 		} else {
-			document.querySelector('html').style.scrollBehavior = 'auto';
+			const el: HTMLElement | null = document.querySelector('html');
+
+			if (el === null) {
+				return;
+			}
+
+			el.style.scrollBehavior = 'auto';
 			window.scroll({ top: 0 });
-			document.querySelector('html').style.scrollBehavior = '';
+			el.style.scrollBehavior = '';
 		}
 	},
 	history: routerHistory,

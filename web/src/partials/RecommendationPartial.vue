@@ -41,9 +41,3 @@
 		</ul>
 	</div>
 </template>
-
-<script>
-export default {
-	name: 'RecommPartial',
-};
-</script>

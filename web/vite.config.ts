@@ -26,7 +26,7 @@ export default defineConfig({
 			{ find: '@images', replacement: path.resolve(__dirname, './src/images') },
 			{ find: '@public', replacement: path.resolve(__dirname, './src/public') },
 			{ find: '@partials', replacement: path.resolve(__dirname, './src/partials') },
-			{ find: '@response', replacement: path.resolve(__dirname, './__fixtures__') },
+			{ find: '@stores', replacement: path.resolve(__dirname, './src/stores') },
 		],
 	},
 });
