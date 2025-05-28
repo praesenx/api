@@ -158,19 +158,9 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
 import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
 import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import FooterPartial from '@partials/FooterPartial.vue';
-
-export default {
-	name: 'SubscribePage',
-	components: {
-		SideNavPartial,
-		HeaderPartial,
-		WidgetSponsorPartial,
-		FooterPartial,
-	},
-};
 </script>

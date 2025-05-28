@@ -13,15 +13,15 @@ const router: Router = createRouter({
 		if (to.hash) {
 			window.scroll({ top: 0 });
 		} else {
-			const element: HTMLElement | null = document.querySelector('html');
+			const el: HTMLElement | null = document.querySelector('html');
 
-			if (element === null) {
+			if (el === null) {
 				return;
 			}
 
-			element.style.scrollBehavior = 'auto';
+			el.style.scrollBehavior = 'auto';
 			window.scroll({ top: 0 });
-			element.style.scrollBehavior = '';
+			el.style.scrollBehavior = '';
 		}
 	},
 	history: routerHistory,

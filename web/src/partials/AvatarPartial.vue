@@ -1,32 +1,26 @@
 <template>
-	<!--	<img :class="className" :src="props.avatar" :alt="props.alt" />-->
-
-	<div class="flex items-center gap-4">
-		<img class="w-10 h-10 rounded-full" :src="props.avatar" alt="" />
-		<div class="font-medium dark:text-white">
-			<div>Jese Leos</div>
-			<div class="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
-		</div>
-	</div>
+		<img :class="className" :src="props.avatar" :alt="props.alt" />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import photo from '@images/profile/me.jpg';
+import photo from '@images/profile/001.png';
 
 interface Props {
 	avatar?: string;
 	alt?: string;
 	width: string;
+	height: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	width: 'w-12',
+	width: 'w-20',
+	height: 'h-20',
 	avatar: photo,
 	alt: 'gocanto',
 });
 
 const className = computed<string>(() => {
-	return `border-2 border-fuchsia-400 dark:border-slate-400 rounded-full ${props.width}`;
+	return `rounded-full p-1 ring-1 ring-gray-200 dark:ring-slate-600 ${props.width} ${props.height}`;
 });
 </script>

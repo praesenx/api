@@ -1,8 +1,8 @@
 <template>
 	<section>
-		<div class="max-w-[700px]">
-			<div class="my-4" style="border: 1px solid #000">
-				<AvatarPartial width="w-16" />
+		<div class="max-w-[700px] mb-10">
+			<div class="my-4">
+				<AvatarPartial width="w-20" height="h-20"/>
 
 				<h1 class="h1 blog-h1">
 					I write about coding, engineering, and

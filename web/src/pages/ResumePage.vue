@@ -18,10 +18,10 @@
 									<h1 class="h1 font-aspekta mb-12">My resume</h1>
 									<!-- Page content -->
 									<div class="text-slate-500 dark:text-slate-400 space-y-12">
+										<RecommendationPartial />
+										<AwardsPartial />
 										<EducationPartial />
 										<ExperiencePartial v-if="user" :experience="user.experience" />
-										<AwardsPartial />
-										<RecommPartial />
 									</div>
 								</section>
 							</div>
@@ -45,25 +45,27 @@
 </template>
 
 <script setup lang="ts">
-import SideNavPartial from '@partials/SideNavPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
+import AwardsPartial from '@partials/AwardsPartial.vue';
+import FooterPartial from '@partials/FooterPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
 import EducationPartial from '@partials/EducationPartial.vue';
 import ExperiencePartial from '@partials/ExperiencePartial.vue';
-import AwardsPartial from '@partials/AwardsPartial.vue';
-import RecommPartial from '@partials/RecommPartial.vue';
-import WidgetSkillsPartial from '@partials/WidgetSkillsPartial.vue';
 import WidgetLangPartial from '@partials/WidgetLangPartial.vue';
+import WidgetSkillsPartial from '@partials/WidgetSkillsPartial.vue';
+import RecommendationPartial from '@partials/RecommendationPartial.vue';
 import WidgetReferencesPartial from '@partials/WidgetReferencesPartial.vue';
-import FooterPartial from '@partials/FooterPartial.vue';
 
-import { useUserStore } from '@stores/users/user.ts';
-import { User } from "@stores/users/userType.ts";
 import { ref, onMounted } from "vue";
+import type { User } from "@stores/users/userType";
+import { useUserStore } from '@stores/users/user.ts';
 
 const userStore = useUserStore();
 const user = ref<User | null>(null);
 
 onMounted(() => {
-    user.value = userStore.getUser();
+	userStore.onBoot((profile: User) => {
+		user.value = profile;
+	})
 })
 </script>
