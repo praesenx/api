@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { User, SocialMediaMap } from '@stores/users/userType.ts';
 import { Response } from '@stores/users/response.ts';
+import type { User, Social, SocialMediaMap } from '@stores/users/userType';
 
 const STORE_KEY = 'user-store';
 const STORAGE_KEY = 'user-bucket';
@@ -9,7 +9,7 @@ export interface UserStoreState {
 	salt: string;
 	fullKey: string;
 	profile: User | null;
-	socialMedia: SocialMediaMap;
+	socialMedia: SocialMediaMap | null;
 }
 
 export const useUserStore = defineStore(STORE_KEY, {
@@ -70,9 +70,9 @@ function resolve(key: string, seed: User): User {
 }
 
 function mapSocialMedia(items: Social[]): SocialMediaMap {
-	let map: SocialMediaMap = {};
+	const map: SocialMediaMap = {};
 
-	for (let item of items) {
+	for (const item of items) {
 		map[item.name] = item;
 	}
 

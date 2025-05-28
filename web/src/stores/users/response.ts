@@ -4,7 +4,7 @@ export const Response: User = {
     nickname: 'Gus',
     handle: 'gocanto',
     name: 'Gustavo Ocanto',
-    email: 'otnacog@gmail.com',
+    email: 'otnacog@example.com',
     profession: 'Software Engineer',
     salt: '8c403772-dd0f-4543-b26c-bc96747742f3',
 	social: [

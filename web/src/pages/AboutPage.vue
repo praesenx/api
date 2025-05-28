@@ -96,10 +96,10 @@ import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
 import { computed, ref, onMounted } from 'vue';
 import { useUserStore } from '@stores/users/user.ts';
-import { SocialMediaMap } from '@stores/users/userType.ts';
+import type { User, SocialMediaMap } from '@stores/users/userType';
 
 const userStore = useUserStore();
-const user: User = ref<User | null>(null);
+const user = ref<User | null>(null);
 const social = ref<SocialMediaMap | null>(null)
 
 const aboutPicture = computed<string>(() => {

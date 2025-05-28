@@ -5,7 +5,7 @@ export interface Social {
 	description: string;
 }
 
-export const SocialMediaMap: { [key: string]: Social } = {};
+export const SocialMediaMap = Record<string, Social>;
 
 export interface Experience {
 	uuid: string;
