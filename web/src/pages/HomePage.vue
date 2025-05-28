@@ -38,29 +38,25 @@
 	</div>
 </template>
 
-<script>
-import SideNavPartial from '@partials/SideNavPartial.vue';
-import HeaderPartial from '@partials/HeaderPartial.vue';
+<script setup lang="ts">
 import HeroPartial from '@partials/HeroPartial.vue';
-import ArticlesListPartial from '@partials/ArticlesListPartial.vue';
 import TalksPartial from '@partials/TalksPartial.vue';
+import FooterPartial from '@partials/FooterPartial.vue';
+import HeaderPartial from '@partials/HeaderPartial.vue';
+import SideNavPartial from '@partials/SideNavPartial.vue';
+import ArticlesListPartial from '@partials/ArticlesListPartial.vue';
+import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
 import FeaturedProjectsPartial from '@partials/FeaturedProjectsPartial.vue';
 import WidgetNewsletterPartial from '@partials/WidgetNewsletterPartial.vue';
-import WidgetSponsorPartial from '@partials/WidgetSponsorPartial.vue';
-import FooterPartial from '@partials/FooterPartial.vue';
 
-export default {
-	name: 'HomePage',
-	components: {
-		SideNavPartial,
-		HeaderPartial,
-		HeroPartial,
-		ArticlesListPartial,
-		TalksPartial,
-		FeaturedProjectsPartial,
-		WidgetNewsletterPartial,
-		WidgetSponsorPartial,
-		FooterPartial,
-	},
-};
+import { useUserStore } from '@stores/users/user.ts';
+import { onMounted } from 'vue';
+
+const userStore = useUserStore();
+
+onMounted(() => {
+	userStore.onBoot(() => {
+		console.log('[home]: app booted...')
+	});
+})
 </script>

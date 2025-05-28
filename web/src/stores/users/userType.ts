@@ -1,20 +1,13 @@
-interface Profile {
-	nickname: string;
-	handle: string;
-	name: string;
-	email: string;
-	profession: string;
-	salt: string;
-}
-
-interface Social {
+export interface Social {
 	handle: string;
 	url: string;
 	name: string;
 	description: string;
 }
 
-interface Experience {
+export const SocialMediaMap: { [key: string]: Social } = {};
+
+export interface Experience {
 	uuid: string;
 	company: string;
 	employment_type: string;
@@ -29,7 +22,12 @@ interface Experience {
 }
 
 export interface User {
-	profile: Profile;
+    nickname: string;
+    handle: string;
+    name: string;
+    email: string;
+    profession: string;
+    salt: string;
 	social: Social[];
 	experience: Experience[];
 }
