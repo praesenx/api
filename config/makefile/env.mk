@@ -4,7 +4,7 @@ ___ENV___ROOT__PATH        := $(shell pwd)
 ___ENV___FILE_NAME         := ".env"
 ___ENV___EXAMPLE_FILE_NAME := ".env.example"
 
-include $(___ENV___ROOT__PATH)/.env
+-include $(___ENV___ROOT__PATH)/.env
 
 env\:init:
 	@if [ ! -f $(___ENV___FILE_NAME) ]; then \
