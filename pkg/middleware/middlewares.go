@@ -1,22 +1,22 @@
 package middleware
 
 import (
+    "fmt"
     "github.com/gocanto/blog/env"
     "github.com/gocanto/blog/pkg"
     "github.com/gocanto/blog/pkg/response"
+    "log/slog"
     "net/http"
 )
 
 func (s MiddlewaresStack) Logging(next pkg.BaseHandler) pkg.BaseHandler {
     return func(w http.ResponseWriter, r *http.Request) *response.Response {
-        println("Incoming request:", r.Method, r.URL.Path)
+        slog.Info(fmt.Sprintf("Incoming request: [method:%s] [path:%s].", r.Method, r.URL.Path))
 
         err := next(w, r)
 
         if err != nil {
-            println("Handler returned error:", err.Message)
-        } else {
-            println("Handler completed successfully")
+            slog.Error(fmt.Sprintf("Handler returned error: %s", err))
         }
 
         return err
