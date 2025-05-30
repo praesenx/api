@@ -2,11 +2,11 @@ package bootstrap
 
 import (
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/pkgs"
 	"github.com/joho/godotenv"
 )
 
-func Spark(envPath string) (*env.Environment, *webkit.Validator) {
+func Spark(envPath string) (*env.Environment, *pkgs.Validator) {
 	validate := GetDefaultValidate()
 
 	envMap, err := godotenv.Read(envPath)

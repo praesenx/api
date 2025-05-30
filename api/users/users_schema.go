@@ -1,10 +1,10 @@
 package users
 
 import (
-	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/pkgs"
 )
 
 type UserHandler struct {
-	Validator  *webkit.Validator
+	Validator  *pkgs.Validator
 	Repository *Repository
 }

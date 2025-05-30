@@ -1,4 +1,4 @@
-package webkit
+package pkgs
 
 import (
 	"fmt"

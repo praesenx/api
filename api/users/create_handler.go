@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit"
-	"github.com/gocanto/blog/webkit/media"
-	"github.com/gocanto/blog/webkit/request"
-	"github.com/gocanto/blog/webkit/response"
+	"github.com/gocanto/blog/pkgs"
+	"github.com/gocanto/blog/pkgs/media"
+	"github.com/gocanto/blog/pkgs/request"
+	"github.com/gocanto/blog/pkgs/response"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -76,7 +76,7 @@ func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *respo
 		},
 	}
 
-	return webkit.SendJSON(w, http.StatusCreated, payload)
+	return pkgs.SendJSON(w, http.StatusCreated, payload)
 }
 
 func extractData[T media.MultipartFormInterface](reader *multipart.Reader, data T) error {

@@ -11,7 +11,7 @@ type MiddlewaresStack struct {
 	userAdminResolver func(seed string) bool
 }
 
-type Middleware func(webkit.BaseHandler) webkit.BaseHandler
+type Middleware func(pkgs.BaseHandler) pkgs.BaseHandler
 
 func MakeMiddlewareStack(env *env.Environment, userAdminResolver func(seed string) bool) *MiddlewaresStack {
 	return &MiddlewaresStack{
