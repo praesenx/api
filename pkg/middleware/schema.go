@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/pkg"
 )
 
 type MiddlewaresStack struct {
@@ -11,7 +11,7 @@ type MiddlewaresStack struct {
 	userAdminResolver func(seed string) bool
 }
 
-type Middleware func(pkgs.BaseHandler) pkgs.BaseHandler
+type Middleware func(pkg.BaseHandler) pkg.BaseHandler
 
 func MakeMiddlewareStack(env *env.Environment, userAdminResolver func(seed string) bool) *MiddlewaresStack {
 	return &MiddlewaresStack{

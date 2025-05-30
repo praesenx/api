@@ -1,8 +1,8 @@
-package pkgs
+package pkg
 
 import (
 	"encoding/json"
-	"github.com/gocanto/blog/webkit/response"
+	"github.com/gocanto/blog/pkg/response"
 	"log/slog"
 	"net/http"
 )

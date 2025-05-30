@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gocanto/blog/api/users"
 	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/webkit/gorm"
+	"github.com/gocanto/blog/pkg/gorm"
 	"github.com/google/uuid"
 	"strings"
 	"time"

@@ -1,4 +1,4 @@
-package pkgs
+package pkg
 
 import (
 	sentryhttp "github.com/getsentry/sentry-go/http"

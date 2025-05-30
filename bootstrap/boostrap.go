@@ -6,15 +6,15 @@ import (
 	"github.com/gocanto/blog/api/users"
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkgs"
-	"github.com/gocanto/blog/pkgs/llogs"
+	"github.com/gocanto/blog/pkg"
+	"github.com/gocanto/blog/pkg/llogs"
 	"log"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func MakeSentry(env *env.Environment) *pkgs.Sentry {
+func MakeSentry(env *env.Environment) *pkg.Sentry {
 	cOptions := sentry.ClientOptions{
 		Dsn:   env.Sentry.DSN,
 		Debug: true,
@@ -29,7 +29,7 @@ func MakeSentry(env *env.Environment) *pkgs.Sentry {
 	options := sentryhttp.Options{}
 	handler := sentryhttp.New(options)
 
-	return &pkgs.Sentry{
+	return &pkg.Sentry{
 		Handler: handler,
 		Options: &options,
 		Env:     env,
@@ -63,7 +63,7 @@ func MakeAdminUser(env *env.Environment) *users.AdminUser {
 	}
 }
 
-func MakeEnv(values map[string]string, validate *pkgs.Validator) *env.Environment {
+func MakeEnv(values map[string]string, validate *pkg.Validator) *env.Environment {
 	errorSufix := "Environment: "
 
 	port, _ := strconv.Atoi(values["ENV_DB_PORT"])

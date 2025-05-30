@@ -5,7 +5,7 @@ import (
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/database/seeder/seeds"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkgs/cli"
+	"github.com/gocanto/blog/pkg/cli"
 	"sync"
 	"time"
 )

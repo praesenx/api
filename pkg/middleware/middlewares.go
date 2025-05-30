@@ -2,12 +2,12 @@ package middleware
 
 import (
     "github.com/gocanto/blog/env"
-    "github.com/gocanto/blog/webkit"
-    "github.com/gocanto/blog/webkit/response"
+    "github.com/gocanto/blog/pkg"
+    "github.com/gocanto/blog/pkg/response"
     "net/http"
 )
 
-func (s MiddlewaresStack) Logging(next pkgs.BaseHandler) pkgs.BaseHandler {
+func (s MiddlewaresStack) Logging(next pkg.BaseHandler) pkg.BaseHandler {
     return func(w http.ResponseWriter, r *http.Request) *response.Response {
         println("Incoming request:", r.Method, r.URL.Path)
 
@@ -23,7 +23,7 @@ func (s MiddlewaresStack) Logging(next pkgs.BaseHandler) pkgs.BaseHandler {
     }
 }
 
-func (s MiddlewaresStack) AdminUser(next pkgs.BaseHandler) pkgs.BaseHandler {
+func (s MiddlewaresStack) AdminUser(next pkg.BaseHandler) pkg.BaseHandler {
     return func(w http.ResponseWriter, r *http.Request) *response.Response {
         salt := r.Header.Get(env.ApiKeyHeader)
 
@@ -39,7 +39,7 @@ func (s MiddlewaresStack) isAdminUser(seed string) bool {
     return s.userAdminResolver(seed)
 }
 
-func (s MiddlewaresStack) Push(handler pkgs.BaseHandler, middlewares ...Middleware) pkgs.BaseHandler {
+func (s MiddlewaresStack) Push(handler pkg.BaseHandler, middlewares ...Middleware) pkg.BaseHandler {
     // Apply middleware in reverse order, so the first middleware in the list is executed first.
     for i := len(middlewares) - 1; i >= 0; i-- {
         handler = middlewares[i](handler)
