@@ -60,10 +60,10 @@ watch(darkMode, () => {
 	const el: HTMLElement = document.documentElement;
 
 	if (darkMode.value) {
-		localStorage.setItem('dark-mode', 'true')
+		localStorage.setItem('dark-mode', 'true');
 		el.classList.add('dark');
 	} else {
-		localStorage.setItem('dark-mode', 'false')
+		localStorage.setItem('dark-mode', 'false');
 		el.classList.remove('dark');
 	}
 });
