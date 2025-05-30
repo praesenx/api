@@ -27,7 +27,7 @@
 												software development and architecture, I’ve worked extensively with
 												<a class="blog-link" target="_blank" href="https://go.dev/">GO</a>, <a class="blog-link" target="_blank" href="https://nodejs.org/en">Node.js</a>,
 												<a class="blog-link" target="_blank" href="https://www.typescriptlang.org/">TypeScript</a>, and
-												<a class="blog-link" target="_blank" href="https://www.typescriptlang.org/">PHP</a>. I’m also comfortable with frameworks/libraries such as
+												<a class="blog-link" target="_blank" href="https://www.php.net/">PHP</a>. I’m also comfortable with frameworks/libraries such as
 												<a class="blog-link" target="_blank" href="https://laravel.com/">Laravel</a>, <a class="blog-link" target="_blank" href="https://vuejs.org/">Vue</a>,
 												<a class="blog-link" target="_blank" href="https://symfony.com/">Symfony</a>, and
 												<a class="blog-link" target="_blank" href="https://nextjs.org/">Next.js</a>.
