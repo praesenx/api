@@ -1,4 +1,4 @@
-package bootstrap
+package boost
 
 import (
 	baseValidator "github.com/go-playground/validator/v10"

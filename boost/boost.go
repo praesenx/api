@@ -1,4 +1,4 @@
-package bootstrap
+package boost
 
 import (
 	"github.com/getsentry/sentry-go"
