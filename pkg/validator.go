@@ -1,4 +1,4 @@
-package webkit
+package pkg
 
 import (
 	"encoding/json"

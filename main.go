@@ -1,36 +1,36 @@
 package main
 
 import (
-	"github.com/gocanto/blog/bootstrap"
+	"github.com/gocanto/blog/boost"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit"
+	"github.com/gocanto/blog/pkg"
 	_ "github.com/lib/pq"
 	"log/slog"
 	"net/http"
 )
 
 var environment *env.Environment
-var validator *webkit.Validator
+var validator *pkg.Validator
 
 func init() {
-	secrets, validate := bootstrap.Spark("./.env")
+	secrets, validate := boost.Spark("./.env")
 
 	environment = secrets
 	validator = validate
 }
 
 func main() {
-	dbConnection := bootstrap.MakeDbConnection(environment)
-	logs := bootstrap.MakeLogs(environment)
-	adminUser := bootstrap.MakeAdminUser(environment)
-	localSentry := bootstrap.MakeSentry(environment)
+	dbConnection := boost.MakeDbConnection(environment)
+	logs := boost.MakeLogs(environment)
+	adminUser := boost.MakeAdminUser(environment)
+	localSentry := boost.MakeSentry(environment)
 
 	defer (*logs).Close()
 	defer (*dbConnection).Close()
 
 	mux := http.NewServeMux()
 
-	app := bootstrap.MakeApp(mux, &bootstrap.App{
+	app := boost.MakeApp(mux, &boost.App{
 		Validator:    validator,
 		Logs:         logs,
 		DbConnection: dbConnection,

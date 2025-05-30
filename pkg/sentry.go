@@ -1,4 +1,4 @@
-package webkit
+package pkg
 
 import (
 	sentryhttp "github.com/getsentry/sentry-go/http"

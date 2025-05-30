@@ -3,7 +3,7 @@ package request
 import (
 	"errors"
 	"fmt"
-	"github.com/gocanto/blog/webkit/media"
+	"github.com/gocanto/blog/pkg/media"
 	"io"
 	"log/slog"
 	"mime/multipart"

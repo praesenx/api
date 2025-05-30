@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/gocanto/blog/bootstrap"
+	"github.com/gocanto/blog/boost"
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/database/seeder/seeds"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit/cli"
+	"github.com/gocanto/blog/pkg/cli"
 	"sync"
 	"time"
 )
@@ -13,14 +13,14 @@ import (
 var environment *env.Environment
 
 func init() {
-	secrets, _ := bootstrap.Spark("./.env")
+	secrets, _ := boost.Spark("./.env")
 
 	environment = secrets
 }
 
 func main() {
-	dbConnection := bootstrap.MakeDbConnection(environment)
-	logs := bootstrap.MakeLogs(environment)
+	dbConnection := boost.MakeDbConnection(environment)
+	logs := boost.MakeLogs(environment)
 
 	defer (*logs).Close()
 	defer (*dbConnection).Close()

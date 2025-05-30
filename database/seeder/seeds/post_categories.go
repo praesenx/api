@@ -3,7 +3,7 @@ package seeds
 import (
 	"fmt"
 	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/webkit/gorm"
+	"github.com/gocanto/blog/pkg/gorm"
 )
 
 type PostCategoriesSeed struct {

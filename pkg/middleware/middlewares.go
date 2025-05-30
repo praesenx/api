@@ -1,29 +1,29 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/webkit"
-	"github.com/gocanto/blog/webkit/response"
+	"github.com/gocanto/blog/pkg"
+	"github.com/gocanto/blog/pkg/response"
+	"log/slog"
 	"net/http"
 )
 
-func (s MiddlewaresStack) Logging(next webkit.BaseHandler) webkit.BaseHandler {
+func (s MiddlewaresStack) Logging(next pkg.BaseHandler) pkg.BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *response.Response {
-		println("Incoming request:", r.Method, r.URL.Path)
+		slog.Info(fmt.Sprintf("Incoming request: [method:%s] [path:%s].", r.Method, r.URL.Path))
 
 		err := next(w, r)
 
 		if err != nil {
-			println("Handler returned error:", err.Message)
-		} else {
-			println("Handler completed successfully")
+			slog.Error(fmt.Sprintf("Handler returned error: %s", err))
 		}
 
 		return err
 	}
 }
 
-func (s MiddlewaresStack) AdminUser(next webkit.BaseHandler) webkit.BaseHandler {
+func (s MiddlewaresStack) AdminUser(next pkg.BaseHandler) pkg.BaseHandler {
 	return func(w http.ResponseWriter, r *http.Request) *response.Response {
 		salt := r.Header.Get(env.ApiKeyHeader)
 
@@ -39,7 +39,7 @@ func (s MiddlewaresStack) isAdminUser(seed string) bool {
 	return s.userAdminResolver(seed)
 }
 
-func (s MiddlewaresStack) Push(handler webkit.BaseHandler, middlewares ...Middleware) webkit.BaseHandler {
+func (s MiddlewaresStack) Push(handler pkg.BaseHandler, middlewares ...Middleware) pkg.BaseHandler {
 	// Apply middleware in reverse order, so the first middleware in the list is executed first.
 	for i := len(middlewares) - 1; i >= 0; i-- {
 		handler = middlewares[i](handler)
