@@ -1,7 +1,16 @@
+/* --- header --- */
+
+.blog-header-search-icon {
+    @apply fill-fuchsia-500;
+    @apply dark:fill-teal-500;
+}
+
+/* ------------------------------------------------------------ */
+
 .blog-link {
     @apply text-fuchsia-500 font-medium;
     @apply hover:cursor-pointer hover:underline;
-    @apply dark:text-fuchsia-300 dark:hover:text-fuchsia-400;
+    @apply dark:text-teal-500 dark:hover:text-teal-600;
 }
 
 .blog-h1 {
@@ -10,7 +19,7 @@
 }
 
 .blog-fun-title-word-highlight {
-    @apply inline-flex relative text-fuchsia-500 dark:text-fuchsia-700 before:absolute before:inset-0;
+    @apply inline-flex relative text-fuchsia-500 dark:text-teal-600 before:absolute before:inset-0;
     @apply before:bg-slate-300 dark:before:bg-slate-600 before:opacity-30 before:-z-10 before:-rotate-2;
     @apply before:translate-y-1/4;
 }
@@ -23,12 +32,12 @@
 
 .blog-side-nav-router-link-a-resting {
     @apply text-slate-200 hover:text-slate-400 hover:after:bg-fuchsia-400;
-    @apply dark:text-slate-700 dark:hover:text-fuchsia-700 dark:hover:after:bg-slate-500;
+    @apply dark:text-slate-700 dark:hover:text-teal-600 dark:hover:after:bg-slate-500;
 }
 
 .blog-side-nav-router-link-a-active {
     @apply text-slate-400 after:bg-fuchsia-500 hover:after:bg-fuchsia-400;
-    @apply dark:text-fuchsia-700 dark:after:bg-slate-600 dark:hover:after:bg-slate-500;
+    @apply dark:text-teal-600 dark:after:bg-slate-600 dark:hover:after:bg-slate-500;
 }
 
 /* --- footer --- */
