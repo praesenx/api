@@ -54,15 +54,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
-const darkMode = ref<boolean | null>(localStorage.getItem('dark-mode'));
+const darkMode = ref<string | null>(localStorage.getItem('dark-mode'));
 
 watch(darkMode, () => {
-	localStorage.setItem('dark-mode', darkMode.value);
+	const el: HTMLElement = document.documentElement;
 
 	if (darkMode.value) {
-		document.documentElement.classList.add('dark');
+		localStorage.setItem('dark-mode', 'true')
+		el.classList.add('dark');
 	} else {
-		document.documentElement.classList.remove('dark');
+		localStorage.setItem('dark-mode', 'false')
+		el.classList.remove('dark');
 	}
 });
 </script>
