@@ -5,7 +5,7 @@
 }
 
 .blog-h1 {
-    @apply font-aspekta mb-5 mt-5;
+    @apply font-aspekta mb-5;
     @apply text-slate-700 dark:text-slate-300;
 }
 

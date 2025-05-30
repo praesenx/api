@@ -15,7 +15,7 @@
 							<div class="max-w-[700px]">
 								<section>
 									<!-- Page title -->
-									<h1 class="h1 font-aspekta mb-5 text-slate-500 dark:text-slate-300">I'm {{ user ? user.nickname : 'Gus' }}. I live in Singapore, where I enjoy the present.</h1>
+									<h1 class="h1 blog-h1">I'm {{ user ? user.nickname : 'Gus' }}. I live in Singapore, where I enjoy the present.</h1>
 
 									<img class="rounded-lg w-full mb-5" :src="aboutPicture" alt="About" />
 
