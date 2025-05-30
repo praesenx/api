@@ -22,12 +22,12 @@ export interface Experience {
 }
 
 export interface User {
-    nickname: string;
-    handle: string;
-    name: string;
-    email: string;
-    profession: string;
-    salt: string;
+	nickname: string;
+	handle: string;
+	name: string;
+	email: string;
+	profession: string;
+	salt: string;
 	social: Social[];
 	experience: Experience[];
 }

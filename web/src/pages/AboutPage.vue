@@ -15,9 +15,7 @@
 							<div class="max-w-[700px]">
 								<section>
 									<!-- Page title -->
-									<h1 class="h1 font-aspekta mb-5 text-slate-700 dark:text-slate-300">
-										I'm {{ user ? user.nickname : 'Gus' }}. I live in Singapore, where I enjoy the present.
-									</h1>
+									<h1 class="h1 font-aspekta mb-5 text-slate-700 dark:text-slate-300">I'm {{ user ? user.nickname : 'Gus' }}. I live in Singapore, where I enjoy the present.</h1>
 
 									<img class="rounded-lg w-full mb-5" :src="aboutPicture" alt="About" />
 
@@ -25,28 +23,25 @@
 									<div class="space-y-8 text-slate-500">
 										<div class="space-y-4">
 											<p class="block mb-3">
-												I am an engineering leader who’s passionate about building reliable and smooth software that strive to make a difference.
-												With over twenty years in software development and architecture, I’ve worked extensively with
-												<a class="blog-link" target="_blank" href="https://go.dev/">GO</a>,
-												<a class="blog-link" target="_blank" href="https://nodejs.org/en">Node.js</a>,
+												I am an engineering leader who’s passionate about building reliable and smooth software that strive to make a difference. With over twenty years in
+												software development and architecture, I’ve worked extensively with
+												<a class="blog-link" target="_blank" href="https://go.dev/">GO</a>, <a class="blog-link" target="_blank" href="https://nodejs.org/en">Node.js</a>,
 												<a class="blog-link" target="_blank" href="https://www.typescriptlang.org/">TypeScript</a>, and
-												<a class="blog-link" target="_blank" href="https://www.typescriptlang.org/">PHP</a>.
-												I’m also comfortable with frameworks/libraries such as
-												<a class="blog-link" target="_blank" href="https://laravel.com/">Laravel</a>,
-												<a class="blog-link" target="_blank" href="https://vuejs.org/">Vue</a>,
+												<a class="blog-link" target="_blank" href="https://www.typescriptlang.org/">PHP</a>. I’m also comfortable with frameworks/libraries such as
+												<a class="blog-link" target="_blank" href="https://laravel.com/">Laravel</a>, <a class="blog-link" target="_blank" href="https://vuejs.org/">Vue</a>,
 												<a class="blog-link" target="_blank" href="https://symfony.com/">Symfony</a>, and
 												<a class="blog-link" target="_blank" href="https://nextjs.org/">Next.js</a>.
 											</p>
 											<p class="block mb-3">
-												I’ve led teams in designing and delivering scalable, high-performance systems that run efficiently even in complex environments.
-												Beyond writing code, I focus on helping teams work better together by improving workflows and encouraging innovation.
+												I’ve led teams in designing and delivering scalable, high-performance systems that run efficiently even in complex environments. Beyond writing code, I
+												focus on helping teams work better together by improving workflows and encouraging innovation.
 											</p>
 											<p class="block mb-3">
 												I thrive in fast-paced settings where clear thinking and problem-solving are key, and I’m always committed to delivering high-quality results.
 											</p>
 											<p class="block mb-3">
-												For me, software has always been more than just a job—it’s a way to turn ideas into real solutions. Over the years,
-												I’ve enjoyed tackling challenges, learning new technologies, and guiding talented teams to create tools that users and businesses rely on.
+												For me, software has always been more than just a job—it’s a way to turn ideas into real solutions. Over the years, I’ve enjoyed tackling challenges,
+												learning new technologies, and guiding talented teams to create tools that users and businesses rely on.
 											</p>
 											<p class="block">
 												Today, I combine deep technical skills with thoughtful leadership to help teams push boundaries and build software that grows and scales with purpose.
@@ -56,8 +51,8 @@
 										<div class="mt-5 space-y-5">
 											<h2 class="h2 font-aspekta text-slate-700 dark:text-slate-300">Let's Connect</h2>
 											<p v-if="user">
-												I’m happy to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.email}`">email</a> to discuss projects and ideas.
-												While I’m not always available for freelance or long-term work, please don’t hesitate to reach out anytime.
+												I’m happy to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.email}`">email</a> to discuss projects and ideas. While I’m
+												not always available for freelance or long-term work, please don’t hesitate to reach out anytime.
 											</p>
 										</div>
 									</div>
@@ -69,7 +64,7 @@
 						<!-- Right sidebar -->
 						<aside class="md:w-[240px] lg:w-[300px] shrink-0">
 							<div class="space-y-6">
-								<WidgetSocialPartial/>
+								<WidgetSocialPartial />
 								<WidgetNewsletterPartial />
 							</div>
 						</aside>
@@ -103,6 +98,6 @@ const aboutPicture = computed<string>(() => {
 onMounted(() => {
 	userStore.onBoot((profile: User) => {
 		user.value = profile;
-	})
-})
+	});
+});
 </script>
