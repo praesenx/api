@@ -41,7 +41,7 @@
 
 .blog-widgets-btn-sm {
     @apply w-full text-slate-100 bg-slate-700 hover:bg-slate-800 cursor-pointer;
-    @apply dark:bg-sky-600 dark:hover:bg-sky-700;
+    @apply dark:bg-teal-600 dark:hover:bg-teal-700;
 }
 
 .blog-widgets-subscriber-avatar {

@@ -81,7 +81,7 @@
 import { computed, ref, onMounted } from 'vue';
 import type { User } from '@stores/users/userType';
 import { useUserStore } from '@stores/users/user.ts';
-import AboutPicture from '@images/profile/about.png';
+import AboutPicture from '@images/profile/about.jpg';
 import FooterPartial from '@partials/FooterPartial.vue';
 import HeaderPartial from '@partials/HeaderPartial.vue';
 import SideNavPartial from '@partials/SideNavPartial.vue';
