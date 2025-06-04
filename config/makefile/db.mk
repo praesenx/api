@@ -52,12 +52,11 @@ db\:delete:
 	docker ps
 
 db\:secure:
-	make fresh && \
 	rm -rf $(DB_INFRA_SERVER_CRT) && rm -rf $(DB_INFRA_SERVER_CSR) && rm -rf $(DB_INFRA_SERVER_KEY) && \
 	openssl genpkey -algorithm RSA -out $(DB_INFRA_SERVER_KEY) && \
     openssl req -new -key $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CSR) && \
     openssl x509 -req -days 365 -in $(DB_INFRA_SERVER_CSR) -signkey $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CRT) && \
-    make db:secure:permissions
+    make db:chmod
 
 db\:chmod:
 	chmod 600 $(DB_INFRA_SERVER_KEY) && chmod 600 $(DB_INFRA_SERVER_CRT)
