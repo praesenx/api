@@ -28,6 +28,10 @@ export const useUserStore = defineStore(STORE_KEY, {
 				this.boot();
 			}
 
+			if (this.profile === null) {
+				return;
+			}
+
 			this.socialMedia = mapSocialMedia(this.profile.social);
 
 			callback(this.profile);
@@ -44,6 +48,10 @@ export const useUserStore = defineStore(STORE_KEY, {
 			return `${STORAGE_KEY}-${salt}`;
 		},
 		getSocialMedia(): SocialMediaMap {
+			if (this.profile === null) {
+				return {};
+			}
+
 			this.socialMedia = mapSocialMedia(this.profile.social);
 
 			return this.socialMedia;
