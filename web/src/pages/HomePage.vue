@@ -16,7 +16,6 @@
 							<div class="max-w-[700px]">
 								<div class="space-y-10">
 									<ArticlesListPartial />
-									<TalksPartial />
 									<FeaturedProjectsPartial />
 								</div>
 							</div>

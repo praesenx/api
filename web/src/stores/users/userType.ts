@@ -21,6 +21,17 @@ export interface Experience {
 	skills: string;
 }
 
+export interface Project {
+	uuid: string;
+	language?: string;
+	title: string;
+	excerpt: string;
+	description?: string;
+	url: string;
+	created_at: string;
+	updated_at: string;
+}
+
 export interface User {
 	nickname: string;
 	handle: string;
@@ -30,4 +41,5 @@ export interface User {
 	salt: string;
 	social: Social[];
 	experience: Experience[];
+	projects: Project[];
 }
