@@ -53,7 +53,7 @@
 										<div class="mt-5 space-y-5">
 											<h2 class="h2 font-aspekta text-slate-700 dark:text-slate-300">Let's Connect</h2>
 											<p v-if="user">
-												I’m happy to connect by <a class="blog-link" title="follow me on x" :href="`mailto:${user.email}`">email</a> to discuss projects and ideas. While I’m
+												I’m happy to connect by <a class="blog-link" title="send me an email" aria-label="send me an email" :href="`mailto:${user.email}`">email</a> to discuss projects and ideas. While I’m
 												not always available for freelance or long-term work, please don’t hesitate to reach out anytime.
 											</p>
 										</div>
