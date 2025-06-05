@@ -10,7 +10,7 @@ var schemaTables = []string{
 	"users", "posts", "categories",
 	"post_categories", "tags", "post_tags",
 	"post_views", "post_views", "comments",
-	"likes",
+	"likes", "newsletters",
 }
 
 func GetSchemaTables() []string {

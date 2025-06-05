@@ -52,12 +52,11 @@ db\:delete:
 	docker ps
 
 db\:secure:
-	make fresh && \
 	rm -rf $(DB_INFRA_SERVER_CRT) && rm -rf $(DB_INFRA_SERVER_CSR) && rm -rf $(DB_INFRA_SERVER_KEY) && \
 	openssl genpkey -algorithm RSA -out $(DB_INFRA_SERVER_KEY) && \
     openssl req -new -key $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CSR) && \
     openssl x509 -req -days 365 -in $(DB_INFRA_SERVER_CSR) -signkey $(DB_INFRA_SERVER_KEY) -out $(DB_INFRA_SERVER_CRT) && \
-    make db:secure:permissions
+    make db:chmod
 
 db\:chmod:
 	chmod 600 $(DB_INFRA_SERVER_KEY) && chmod 600 $(DB_INFRA_SERVER_CRT)
@@ -76,6 +75,7 @@ db\:rollback:
 	@docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate -verbose -path=$(DB_MIGRATE_PATH) -database $(ENV_DB_URL) down 1
 	@printf "$(GREEN)[DB]$(NC) Migration rollback has finished.\n\n"
 
+# --- Migrations
 db\:migrate\:create:
 	docker run -v $(DB_MIGRATE_VOL_MAP) --network $(ROOT_NETWORK) migrate/migrate create -ext sql -dir $(DB_MIGRATE_PATH) -seq $(name)
 

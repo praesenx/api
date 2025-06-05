@@ -36,14 +36,22 @@ func MakeTextColour(text string, colour string) TextColour {
 	}
 }
 
-func (t TextColour) Print() string {
-	return fmt.Sprintf("%s > %s %s\n", t.colour, t.text, Reset)
-}
-
-func (t TextColour) Println() {
-	_, err := fmt.Println(fmt.Sprintf("%s > %s %s\n", t.colour, t.text, Reset))
+func (t TextColour) Print() {
+	_, err := fmt.Print(t.String())
 
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
+}
+
+func (t TextColour) Println() {
+	_, err := fmt.Println(t.String())
+
+	if err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "%v\n", err)
+	}
+}
+
+func (t TextColour) String() string {
+	return fmt.Sprintf("%s > %s %s\n", t.colour, t.text, Reset)
 }
