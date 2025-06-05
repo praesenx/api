@@ -231,4 +231,30 @@ export const Response: User = {
 			updated_at: '2022-09-15',
 		},
 	],
+	talks: [
+		{
+			uuid: 'b222d84c-5bbe-4c21-8ba8-a9baa7e5eaa9',
+			title: 'Deprecating APIs',
+			subject: 'PHP APIs',
+			location: 'Singapore',
+			created_at: '2019-02-11',
+			updated_at: '2019-02-11'
+		},
+		{
+			uuid: '249c50ad-2fd8-45af-a429-5e25d05a6bdd',
+			title: 'Bootstrapping to Objects',
+			subject: 'Systems design patters and conventions.',
+			location: 'Singapore',
+			created_at: '2018-12-04',
+			updated_at: '2018-12-04'
+		},
+		{
+			uuid: '36c88e42-b04d-4be1-a183-c53439468769',
+			title: 'Restful Controllers in Laravel',
+			subject: 'Actions abstractions in Laravel controllers.',
+			location: 'Singapore',
+			created_at: '2018-10-04',
+			updated_at: '2018-10-04'
+		},
+	],
 };

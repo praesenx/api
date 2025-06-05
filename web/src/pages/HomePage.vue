@@ -17,6 +17,7 @@
 								<div class="space-y-10">
 									<ArticlesListPartial />
 									<FeaturedProjectsPartial />
+									<TalksPartial />
 								</div>
 							</div>
 						</div>

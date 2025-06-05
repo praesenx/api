@@ -32,6 +32,16 @@ export interface Project {
 	updated_at: string;
 }
 
+export interface Talks {
+	uuid: string;
+	title: string;
+	subject: string;
+	location: string;
+	description?: string;
+	created_at: string;
+	updated_at: string;
+}
+
 export interface User {
 	nickname: string;
 	handle: string;
@@ -42,4 +52,5 @@ export interface User {
 	social: Social[];
 	experience: Experience[];
 	projects: Project[];
+	talks: Talks[];
 }
