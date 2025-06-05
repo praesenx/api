@@ -1,10 +1,11 @@
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/gocanto/blog?utm_source=oss&utm_medium=github&utm_campaign=gocanto%2Fblog&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+### Who Am I?
 
-### About me
+I'm a full-stack Software Engineer leader with over two decades of building complex web systems and products,
+specialising in areas like e-commerce, banking, cross-payment solutions, cybersecurity, and customer success.
 
-Hi, I'm someone who loves building tech. For over 15 years, I've worked with computers, software, and teams. I'm good at making sure things run smoothly and work well.
-
-I know how to write code and lead teams. I've helped big companies and also worked on free, open projects. I like solving problems and making things better.
+I’ve led teams in designing and delivering scalable, high-performance systems that run efficiently even in complex
+environments. Beyond writing code, I focus on helping teams work better together by improving workflows and encouraging
+innovation.
 
 On this [page](https://www.linkedin.com/in/gocanto/), you can learn more about what I do and how I can help.
 
@@ -18,6 +19,5 @@ Please see the [license file](https://github.com/gocanto/blog/blob/main/LICENSE)
 - :star: Star the repository.
 - :handshake: Open a pull request to fix/improve the codebase.
 - :writing_hand: Open a pull request to improve the documentation.
-- :email: Let's connect in [LinkedIn](https://www.linkedin.com/in/gocanto/).
 
 > Thank you for reading this far. :blush:
