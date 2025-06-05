@@ -15,9 +15,9 @@
 							<div class="max-w-[700px]">
 								<section>
 									<!-- Page title -->
-									<h1 class="h1 blog-h1">I'm {{ user ? user.nickname : 'Gus' }}. I live in Singapore, where I enjoy the present.</h1>
+									<h1 class="h1 blog-h1">I'm {{ nickname }}. I live in Singapore, where I enjoy the present.</h1>
 
-									<img class="rounded-lg w-full mb-5" :src="aboutPicture" alt="About" />
+									<img class="rounded-lg w-full mb-5" :src="aboutPicture" :alt="`Portrait of: ${nickname}`" />
 
 									<!-- Page content -->
 									<div class="space-y-8 text-slate-500">
@@ -97,9 +97,12 @@ const aboutPicture = computed<string>(() => {
 	return AboutPicture;
 });
 
+const nickname = ref<string>("Gus");
+
 onMounted(() => {
 	userStore.onBoot((profile: User) => {
 		user.value = profile;
+		nickname.value = profile.nickname;
 	});
 });
 </script>
