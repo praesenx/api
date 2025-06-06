@@ -17,5 +17,4 @@ database/infra/
 storage/media/
 storage/logs/
 tmp/
-web/
 bin/

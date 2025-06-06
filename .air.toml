@@ -13,7 +13,6 @@ tmp_dir = "tmp"
       "docs",
       "database/infra",
       "bin",
-      "web",
       "storage/logs",
       "storage/media",
       "config/makefile",
