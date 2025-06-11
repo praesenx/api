@@ -3,8 +3,8 @@ package seeds
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/oullin/api/database"
-	"github.com/oullin/api/env"
+	"github.com/oullin/database"
+	"github.com/oullin/env"
 	"math/rand"
 	"time"
 )

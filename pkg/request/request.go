@@ -3,7 +3,7 @@ package request
 import (
 	"errors"
 	"fmt"
-	"github.com/oullin/api/pkg/media"
+	"github.com/oullin/pkg/media"
 	"io"
 	"log/slog"
 	"mime/multipart"

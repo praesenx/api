@@ -2,8 +2,8 @@ package seeds
 
 import (
 	"fmt"
-	"github.com/oullin/api/database"
-	"github.com/oullin/api/pkg/gorm"
+	"github.com/oullin/database"
+	"github.com/oullin/pkg/gorm"
 )
 
 type PostViewsSeed struct {

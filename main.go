@@ -2,9 +2,9 @@ package main
 
 import (
 	_ "github.com/lib/pq"
-	"github.com/oullin/api/boost"
-	"github.com/oullin/api/env"
-	"github.com/oullin/api/pkg"
+	"github.com/oullin/boost"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg"
 	"log/slog"
 	"net/http"
 )

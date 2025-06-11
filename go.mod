@@ -1,4 +1,4 @@
-module github.com/oullin/api
+module github.com/oullin
 
 go 1.24
 

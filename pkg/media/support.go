@@ -25,7 +25,7 @@ func GetStorageDir() string {
 
 	if err != nil {
 		// Handle the error appropriately.
-		// Path default to a relative path if getting WD fails
+		// Path defaults to a relative path if getting WD fails
 		return "./" + folder
 	}
 

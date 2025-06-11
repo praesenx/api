@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/oullin/api/boost"
-	"github.com/oullin/api/database"
-	"github.com/oullin/api/database/seeder/seeds"
-	"github.com/oullin/api/env"
-	"github.com/oullin/api/pkg/cli"
+	"github.com/oullin/boost"
+	"github.com/oullin/database"
+	"github.com/oullin/database/seeder/seeds"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg/cli"
 	"os"
 	"os/exec"
 	"sync"

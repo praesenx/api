@@ -3,7 +3,7 @@ package seeds
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/oullin/api/database"
+	"github.com/oullin/database"
 	"time"
 )
 

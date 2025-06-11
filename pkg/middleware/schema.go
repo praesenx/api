@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/oullin/api/env"
-	"github.com/oullin/api/pkg"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg"
 )
 
 type MiddlewaresStack struct {

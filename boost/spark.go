@@ -2,8 +2,8 @@ package boost
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/oullin/api/env"
-	"github.com/oullin/api/pkg"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg"
 )
 
 func Spark(envPath string) (*env.Environment, *pkg.Validator) {

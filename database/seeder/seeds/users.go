@@ -3,9 +3,9 @@ package seeds
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/oullin/api/api/users"
-	"github.com/oullin/api/database"
-	"github.com/oullin/api/pkg/gorm"
+	"github.com/oullin/database"
+	"github.com/oullin/pkg"
+	"github.com/oullin/pkg/gorm"
 	"strings"
 	"time"
 )
@@ -27,9 +27,9 @@ func MakeUsersSeed(db *database.Connection) *UsersSeed {
 }
 
 func (s UsersSeed) Create(attrs UsersAttrs) (database.User, error) {
-	pass, _ := users.MakePassword("password")
+	pass, _ := pkg.MakePassword("password")
 
-	user := database.User{
+	fake := database.User{
 		UUID:         uuid.NewString(),
 		FirstName:    attrs.Name,
 		LastName:     "Tester",
@@ -39,15 +39,15 @@ func (s UsersSeed) Create(attrs UsersAttrs) (database.User, error) {
 		PasswordHash: pass.GetHash(),
 		PublicToken:  uuid.NewString(),
 		IsAdmin:      attrs.IsAdmin,
-		Bio:          "Nam hendrerit nulla ut cursus laoreet.",
+		Bio:          "Software Engineer with an eye for details.",
 		VerifiedAt:   time.Now(),
 	}
 
-	result := s.db.Sql().Create(&user)
+	result := s.db.Sql().Create(&fake)
 
 	if gorm.HasDbIssues(result.Error) {
 		return database.User{}, fmt.Errorf("issues creating users: %s", result.Error)
 	}
 
-	return user, nil
+	return fake, nil
 }

@@ -2,7 +2,7 @@ package boost
 
 import (
 	baseValidator "github.com/go-playground/validator/v10"
-	"github.com/oullin/api/pkg"
+	"github.com/oullin/pkg"
 )
 
 func GetDefaultValidate() *pkg.Validator {

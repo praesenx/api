@@ -2,7 +2,7 @@ package llogs
 
 import (
 	"fmt"
-	"github.com/oullin/api/env"
+	"github.com/oullin/env"
 	"log/slog"
 	"os"
 	"time"
