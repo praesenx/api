@@ -2,10 +2,10 @@ package seeds
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/api/users"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/pkg/gorm"
 	"github.com/google/uuid"
+	"github.com/oullin/api/api/users"
+	"github.com/oullin/api/database"
+	"github.com/oullin/api/pkg/gorm"
 	"strings"
 	"time"
 )

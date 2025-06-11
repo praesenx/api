@@ -2,7 +2,7 @@ package pkg
 
 import (
 	sentryhttp "github.com/getsentry/sentry-go/http"
-	"github.com/gocanto/blog/env"
+	"github.com/oullin/api/env"
 )
 
 type Sentry struct {

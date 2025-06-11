@@ -1,10 +1,11 @@
-module github.com/gocanto/blog
+module github.com/oullin/api
 
 go 1.24
 
 require (
 	github.com/getsentry/sentry-go v0.32.0
 	github.com/go-playground/validator/v10 v10.26.0
+	github.com/gocanto/blog v0.0.0-20250606062855-154f82d4ca21
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9

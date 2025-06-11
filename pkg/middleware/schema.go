@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
+	"github.com/oullin/api/env"
+	"github.com/oullin/api/pkg"
 )
 
 type MiddlewaresStack struct {

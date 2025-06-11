@@ -1,12 +1,12 @@
 package boost
 
 import (
-	"github.com/gocanto/blog/api/users"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
-	"github.com/gocanto/blog/pkg/llogs"
-	"github.com/gocanto/blog/pkg/middleware"
+	"github.com/oullin/api/api/users"
+	"github.com/oullin/api/database"
+	"github.com/oullin/api/env"
+	"github.com/oullin/api/pkg"
+	"github.com/oullin/api/pkg/llogs"
+	"github.com/oullin/api/pkg/middleware"
 	"net/http"
 )
 

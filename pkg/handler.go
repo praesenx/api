@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"encoding/json"
-	"github.com/gocanto/blog/pkg/response"
+	"github.com/oullin/api/pkg/response"
 	"log/slog"
 	"net/http"
 )
