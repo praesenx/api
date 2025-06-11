@@ -5,6 +5,7 @@ import (
 	"github.com/gocanto/blog/database"
 	"github.com/gocanto/blog/pkg/gorm"
 	"github.com/google/uuid"
+	"github.com/oullin/api/pkg"
 	"strings"
 	"time"
 )
@@ -14,15 +15,15 @@ type Repository struct {
 	Admin      *AdminUser
 }
 
-func MakeRepository(model *database.Connection, admin *AdminUser) *Repository {
-	return &Repository{
-		Connection: model,
-		Admin:      admin,
-	}
-}
+//func MakeRepository(model *database.Connection, admin *AdminUser) *Repository {
+//	return &Repository{
+//		Connection: model,
+//		Admin:      admin,
+//	}
+//}
 
 func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
-	password, err := MakePassword(attr.Password)
+	password, err := pkg.MakePassword(attr.Password)
 
 	if err != nil {
 		return nil, err
