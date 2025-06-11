@@ -14,7 +14,7 @@ import (
 	"net/http"
 )
 
-func (handler UsersHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
+func (handler RequestHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
 	var rawRequest RawCreateRequestBag
 
 	multipartRequest, err := request.MakeMultipartRequest(r, &rawRequest)

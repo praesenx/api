@@ -4,7 +4,7 @@ import (
     "github.com/gocanto/blog/pkg"
 )
 
-type UsersHandler struct {
+type RequestHandler struct {
     Validator  *pkg.Validator
     Repository *Repository
 }
