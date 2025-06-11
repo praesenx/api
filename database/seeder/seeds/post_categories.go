@@ -2,8 +2,8 @@ package seeds
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/pkg/gorm"
+	"github.com/oullin/database"
+	"github.com/oullin/pkg/gorm"
 )
 
 type PostCategoriesSeed struct {

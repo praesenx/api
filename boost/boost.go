@@ -3,11 +3,11 @@ package boost
 import (
 	"github.com/getsentry/sentry-go"
 	sentryhttp "github.com/getsentry/sentry-go/http"
-	"github.com/gocanto/blog/api/users"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
-	"github.com/gocanto/blog/pkg/llogs"
+	"github.com/oullin/database"
+	"github.com/oullin/env"
+	"github.com/oullin/handler/user"
+	"github.com/oullin/pkg"
+	"github.com/oullin/pkg/llogs"
 	"log"
 	"strconv"
 	"strings"
@@ -56,8 +56,8 @@ func MakeLogs(env *env.Environment) *llogs.Driver {
 	return &lDriver
 }
 
-func MakeAdminUser(env *env.Environment) *users.AdminUser {
-	return &users.AdminUser{
+func MakeAdminUser(env *env.Environment) *user.AdminUser {
+	return &user.AdminUser{
 		PublicToken:  env.App.AppUserAmin.PublicToken,
 		PrivateToken: env.App.AppUserAmin.PrivateToken,
 	}

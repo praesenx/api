@@ -2,8 +2,8 @@ package seeds
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/database"
 	"github.com/google/uuid"
+	"github.com/oullin/database"
 	"time"
 )
 

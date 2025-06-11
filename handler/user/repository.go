@@ -1,10 +1,11 @@
-package users
+package user
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/pkg/gorm"
 	"github.com/google/uuid"
+	"github.com/oullin/pkg"
+	"github.com/oullin/pkg/database"
+	"github.com/oullin/pkg/gorm"
 	"strings"
 	"time"
 )
@@ -22,7 +23,7 @@ func MakeRepository(model *database.Connection, admin *AdminUser) *Repository {
 }
 
 func (r Repository) Create(attr CreateRequestBag) (*CreatedUser, error) {
-	password, err := MakePassword(attr.Password)
+	password, err := pkg.MakePassword(attr.Password)
 
 	if err != nil {
 		return nil, err

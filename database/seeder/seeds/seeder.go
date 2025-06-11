@@ -2,9 +2,9 @@ package seeds
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/env"
 	"github.com/google/uuid"
+	"github.com/oullin/database"
+	"github.com/oullin/env"
 	"math/rand"
 	"time"
 )

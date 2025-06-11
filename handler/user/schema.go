@@ -1,4 +1,11 @@
-package users
+package user
+
+import "github.com/oullin/pkg"
+
+type RequestHandler struct {
+	Validator  *pkg.Validator
+	Repository *Repository
+}
 
 type CreatedUser struct {
 	UUID string `json:"uuid"`

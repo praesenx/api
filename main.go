@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gocanto/blog/boost"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
 	_ "github.com/lib/pq"
+	"github.com/oullin/boost"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg"
 	"log/slog"
 	"net/http"
 )

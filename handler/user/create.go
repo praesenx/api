@@ -1,20 +1,20 @@
-package users
+package user
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
-	"github.com/gocanto/blog/pkg/media"
-	"github.com/gocanto/blog/pkg/request"
-	"github.com/gocanto/blog/pkg/response"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg"
+	"github.com/oullin/pkg/media"
+	"github.com/oullin/pkg/request"
+	"github.com/oullin/pkg/response"
 	"io"
 	"mime/multipart"
 	"net/http"
 )
 
-func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
+func (handler RequestHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
 	var rawRequest RawCreateRequestBag
 
 	multipartRequest, err := request.MakeMultipartRequest(r, &rawRequest)

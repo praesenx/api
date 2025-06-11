@@ -1,12 +1,12 @@
 package boost
 
 import (
-	"github.com/gocanto/blog/api/users"
-	"github.com/gocanto/blog/database"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
-	"github.com/gocanto/blog/pkg/llogs"
-	"github.com/gocanto/blog/pkg/middleware"
+	"github.com/oullin/database"
+	"github.com/oullin/env"
+	"github.com/oullin/handler/user"
+	"github.com/oullin/pkg"
+	"github.com/oullin/pkg/llogs"
+	"github.com/oullin/pkg/middleware"
 	"net/http"
 )
 
@@ -14,7 +14,7 @@ type App struct {
 	Validator    *pkg.Validator       `validate:"required"`
 	Logs         *llogs.Driver        `validate:"required"`
 	DbConnection *database.Connection `validate:"required"`
-	AdminUser    *users.AdminUser     `validate:"required"`
+	AdminUser    *user.AdminUser      `validate:"required"`
 	Env          *env.Environment     `validate:"required"`
 	Mux          *http.ServeMux       `validate:"required"`
 	Sentry       *pkg.Sentry          `validate:"required"`
@@ -31,8 +31,8 @@ func (app App) RegisterUsers() {
 		return app.AdminUser.IsAllowed(seed)
 	})
 
-	handler := users.UserHandler{
-		Repository: users.MakeRepository(app.DbConnection, app.AdminUser),
+	handler := user.RequestHandler{
+		Repository: user.MakeRepository(app.DbConnection, app.AdminUser),
 		Validator:  app.Validator,
 	}
 

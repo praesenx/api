@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/env"
-	"github.com/gocanto/blog/pkg"
-	"github.com/gocanto/blog/pkg/response"
+	"github.com/oullin/env"
+	"github.com/oullin/pkg"
+	"github.com/oullin/pkg/response"
 	"log/slog"
 	"net/http"
 )

@@ -2,7 +2,7 @@ package llogs
 
 import (
 	"fmt"
-	"github.com/gocanto/blog/env"
+	"github.com/oullin/env"
 	"log/slog"
 	"os"
 	"time"

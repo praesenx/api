@@ -3,7 +3,7 @@ package database
 import (
 	"errors"
 	"fmt"
-	"github.com/gocanto/blog/env"
+	"github.com/oullin/env"
 )
 
 type Truncate struct {
