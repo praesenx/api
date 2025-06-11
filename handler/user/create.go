@@ -1,4 +1,4 @@
-package users
+package user
 
 import (
 	"encoding/json"
@@ -14,7 +14,7 @@ import (
 	"net/http"
 )
 
-func (handler UserHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
+func (handler UsersHandler) Create(w http.ResponseWriter, r *http.Request) *response.Response {
 	var rawRequest RawCreateRequestBag
 
 	multipartRequest, err := request.MakeMultipartRequest(r, &rawRequest)
