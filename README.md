@@ -12,5 +12,4 @@ every user action into data operations and returns precisely what the frontend n
 :rocket: Feel free to explore the folders, clone the repository and run it locally via Docker Compose. If you feel adventurous,
 consider contributing to the project by making improvements or fixing issues by sending a pull request.
 
----
 > This is where the mindful movement of “Ollin” truly comes alive, one request at a time.
