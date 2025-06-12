@@ -23,3 +23,8 @@ watch:
 	# --- Works with (air).
 	# https://github.com/air-verse/air
 	cd $(APP_PATH) && air
+
+install-air:
+	# https://github.com/air-verse/air
+	@echo "Installing air ..."
+	@go install github.com/air-verse/air@latest
