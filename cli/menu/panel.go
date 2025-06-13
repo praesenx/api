@@ -2,6 +2,7 @@ package menu
 
 import (
 	"fmt"
+	"github.com/oullin/pkg/cli"
 	"golang.org/x/term"
 	"os"
 	"strconv"
@@ -9,18 +10,18 @@ import (
 )
 
 func (p Panel) CaptureInput() (*int, error) {
-	fmt.Print(ColorYellow + "Select an option: " + ColorReset)
+	fmt.Print(cli.Yellow + "Select an option: " + cli.Reset)
 	input, err := p.Reader.ReadString('\n')
 
 	if err != nil {
-		return nil, fmt.Errorf("%s error reading input: %v %s", ColorRed, err, ColorReset)
+		return nil, fmt.Errorf("%s error reading input: %v %s", cli.Red, err, cli.Reset)
 	}
 
 	input = strings.TrimSpace(input)
 	choice, err := strconv.Atoi(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("%s Please enter a valid number. %s", ColorRed, ColorReset)
+		return nil, fmt.Errorf("%s Please enter a valid number. %s", cli.Red, cli.Reset)
 	}
 
 	return &choice, nil
@@ -44,7 +45,7 @@ func (p Panel) PrintMenu() {
 
 	// Print in color
 	fmt.Println()
-	fmt.Println(ColorCyan + border)
+	fmt.Println(cli.Cyan + border)
 	fmt.Println(title)
 	fmt.Println(divider)
 
@@ -53,7 +54,7 @@ func (p Panel) PrintMenu() {
 	p.PrintOption("3) Do Something Else", inner)
 	p.PrintOption("0) Exit", inner)
 
-	fmt.Println(footer + ColorReset)
+	fmt.Println(footer + cli.Reset)
 }
 
 // PrintOption left-pads a space, writes the text, then fills to the full inner width.
