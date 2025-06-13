@@ -1,4 +1,4 @@
-package flow
+package markdown
 
 type FrontMatter struct {
 	Title    string   `yaml:"title"`
@@ -14,4 +14,8 @@ type Post struct {
 	ImageURL string
 	ImageAlt string
 	Content  string
+}
+
+type File struct {
+	Url string
 }

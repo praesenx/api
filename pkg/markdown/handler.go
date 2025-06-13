@@ -1,4 +1,4 @@
-package flow
+package markdown
 
 import (
     "fmt"
@@ -10,14 +10,14 @@ import (
     "time"
 )
 
-// FetchMarkdown downloads the Markdown file from a public URL
-func FetchMarkdown(url string) (string, error) {
+func Fetch(file File) (string, error) {
     // Bust CDN or proxy caches by adding a unique timestamp
     sep := "?"
-    if strings.Contains(url, "?") {
+    if strings.Contains(file.Url, "?") {
         sep = "&"
     }
-    timestampedURL := fmt.Sprintf("%s%sts=%d", url, sep, time.Now().UnixNano())
+
+    timestampedURL := fmt.Sprintf("%s%sts=%d", file.Url, sep, time.Now().UnixNano())
 
     req, err := http.NewRequest("GET", timestampedURL, nil)
     if err != nil {
@@ -46,9 +46,9 @@ func FetchMarkdown(url string) (string, error) {
     return string(body), nil
 }
 
-// ParseMarkdown splits the document into front-matter and content, then parses YAML
-// It also extracts a leading Markdown image (header image) if present
-func ParseMarkdown(data string) (Post, error) {
+// Parse splits the document into front-matter and content, then parses YAML
+// It also extracts a leading File image (header image) if present
+func Parse(data string) (Post, error) {
     var post Post
     // Expecting format: ---\n<yaml>---\n<content>
     sections := strings.SplitN(data, "---", 3)
@@ -66,7 +66,7 @@ func ParseMarkdown(data string) (Post, error) {
     }
 
     // Look for a header image at the top of the content
-    // Markdown image syntax: ![alt](url)
+    // File image syntax: ![alt](url)
     re := regexp.MustCompile(`^!\[(.*?)\]\((.*?)\)`)
 
     // Split first line from rest of content
