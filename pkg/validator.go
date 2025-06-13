@@ -13,6 +13,14 @@ type Validator struct {
 	Errors   map[string]interface{}
 }
 
+func GetDefaultValidator() *Validator {
+	return MakeValidatorFrom(
+		validator.New(
+			validator.WithRequiredStructEnabled(),
+		),
+	)
+}
+
 func MakeValidatorFrom(abstract *validator.Validate) *Validator {
 	return &Validator{
 		Errors:   make(map[string]interface{}),
