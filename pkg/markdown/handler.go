@@ -11,7 +11,7 @@ import (
 )
 
 func (p Parser) Fetch() (string, error) {
-	req, err := http.NewRequest("GET", p.GetUrl(), nil)
+	req, err := http.NewRequest("GET", p.Url, nil)
 
 	if err != nil {
 		return "", err

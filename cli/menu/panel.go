@@ -2,8 +2,10 @@ package menu
 
 import (
 	"fmt"
+	"github.com/oullin/cli/posts"
 	"github.com/oullin/pkg/cli"
 	"golang.org/x/term"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -59,9 +61,8 @@ func (p *Panel) PrintMenu() {
 	fmt.Println(title)
 	fmt.Println(divider)
 
-	p.PrintOption("1) Say Hello", inner)
+	p.PrintOption("1) Parse Posts", inner)
 	p.PrintOption("2) Show Time", inner)
-	p.PrintOption("3) Do Something Else", inner)
 	p.PrintOption("0) Exit", inner)
 
 	fmt.Println(footer + cli.Reset)
@@ -88,4 +89,44 @@ func (p *Panel) CenterText(s string, width int) string {
 	right := pad - left
 
 	return strings.Repeat(" ", left) + s + strings.Repeat(" ", right)
+}
+
+func (p *Panel) CapturePostURL() (*posts.Input, error) {
+	fmt.Print("Enter the post markdown file URL: ")
+	uri, err := p.Reader.ReadString('\n')
+
+	if err != nil {
+		return nil, fmt.Errorf("%sError reading the given post URL: %v %s", cli.Red, err, cli.Reset)
+	}
+
+	uri = strings.TrimSpace(uri)
+	if uri == "" {
+		return nil, fmt.Errorf("%sError: no URL provided: %s", cli.Red, cli.Reset)
+	}
+
+	parsedURL, err := url.Parse(uri)
+	if err != nil {
+		return nil, fmt.Errorf("%sError: invalid URL: %v %s", cli.Red, err, cli.Reset)
+	}
+
+	if parsedURL.Scheme != "https" || parsedURL.Host != "raw.githubusercontent.com" {
+		return nil, fmt.Errorf("%sError: URL must begin with https://raw.githubusercontent.com: %v %s", cli.Red, err, cli.Reset)
+	}
+
+	input := posts.Input{Url: parsedURL.String()}
+	validate := p.Validator
+
+	if _, err := validate.Rejects(input); err != nil {
+		return nil, fmt.Errorf(
+			"%sError validating the given post URL: %v %s \n%sViolations:%s %s",
+			cli.Red,
+			err,
+			cli.Reset,
+			cli.Blue,
+			cli.Reset,
+			validate.GetErrorsAsJason(),
+		)
+	}
+
+	return &input, nil
 }

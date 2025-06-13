@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/oullin/cli/menu"
+	"github.com/oullin/pkg"
 	"github.com/oullin/pkg/cli"
 	"os"
 	"time"
@@ -11,7 +12,8 @@ import (
 
 func main() {
 	panel := menu.Panel{
-		Reader: bufio.NewReader(os.Stdin),
+		Reader:    bufio.NewReader(os.Stdin),
+		Validator: pkg.GetDefaultValidator(),
 	}
 
 	panel.PrintMenu()
@@ -26,11 +28,23 @@ func main() {
 
 		switch panel.GetChoice() {
 		case 1:
-			sayHello()
+			uri, err := panel.CapturePostURL()
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			err = uri.Parse()
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			return
 		case 2:
 			showTime()
-		case 3:
-			doSomethingElse()
 		case 0:
 			fmt.Println(cli.Green + "Goodbye!" + cli.Reset)
 			return
@@ -44,15 +58,7 @@ func main() {
 	}
 }
 
-func sayHello() {
-	fmt.Println(cli.Green + "\nHello, world!" + cli.Reset)
-}
-
 func showTime() {
 	now := time.Now().Format("2006-01-02 15:04:05")
 	fmt.Println(cli.Green, "\nCurrent time is", now, cli.Reset)
-}
-
-func doSomethingElse() {
-	fmt.Println(cli.Green + "\nDoing something else..." + cli.Reset)
 }
