@@ -16,6 +16,6 @@ type Post struct {
 	Content  string
 }
 
-type File struct {
+type Parser struct {
 	Url string
 }

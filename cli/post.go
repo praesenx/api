@@ -3,25 +3,26 @@ package main
 import (
 	"fmt"
 	"github.com/oullin/pkg/markdown"
-	"log"
 )
 
 func main() {
-	file := markdown.File{
+	file := markdown.Parser{
 		Url: "https://raw.githubusercontent.com/oullin/content/refs/heads/main/leadership/2025-04-02-embrace-growth-through-movement.md",
 	}
 
-	data, err := markdown.Fetch(file)
+	response, err := file.Fetch()
+
 	if err != nil {
-		log.Fatalf("Error fetching markdown: %v", err)
+		panic(fmt.Sprintf("Error fetching the markdown content: %v", err))
 	}
 
-	post, err := markdown.Parse(data)
+	post, err := markdown.Parse(response)
+
 	if err != nil {
-		log.Fatalf("Error parsing markdown: %v", err)
+		panic(fmt.Sprintf("Error parsing markdown: %v", err))
 	}
 
-	// Output parsed fields
+	// --- All good!
 	fmt.Printf("Title: %s\n", post.Title)
 	fmt.Printf("Excerpt: %s\n", post.Excerpt)
 	fmt.Printf("Slug: %s\n", post.Slug)
@@ -30,6 +31,6 @@ func main() {
 	fmt.Printf("Image Alt: %s\n", post.ImageAlt)
 	fmt.Printf("Category Alt: %s\n", post.Category)
 	fmt.Printf("Tags Alt: %s\n", post.Tags)
-	fmt.Println("--- Content ---")
+	fmt.Println("\n--- Content ---")
 	fmt.Println(post.Content)
 }

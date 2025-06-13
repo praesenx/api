@@ -10,20 +10,13 @@ import (
     "time"
 )
 
-func Fetch(file File) (string, error) {
-    // Bust CDN or proxy caches by adding a unique timestamp
-    sep := "?"
-    if strings.Contains(file.Url, "?") {
-        sep = "&"
-    }
+func (p Parser) Fetch() (string, error) {
+    req, err := http.NewRequest("GET", p.GetUrl(), nil)
 
-    timestampedURL := fmt.Sprintf("%s%sts=%d", file.Url, sep, time.Now().UnixNano())
-
-    req, err := http.NewRequest("GET", timestampedURL, nil)
     if err != nil {
         return "", err
     }
-    // Instruct intermediate caches to revalidate
+
     req.Header.Set("Cache-Control", "no-cache")
     req.Header.Set("Pragma", "no-cache")
 
@@ -32,6 +25,7 @@ func Fetch(file File) (string, error) {
     if err != nil {
         return "", err
     }
+
     defer resp.Body.Close()
 
     if resp.StatusCode != http.StatusOK {
@@ -39,6 +33,7 @@ func Fetch(file File) (string, error) {
     }
 
     body, err := io.ReadAll(resp.Body)
+
     if err != nil {
         return "", err
     }
@@ -46,10 +41,21 @@ func Fetch(file File) (string, error) {
     return string(body), nil
 }
 
-// Parse splits the document into front-matter and content, then parses YAML
-// It also extracts a leading File image (header image) if present
+func (p Parser) GetUrl() string {
+    sep := "?"
+
+    if strings.Contains(p.Url, "?") {
+        sep = "&"
+    }
+
+    return fmt.Sprintf("%s%sts=%d", p.Url, sep, time.Now().UnixNano())
+}
+
+// Parse splits the document into front-matter and content, then parses YAML.
+// It also extracts a leading Parser image (header image) if present.
 func Parse(data string) (Post, error) {
     var post Post
+
     // Expecting format: ---\n<yaml>---\n<content>
     sections := strings.SplitN(data, "---", 3)
     if len(sections) < 3 {
@@ -66,7 +72,7 @@ func Parse(data string) (Post, error) {
     }
 
     // Look for a header image at the top of the content
-    // File image syntax: ![alt](url)
+    // Parser image syntax: ![alt](url)
     re := regexp.MustCompile(`^!\[(.*?)\]\((.*?)\)`)
 
     // Split first line from rest of content
