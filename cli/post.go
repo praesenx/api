@@ -6,9 +6,13 @@ import (
 )
 
 func main() {
-	file := markdown.Parser{
-		Url: "https://raw.githubusercontent.com/oullin/content/refs/heads/main/leadership/2025-04-02-embrace-growth-through-movement.md",
+	uri, err := markdown.ReadURL()
+
+	if err != nil {
+		panic(fmt.Sprintf("Error reading the URL: %v", err))
 	}
+
+	file := markdown.Parser{Url: *uri}
 
 	response, err := file.Fetch()
 
