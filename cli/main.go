@@ -8,6 +8,7 @@ import (
     "net/http"
     "regexp"
     "strings"
+    "time"
 )
 
 // FrontMatter holds the YAML metadata fields
@@ -30,7 +31,23 @@ type Post struct {
 
 // fetchMarkdown downloads the Markdown file from a public URL
 func fetchMarkdown(url string) (string, error) {
-    resp, err := http.Get(url)
+    // Bust CDN or proxy caches by adding a unique timestamp
+    sep := "?"
+    if strings.Contains(url, "?") {
+        sep = "&"
+    }
+    timestampedURL := fmt.Sprintf("%s%sts=%d", url, sep, time.Now().UnixNano())
+
+    req, err := http.NewRequest("GET", timestampedURL, nil)
+    if err != nil {
+        return "", err
+    }
+    // Instruct intermediate caches to revalidate
+    req.Header.Set("Cache-Control", "no-cache")
+    req.Header.Set("Pragma", "no-cache")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
     if err != nil {
         return "", err
     }
@@ -44,6 +61,7 @@ func fetchMarkdown(url string) (string, error) {
     if err != nil {
         return "", err
     }
+
     return string(body), nil
 }
 
