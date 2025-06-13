@@ -6,4 +6,5 @@ import (
 
 type Panel struct {
 	Reader *bufio.Reader
+	Choice *int
 }

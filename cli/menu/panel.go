@@ -9,25 +9,35 @@ import (
 	"strings"
 )
 
-func (p Panel) CaptureInput() (*int, error) {
+func (p *Panel) PrintLine() {
+	_, _ = p.Reader.ReadString('\n')
+}
+
+func (p *Panel) GetChoice() int {
+	return *p.Choice
+}
+
+func (p *Panel) CaptureInput() error {
 	fmt.Print(cli.Yellow + "Select an option: " + cli.Reset)
 	input, err := p.Reader.ReadString('\n')
 
 	if err != nil {
-		return nil, fmt.Errorf("%s error reading input: %v %s", cli.Red, err, cli.Reset)
+		return fmt.Errorf("%s error reading input: %v %s", cli.Red, err, cli.Reset)
 	}
 
 	input = strings.TrimSpace(input)
 	choice, err := strconv.Atoi(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("%s Please enter a valid number. %s", cli.Red, cli.Reset)
+		return fmt.Errorf("%s Please enter a valid number. %s", cli.Red, cli.Reset)
 	}
 
-	return &choice, nil
+	p.Choice = &choice
+
+	return nil
 }
 
-func (p Panel) PrintMenu() {
+func (p *Panel) PrintMenu() {
 	// Try to get the terminal width; default to 80 if it fails
 	width, _, err := term.GetSize(int(os.Stdout.Fd()))
 
@@ -58,7 +68,7 @@ func (p Panel) PrintMenu() {
 }
 
 // PrintOption left-pads a space, writes the text, then fills to the full inner width.
-func (p Panel) PrintOption(text string, inner int) {
+func (p *Panel) PrintOption(text string, inner int) {
 	content := " " + text
 	if len(content) > inner {
 		content = content[:inner]
@@ -68,7 +78,7 @@ func (p Panel) PrintOption(text string, inner int) {
 }
 
 // CenterText centers s within width, padding with spaces.
-func (p Panel) CenterText(s string, width int) string {
+func (p *Panel) CenterText(s string, width int) string {
 	if len(s) >= width {
 		return s[:width]
 	}
