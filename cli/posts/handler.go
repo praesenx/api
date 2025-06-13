@@ -1,15 +1,15 @@
-package main
+package posts
 
 import (
 	"fmt"
 	"github.com/oullin/pkg/markdown"
 )
 
-func main() {
+func Handle() error {
 	uri, err := markdown.ReadURL()
 
 	if err != nil {
-		panic(fmt.Sprintf("Error reading the URL: %v", err))
+		return fmt.Errorf("error reading the URL: %v", err)
 	}
 
 	file := markdown.Parser{Url: *uri}
@@ -17,13 +17,13 @@ func main() {
 	response, err := file.Fetch()
 
 	if err != nil {
-		panic(fmt.Sprintf("Error fetching the markdown content: %v", err))
+		return fmt.Errorf("error fetching the markdown content: %v", err)
 	}
 
 	post, err := markdown.Parse(response)
 
 	if err != nil {
-		panic(fmt.Sprintf("Error parsing markdown: %v", err))
+		return fmt.Errorf("error parsing markdown: %v", err)
 	}
 
 	// --- All good!
@@ -37,4 +37,6 @@ func main() {
 	fmt.Printf("Tags Alt: %s\n", post.Tags)
 	fmt.Println("\n--- Content ---")
 	fmt.Println(post.Content)
+
+	return nil
 }
